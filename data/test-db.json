@@ -8,8 +8,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": "test-vendor",
-        "created_at": "2026-06-21T01:27:43.674Z",
-        "updated_at": "2026-06-21T01:27:43.674Z"
+        "created_at": "2026-06-21T01:40:42.791Z",
+        "updated_at": "2026-06-21T01:40:42.791Z"
       },
       {
         "id": 2,
@@ -18,8 +18,8 @@
         "compartment_no": "02",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.675Z",
-        "updated_at": "2026-06-21T01:27:43.675Z"
+        "created_at": "2026-06-21T01:40:42.792Z",
+        "updated_at": "2026-06-21T01:40:42.792Z"
       },
       {
         "id": 3,
@@ -28,8 +28,8 @@
         "compartment_no": "02",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.704Z",
-        "updated_at": "2026-06-21T01:27:43.704Z"
+        "created_at": "2026-06-21T01:40:42.821Z",
+        "updated_at": "2026-06-21T01:40:42.821Z"
       },
       {
         "id": 4,
@@ -38,8 +38,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.706Z",
-        "updated_at": "2026-06-21T01:27:43.706Z"
+        "created_at": "2026-06-21T01:40:42.823Z",
+        "updated_at": "2026-06-21T01:40:42.823Z"
       },
       {
         "id": 5,
@@ -48,8 +48,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.724Z",
-        "updated_at": "2026-06-21T01:27:43.724Z"
+        "created_at": "2026-06-21T01:40:42.842Z",
+        "updated_at": "2026-06-21T01:40:42.842Z"
       },
       {
         "id": 6,
@@ -58,8 +58,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.778Z",
-        "updated_at": "2026-06-21T01:27:43.778Z"
+        "created_at": "2026-06-21T01:40:42.901Z",
+        "updated_at": "2026-06-21T01:40:42.901Z"
       },
       {
         "id": 7,
@@ -68,8 +68,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.787Z",
-        "updated_at": "2026-06-21T01:27:43.787Z"
+        "created_at": "2026-06-21T01:40:42.911Z",
+        "updated_at": "2026-06-21T01:40:42.911Z"
       },
       {
         "id": 8,
@@ -78,8 +78,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.795Z",
-        "updated_at": "2026-06-21T01:27:43.795Z"
+        "created_at": "2026-06-21T01:40:42.919Z",
+        "updated_at": "2026-06-21T01:40:42.919Z"
       },
       {
         "id": 9,
@@ -88,8 +88,28 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T01:27:43.816Z",
-        "updated_at": "2026-06-21T01:27:43.816Z"
+        "created_at": "2026-06-21T01:40:42.942Z",
+        "updated_at": "2026-06-21T01:40:42.942Z"
+      },
+      {
+        "id": 10,
+        "device_no": "DEV_REVIEW_01",
+        "plate_number": "京K00001",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T01:40:42.964Z",
+        "updated_at": "2026-06-21T01:40:42.964Z"
+      },
+      {
+        "id": 11,
+        "device_no": "DEV_PERM_01",
+        "plate_number": "京L00001",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T01:40:42.987Z",
+        "updated_at": "2026-06-21T01:40:42.987Z"
       }
     ],
     "transport_tasks": [
@@ -104,9 +124,9 @@
         "destination": "上海医院",
         "start_time": null,
         "status": "completed",
-        "created_at": "2026-06-21T01:27:43.676Z",
-        "updated_at": "2026-06-21T01:27:43.701Z",
-        "end_time": "2026-06-21T01:27:43.701Z"
+        "created_at": "2026-06-21T01:40:42.793Z",
+        "updated_at": "2026-06-21T01:40:42.818Z",
+        "end_time": "2026-06-21T01:40:42.818Z"
       },
       {
         "id": 2,
@@ -119,8 +139,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.704Z",
-        "updated_at": "2026-06-21T01:27:43.704Z"
+        "created_at": "2026-06-21T01:40:42.820Z",
+        "updated_at": "2026-06-21T01:40:42.820Z"
       },
       {
         "id": 3,
@@ -133,8 +153,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.706Z",
-        "updated_at": "2026-06-21T01:27:43.706Z"
+        "created_at": "2026-06-21T01:40:42.823Z",
+        "updated_at": "2026-06-21T01:40:42.823Z"
       },
       {
         "id": 4,
@@ -147,8 +167,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.725Z",
-        "updated_at": "2026-06-21T01:27:43.725Z"
+        "created_at": "2026-06-21T01:40:42.843Z",
+        "updated_at": "2026-06-21T01:40:42.843Z"
       },
       {
         "id": 5,
@@ -161,8 +181,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.779Z",
-        "updated_at": "2026-06-21T01:27:43.779Z"
+        "created_at": "2026-06-21T01:40:42.901Z",
+        "updated_at": "2026-06-21T01:40:42.901Z"
       },
       {
         "id": 6,
@@ -175,8 +195,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.788Z",
-        "updated_at": "2026-06-21T01:27:43.788Z"
+        "created_at": "2026-06-21T01:40:42.912Z",
+        "updated_at": "2026-06-21T01:40:42.912Z"
       },
       {
         "id": 7,
@@ -189,8 +209,8 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.795Z",
-        "updated_at": "2026-06-21T01:27:43.795Z"
+        "created_at": "2026-06-21T01:40:42.920Z",
+        "updated_at": "2026-06-21T01:40:42.920Z"
       },
       {
         "id": 8,
@@ -203,8 +223,36 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T01:27:43.816Z",
-        "updated_at": "2026-06-21T01:27:43.816Z"
+        "created_at": "2026-06-21T01:40:42.943Z",
+        "updated_at": "2026-06-21T01:40:42.943Z"
+      },
+      {
+        "id": 9,
+        "waybill_no": "WB_REVIEW_001",
+        "plate_number": "京K00001",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": null,
+        "origin": null,
+        "destination": null,
+        "start_time": null,
+        "status": "in_transit",
+        "created_at": "2026-06-21T01:40:42.966Z",
+        "updated_at": "2026-06-21T01:40:42.966Z"
+      },
+      {
+        "id": 10,
+        "waybill_no": "WB_PERM_001",
+        "plate_number": "京L00001",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": null,
+        "origin": null,
+        "destination": null,
+        "start_time": null,
+        "status": "in_transit",
+        "created_at": "2026-06-21T01:40:42.989Z",
+        "updated_at": "2026-06-21T01:40:42.989Z"
       }
     ],
     "temperature_records": [
@@ -219,9 +267,9 @@
         "location_lat": 39.9042,
         "location_lng": 116.4074,
         "location_text": "北京市",
-        "record_time": "2026-06-21T01:27:43.680Z",
-        "created_at": "2026-06-21T01:27:43.680Z",
-        "updated_at": "2026-06-21T01:27:43.680Z"
+        "record_time": "2026-06-21T01:40:42.796Z",
+        "created_at": "2026-06-21T01:40:42.796Z",
+        "updated_at": "2026-06-21T01:40:42.796Z"
       },
       {
         "id": 2,
@@ -234,9 +282,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:28:43.681Z",
-        "created_at": "2026-06-21T01:27:43.681Z",
-        "updated_at": "2026-06-21T01:27:43.681Z"
+        "record_time": "2026-06-21T01:41:42.797Z",
+        "created_at": "2026-06-21T01:40:42.798Z",
+        "updated_at": "2026-06-21T01:40:42.798Z"
       },
       {
         "id": 3,
@@ -249,9 +297,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:32:43.684Z",
-        "created_at": "2026-06-21T01:27:43.684Z",
-        "updated_at": "2026-06-21T01:27:43.684Z"
+        "record_time": "2026-06-21T01:45:42.800Z",
+        "created_at": "2026-06-21T01:40:42.800Z",
+        "updated_at": "2026-06-21T01:40:42.800Z"
       },
       {
         "id": 4,
@@ -264,9 +312,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:37:43.685Z",
-        "created_at": "2026-06-21T01:27:43.685Z",
-        "updated_at": "2026-06-21T01:27:43.685Z"
+        "record_time": "2026-06-21T01:50:42.801Z",
+        "created_at": "2026-06-21T01:40:42.802Z",
+        "updated_at": "2026-06-21T01:40:42.802Z"
       },
       {
         "id": 5,
@@ -279,9 +327,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:39:23.686Z",
-        "created_at": "2026-06-21T01:27:43.686Z",
-        "updated_at": "2026-06-21T01:27:43.686Z"
+        "record_time": "2026-06-21T01:52:22.803Z",
+        "created_at": "2026-06-21T01:40:42.803Z",
+        "updated_at": "2026-06-21T01:40:42.803Z"
       },
       {
         "id": 6,
@@ -294,9 +342,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.702Z",
-        "created_at": "2026-06-21T01:27:43.702Z",
-        "updated_at": "2026-06-21T01:27:43.702Z"
+        "record_time": "2026-06-21T01:40:42.818Z",
+        "created_at": "2026-06-21T01:40:42.819Z",
+        "updated_at": "2026-06-21T01:40:42.819Z"
       },
       {
         "id": 7,
@@ -309,9 +357,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.704Z",
-        "created_at": "2026-06-21T01:27:43.705Z",
-        "updated_at": "2026-06-21T01:27:43.705Z"
+        "record_time": "2026-06-21T01:40:42.821Z",
+        "created_at": "2026-06-21T01:40:42.821Z",
+        "updated_at": "2026-06-21T01:40:42.821Z"
       },
       {
         "id": 8,
@@ -324,9 +372,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.706Z",
-        "created_at": "2026-06-21T01:27:43.707Z",
-        "updated_at": "2026-06-21T01:27:43.707Z"
+        "record_time": "2026-06-21T01:40:42.823Z",
+        "created_at": "2026-06-21T01:40:42.824Z",
+        "updated_at": "2026-06-21T01:40:42.824Z"
       },
       {
         "id": 9,
@@ -339,9 +387,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:28:43.706Z",
-        "created_at": "2026-06-21T01:27:43.707Z",
-        "updated_at": "2026-06-21T01:27:43.707Z"
+        "record_time": "2026-06-21T01:41:42.823Z",
+        "created_at": "2026-06-21T01:40:42.824Z",
+        "updated_at": "2026-06-21T01:40:42.824Z"
       },
       {
         "id": 10,
@@ -354,9 +402,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:29:43.706Z",
-        "created_at": "2026-06-21T01:27:43.708Z",
-        "updated_at": "2026-06-21T01:27:43.708Z"
+        "record_time": "2026-06-21T01:42:42.823Z",
+        "created_at": "2026-06-21T01:40:42.825Z",
+        "updated_at": "2026-06-21T01:40:42.825Z"
       },
       {
         "id": 11,
@@ -369,9 +417,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:30:43.706Z",
-        "created_at": "2026-06-21T01:27:43.709Z",
-        "updated_at": "2026-06-21T01:27:43.709Z"
+        "record_time": "2026-06-21T01:43:42.823Z",
+        "created_at": "2026-06-21T01:40:42.825Z",
+        "updated_at": "2026-06-21T01:40:42.825Z"
       },
       {
         "id": 12,
@@ -384,9 +432,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:31:43.706Z",
-        "created_at": "2026-06-21T01:27:43.709Z",
-        "updated_at": "2026-06-21T01:27:43.709Z"
+        "record_time": "2026-06-21T01:44:42.823Z",
+        "created_at": "2026-06-21T01:40:42.826Z",
+        "updated_at": "2026-06-21T01:40:42.826Z"
       },
       {
         "id": 13,
@@ -399,9 +447,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:32:43.706Z",
-        "created_at": "2026-06-21T01:27:43.710Z",
-        "updated_at": "2026-06-21T01:27:43.710Z"
+        "record_time": "2026-06-21T01:45:42.823Z",
+        "created_at": "2026-06-21T01:40:42.827Z",
+        "updated_at": "2026-06-21T01:40:42.827Z"
       },
       {
         "id": 14,
@@ -414,9 +462,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:33:43.706Z",
-        "created_at": "2026-06-21T01:27:43.711Z",
-        "updated_at": "2026-06-21T01:27:43.711Z"
+        "record_time": "2026-06-21T01:46:42.823Z",
+        "created_at": "2026-06-21T01:40:42.828Z",
+        "updated_at": "2026-06-21T01:40:42.828Z"
       },
       {
         "id": 15,
@@ -429,9 +477,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:34:43.706Z",
-        "created_at": "2026-06-21T01:27:43.712Z",
-        "updated_at": "2026-06-21T01:27:43.712Z"
+        "record_time": "2026-06-21T01:47:42.823Z",
+        "created_at": "2026-06-21T01:40:42.829Z",
+        "updated_at": "2026-06-21T01:40:42.829Z"
       },
       {
         "id": 16,
@@ -444,9 +492,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:35:43.706Z",
-        "created_at": "2026-06-21T01:27:43.714Z",
-        "updated_at": "2026-06-21T01:27:43.714Z"
+        "record_time": "2026-06-21T01:48:42.823Z",
+        "created_at": "2026-06-21T01:40:42.831Z",
+        "updated_at": "2026-06-21T01:40:42.831Z"
       },
       {
         "id": 17,
@@ -459,9 +507,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:36:43.706Z",
-        "created_at": "2026-06-21T01:27:43.715Z",
-        "updated_at": "2026-06-21T01:27:43.715Z"
+        "record_time": "2026-06-21T01:49:42.823Z",
+        "created_at": "2026-06-21T01:40:42.832Z",
+        "updated_at": "2026-06-21T01:40:42.832Z"
       },
       {
         "id": 18,
@@ -474,9 +522,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.716Z",
-        "created_at": "2026-06-21T01:27:43.716Z",
-        "updated_at": "2026-06-21T01:27:43.716Z"
+        "record_time": "2026-06-21T01:40:42.834Z",
+        "created_at": "2026-06-21T01:40:42.834Z",
+        "updated_at": "2026-06-21T01:40:42.834Z"
       },
       {
         "id": 19,
@@ -489,9 +537,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:28:43.716Z",
-        "created_at": "2026-06-21T01:27:43.717Z",
-        "updated_at": "2026-06-21T01:27:43.717Z"
+        "record_time": "2026-06-21T01:41:42.834Z",
+        "created_at": "2026-06-21T01:40:42.835Z",
+        "updated_at": "2026-06-21T01:40:42.835Z"
       },
       {
         "id": 20,
@@ -504,9 +552,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:29:43.716Z",
-        "created_at": "2026-06-21T01:27:43.718Z",
-        "updated_at": "2026-06-21T01:27:43.718Z"
+        "record_time": "2026-06-21T01:42:42.834Z",
+        "created_at": "2026-06-21T01:40:42.836Z",
+        "updated_at": "2026-06-21T01:40:42.836Z"
       },
       {
         "id": 21,
@@ -519,9 +567,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:30:43.716Z",
-        "created_at": "2026-06-21T01:27:43.719Z",
-        "updated_at": "2026-06-21T01:27:43.719Z"
+        "record_time": "2026-06-21T01:43:42.834Z",
+        "created_at": "2026-06-21T01:40:42.836Z",
+        "updated_at": "2026-06-21T01:40:42.836Z"
       },
       {
         "id": 22,
@@ -534,9 +582,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:31:43.716Z",
-        "created_at": "2026-06-21T01:27:43.719Z",
-        "updated_at": "2026-06-21T01:27:43.719Z"
+        "record_time": "2026-06-21T01:44:42.834Z",
+        "created_at": "2026-06-21T01:40:42.837Z",
+        "updated_at": "2026-06-21T01:40:42.837Z"
       },
       {
         "id": 23,
@@ -549,9 +597,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:29:23.720Z",
-        "created_at": "2026-06-21T01:27:43.720Z",
-        "updated_at": "2026-06-21T01:27:43.720Z"
+        "record_time": "2026-06-21T01:42:22.838Z",
+        "created_at": "2026-06-21T01:40:42.838Z",
+        "updated_at": "2026-06-21T01:40:42.838Z"
       },
       {
         "id": 24,
@@ -564,9 +612,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:32:43.720Z",
-        "created_at": "2026-06-21T01:27:43.721Z",
-        "updated_at": "2026-06-21T01:27:43.721Z"
+        "record_time": "2026-06-21T01:45:42.838Z",
+        "created_at": "2026-06-21T01:40:42.839Z",
+        "updated_at": "2026-06-21T01:40:42.839Z"
       },
       {
         "id": 25,
@@ -579,9 +627,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:37:43.720Z",
-        "created_at": "2026-06-21T01:27:43.722Z",
-        "updated_at": "2026-06-21T01:27:43.722Z"
+        "record_time": "2026-06-21T01:50:42.838Z",
+        "created_at": "2026-06-21T01:40:42.840Z",
+        "updated_at": "2026-06-21T01:40:42.840Z"
       },
       {
         "id": 26,
@@ -594,9 +642,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.725Z",
-        "created_at": "2026-06-21T01:27:43.725Z",
-        "updated_at": "2026-06-21T01:27:43.725Z"
+        "record_time": "2026-06-21T01:40:42.843Z",
+        "created_at": "2026-06-21T01:40:42.843Z",
+        "updated_at": "2026-06-21T01:40:42.843Z"
       },
       {
         "id": 27,
@@ -609,9 +657,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.727Z",
-        "created_at": "2026-06-21T01:27:43.727Z",
-        "updated_at": "2026-06-21T01:27:43.727Z"
+        "record_time": "2026-06-21T01:40:42.845Z",
+        "created_at": "2026-06-21T01:40:42.845Z",
+        "updated_at": "2026-06-21T01:40:42.845Z"
       },
       {
         "id": 28,
@@ -624,9 +672,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:32:43.727Z",
-        "created_at": "2026-06-21T01:27:43.728Z",
-        "updated_at": "2026-06-21T01:27:43.728Z"
+        "record_time": "2026-06-21T01:45:42.845Z",
+        "created_at": "2026-06-21T01:40:42.847Z",
+        "updated_at": "2026-06-21T01:40:42.847Z"
       },
       {
         "id": 29,
@@ -639,9 +687,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.730Z",
-        "created_at": "2026-06-21T01:27:43.730Z",
-        "updated_at": "2026-06-21T01:27:43.730Z"
+        "record_time": "2026-06-21T01:40:42.848Z",
+        "created_at": "2026-06-21T01:40:42.848Z",
+        "updated_at": "2026-06-21T01:40:42.848Z"
       },
       {
         "id": 30,
@@ -654,9 +702,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.779Z",
-        "created_at": "2026-06-21T01:27:43.780Z",
-        "updated_at": "2026-06-21T01:27:43.780Z"
+        "record_time": "2026-06-21T01:40:42.902Z",
+        "created_at": "2026-06-21T01:40:42.902Z",
+        "updated_at": "2026-06-21T01:40:42.902Z"
       },
       {
         "id": 31,
@@ -669,9 +717,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.789Z",
-        "created_at": "2026-06-21T01:27:43.789Z",
-        "updated_at": "2026-06-21T01:27:43.789Z"
+        "record_time": "2026-06-21T01:40:42.913Z",
+        "created_at": "2026-06-21T01:40:42.913Z",
+        "updated_at": "2026-06-21T01:40:42.913Z"
       },
       {
         "id": 32,
@@ -684,9 +732,39 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T01:27:43.796Z",
-        "created_at": "2026-06-21T01:27:43.796Z",
-        "updated_at": "2026-06-21T01:27:43.796Z"
+        "record_time": "2026-06-21T01:40:42.921Z",
+        "created_at": "2026-06-21T01:40:42.921Z",
+        "updated_at": "2026-06-21T01:40:42.921Z"
+      },
+      {
+        "id": 33,
+        "device_no": "DEV_REVIEW_01",
+        "plate_number": "京K00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_REVIEW_001",
+        "temperature": 12,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:40:42.967Z",
+        "created_at": "2026-06-21T01:40:42.967Z",
+        "updated_at": "2026-06-21T01:40:42.967Z"
+      },
+      {
+        "id": 34,
+        "device_no": "DEV_PERM_01",
+        "plate_number": "京L00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_PERM_001",
+        "temperature": 15,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:40:42.990Z",
+        "created_at": "2026-06-21T01:40:42.990Z",
+        "updated_at": "2026-06-21T01:40:42.990Z"
       }
     ],
     "temp_rules": [
@@ -701,8 +779,8 @@
         "alert_level": "serious",
         "notify_roles": "quality,dispatcher,driver",
         "description": "冷冻肉品需严格保持在-18℃以下",
-        "created_at": "2026-06-21T01:27:43.670Z",
-        "updated_at": "2026-06-21T01:27:43.670Z"
+        "created_at": "2026-06-21T01:40:42.787Z",
+        "updated_at": "2026-06-21T01:40:42.787Z"
       },
       {
         "id": 2,
@@ -715,8 +793,8 @@
         "alert_level": "critical",
         "notify_roles": "quality,dispatcher,driver,manager",
         "description": "疫苗冷链要求最严格，偏差需立即处理",
-        "created_at": "2026-06-21T01:27:43.671Z",
-        "updated_at": "2026-06-21T01:27:43.671Z"
+        "created_at": "2026-06-21T01:40:42.787Z",
+        "updated_at": "2026-06-21T01:40:42.787Z"
       },
       {
         "id": 3,
@@ -729,8 +807,8 @@
         "alert_level": "warning",
         "notify_roles": "dispatcher,driver",
         "description": "乳制品需冷藏保存",
-        "created_at": "2026-06-21T01:27:43.671Z",
-        "updated_at": "2026-06-21T01:27:43.671Z"
+        "created_at": "2026-06-21T01:40:42.787Z",
+        "updated_at": "2026-06-21T01:40:42.787Z"
       },
       {
         "id": 4,
@@ -743,8 +821,8 @@
         "alert_level": "warning",
         "notify_roles": "dispatcher,driver",
         "description": "水果保鲜温度范围",
-        "created_at": "2026-06-21T01:27:43.671Z",
-        "updated_at": "2026-06-21T01:27:43.671Z"
+        "created_at": "2026-06-21T01:40:42.787Z",
+        "updated_at": "2026-06-21T01:40:42.787Z"
       },
       {
         "id": 5,
@@ -757,8 +835,8 @@
         "alert_level": "serious",
         "notify_roles": "quality,dispatcher,driver",
         "description": "海鲜需低温保鲜",
-        "created_at": "2026-06-21T01:27:43.671Z",
-        "updated_at": "2026-06-21T01:27:43.671Z"
+        "created_at": "2026-06-21T01:40:42.787Z",
+        "updated_at": "2026-06-21T01:40:42.787Z"
       }
     ],
     "alerts": [
@@ -770,16 +848,16 @@
         "alert_level": "critical",
         "temperature": 5,
         "threshold": 8,
-        "start_time": "2026-06-21T01:28:43.681Z",
+        "start_time": "2026-06-21T01:41:42.797Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 540,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.683Z",
-        "updated_at": "2026-06-21T01:27:43.686Z",
-        "end_time": "2026-06-21T01:37:43.685Z"
+        "created_at": "2026-06-21T01:40:42.799Z",
+        "updated_at": "2026-06-21T01:40:42.802Z",
+        "end_time": "2026-06-21T01:50:42.801Z"
       },
       {
         "id": 2,
@@ -789,17 +867,17 @@
         "alert_level": "critical",
         "temperature": -2,
         "threshold": 2,
-        "start_time": "2026-06-21T01:39:23.686Z",
+        "start_time": "2026-06-21T01:52:22.803Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 1,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.687Z",
-        "updated_at": "2026-06-21T01:27:43.703Z",
+        "created_at": "2026-06-21T01:40:42.803Z",
+        "updated_at": "2026-06-21T01:40:42.819Z",
         "acknowledged_by": "test-user",
-        "acknowledged_at": "2026-06-21T01:27:43.703Z"
+        "acknowledged_at": "2026-06-21T01:40:42.819Z"
       },
       {
         "id": 3,
@@ -809,15 +887,15 @@
         "alert_level": "warning",
         "temperature": 10,
         "threshold": 6,
-        "start_time": "2026-06-21T01:27:43.704Z",
+        "start_time": "2026-06-21T01:40:42.821Z",
         "notify_roles": "dispatcher,driver",
         "duration_seconds": 0,
         "acknowledged": 0,
         "assignee": "dispatcher",
         "flow_status": "notified",
         "involved_roles": "dispatcher,driver",
-        "created_at": "2026-06-21T01:27:43.705Z",
-        "updated_at": "2026-06-21T01:27:43.705Z"
+        "created_at": "2026-06-21T01:40:42.822Z",
+        "updated_at": "2026-06-21T01:40:42.822Z"
       },
       {
         "id": 4,
@@ -827,16 +905,16 @@
         "alert_level": "warning",
         "temperature": 8.5,
         "threshold": 7,
-        "start_time": "2026-06-21T01:32:43.706Z",
+        "start_time": "2026-06-21T01:45:42.823Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 120,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.711Z",
-        "updated_at": "2026-06-21T01:27:43.713Z",
-        "end_time": "2026-06-21T01:34:43.706Z"
+        "created_at": "2026-06-21T01:40:42.827Z",
+        "updated_at": "2026-06-21T01:40:42.830Z",
+        "end_time": "2026-06-21T01:47:42.823Z"
       },
       {
         "id": 5,
@@ -846,16 +924,16 @@
         "alert_level": "critical",
         "temperature": 5,
         "threshold": 8,
-        "start_time": "2026-06-21T01:34:43.706Z",
+        "start_time": "2026-06-21T01:47:42.823Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.713Z",
-        "updated_at": "2026-06-21T01:27:43.717Z",
-        "end_time": "2026-06-21T01:27:43.716Z"
+        "created_at": "2026-06-21T01:40:42.830Z",
+        "updated_at": "2026-06-21T01:40:42.834Z",
+        "end_time": "2026-06-21T01:40:42.834Z"
       },
       {
         "id": 6,
@@ -865,16 +943,16 @@
         "alert_level": "warning",
         "temperature": 10,
         "threshold": 7,
-        "start_time": "2026-06-21T01:32:43.720Z",
+        "start_time": "2026-06-21T01:45:42.838Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 300,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.721Z",
-        "updated_at": "2026-06-21T01:27:43.723Z",
-        "end_time": "2026-06-21T01:37:43.720Z"
+        "created_at": "2026-06-21T01:40:42.839Z",
+        "updated_at": "2026-06-21T01:40:42.840Z",
+        "end_time": "2026-06-21T01:50:42.838Z"
       },
       {
         "id": 7,
@@ -884,15 +962,15 @@
         "alert_level": "critical",
         "temperature": 10,
         "threshold": 8,
-        "start_time": "2026-06-21T01:37:43.720Z",
+        "start_time": "2026-06-21T01:50:42.838Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "notified",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.723Z",
-        "updated_at": "2026-06-21T01:27:43.723Z"
+        "created_at": "2026-06-21T01:40:42.841Z",
+        "updated_at": "2026-06-21T01:40:42.841Z"
       },
       {
         "id": 8,
@@ -902,16 +980,16 @@
         "alert_level": "critical",
         "temperature": 5,
         "threshold": 8,
-        "start_time": "2026-06-21T01:27:43.725Z",
+        "start_time": "2026-06-21T01:40:42.843Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 1,
         "assignee": "quality",
         "flow_status": "concluded",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.726Z",
-        "updated_at": "2026-06-21T01:27:43.758Z",
-        "end_time": "2026-06-21T01:27:43.730Z"
+        "created_at": "2026-06-21T01:40:42.844Z",
+        "updated_at": "2026-06-21T01:40:42.877Z",
+        "end_time": "2026-06-21T01:40:42.848Z"
       },
       {
         "id": 9,
@@ -921,15 +999,15 @@
         "alert_level": "warning",
         "temperature": 8,
         "threshold": 6,
-        "start_time": "2026-06-21T01:27:43.779Z",
+        "start_time": "2026-06-21T01:40:42.902Z",
         "notify_roles": "dispatcher,driver",
         "duration_seconds": 0,
         "acknowledged": 0,
         "assignee": "dispatcher",
         "flow_status": "notified",
         "involved_roles": "dispatcher,driver",
-        "created_at": "2026-06-21T01:27:43.780Z",
-        "updated_at": "2026-06-21T01:27:43.780Z"
+        "created_at": "2026-06-21T01:40:42.903Z",
+        "updated_at": "2026-06-21T01:40:42.903Z"
       },
       {
         "id": 10,
@@ -939,15 +1017,15 @@
         "alert_level": "critical",
         "temperature": 15,
         "threshold": 8,
-        "start_time": "2026-06-21T01:27:43.789Z",
+        "start_time": "2026-06-21T01:40:42.913Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 1,
         "assignee": "quality",
         "flow_status": "concluded",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.790Z",
-        "updated_at": "2026-06-21T01:27:43.794Z"
+        "created_at": "2026-06-21T01:40:42.914Z",
+        "updated_at": "2026-06-21T01:40:42.918Z"
       },
       {
         "id": 11,
@@ -957,15 +1035,51 @@
         "alert_level": "critical",
         "temperature": 14,
         "threshold": 8,
-        "start_time": "2026-06-21T01:27:43.796Z",
+        "start_time": "2026-06-21T01:40:42.921Z",
         "notify_roles": "quality,dispatcher,driver,manager",
         "duration_seconds": 0,
         "acknowledged": 0,
         "assignee": "quality",
         "flow_status": "reassigned",
         "involved_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T01:27:43.797Z",
-        "updated_at": "2026-06-21T01:27:43.800Z"
+        "created_at": "2026-06-21T01:40:42.922Z",
+        "updated_at": "2026-06-21T01:40:42.925Z"
+      },
+      {
+        "id": 12,
+        "waybill_no": "WB_REVIEW_001",
+        "device_no": "DEV_REVIEW_01",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 12,
+        "threshold": 8,
+        "start_time": "2026-06-21T00:40:42.967Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "assignee": "quality",
+        "flow_status": "reassigned",
+        "involved_roles": "quality,dispatcher,driver,manager",
+        "created_at": "2026-06-21T01:40:42.968Z",
+        "updated_at": "2026-06-21T01:40:42.974Z"
+      },
+      {
+        "id": 13,
+        "waybill_no": "WB_PERM_001",
+        "device_no": "DEV_PERM_01",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 15,
+        "threshold": 8,
+        "start_time": "2026-06-21T01:40:42.990Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "assignee": "quality",
+        "flow_status": "notified",
+        "involved_roles": "quality,dispatcher,driver,manager",
+        "created_at": "2026-06-21T01:40:42.991Z",
+        "updated_at": "2026-06-21T01:40:42.991Z"
       }
     ],
     "query_logs": [
@@ -976,8 +1090,8 @@
         "caller_system": "test-system",
         "result_count": 1,
         "ip_address": "127.0.0.1",
-        "created_at": "2026-06-21T01:27:43.692Z",
-        "updated_at": "2026-06-21T01:27:43.692Z"
+        "created_at": "2026-06-21T01:40:42.808Z",
+        "updated_at": "2026-06-21T01:40:42.808Z"
       },
       {
         "id": 2,
@@ -986,8 +1100,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.693Z",
-        "updated_at": "2026-06-21T01:27:43.693Z"
+        "created_at": "2026-06-21T01:40:42.810Z",
+        "updated_at": "2026-06-21T01:40:42.810Z"
       },
       {
         "id": 3,
@@ -996,8 +1110,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.694Z",
-        "updated_at": "2026-06-21T01:27:43.694Z"
+        "created_at": "2026-06-21T01:40:42.811Z",
+        "updated_at": "2026-06-21T01:40:42.811Z"
       },
       {
         "id": 4,
@@ -1006,8 +1120,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.695Z",
-        "updated_at": "2026-06-21T01:27:43.695Z"
+        "created_at": "2026-06-21T01:40:42.812Z",
+        "updated_at": "2026-06-21T01:40:42.812Z"
       },
       {
         "id": 5,
@@ -1016,8 +1130,8 @@
         "caller_system": "unknown",
         "result_count": 5,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.696Z",
-        "updated_at": "2026-06-21T01:27:43.696Z"
+        "created_at": "2026-06-21T01:40:42.812Z",
+        "updated_at": "2026-06-21T01:40:42.812Z"
       },
       {
         "id": 6,
@@ -1026,8 +1140,8 @@
         "caller_system": "unknown",
         "result_count": 2,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.696Z",
-        "updated_at": "2026-06-21T01:27:43.696Z"
+        "created_at": "2026-06-21T01:40:42.813Z",
+        "updated_at": "2026-06-21T01:40:42.813Z"
       },
       {
         "id": 7,
@@ -1036,8 +1150,8 @@
         "caller_system": "unknown",
         "result_count": 0,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.697Z",
-        "updated_at": "2026-06-21T01:27:43.697Z"
+        "created_at": "2026-06-21T01:40:42.814Z",
+        "updated_at": "2026-06-21T01:40:42.814Z"
       },
       {
         "id": 8,
@@ -1046,8 +1160,8 @@
         "caller_system": "test-role",
         "result_count": 7,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.732Z",
-        "updated_at": "2026-06-21T01:27:43.732Z"
+        "created_at": "2026-06-21T01:40:42.851Z",
+        "updated_at": "2026-06-21T01:40:42.851Z"
       },
       {
         "id": 9,
@@ -1056,8 +1170,8 @@
         "caller_system": "unknown",
         "result_count": 5,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.733Z",
-        "updated_at": "2026-06-21T01:27:43.733Z"
+        "created_at": "2026-06-21T01:40:42.852Z",
+        "updated_at": "2026-06-21T01:40:42.852Z"
       },
       {
         "id": 10,
@@ -1066,8 +1180,8 @@
         "caller_system": "unknown",
         "result_count": 8,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.734Z",
-        "updated_at": "2026-06-21T01:27:43.734Z"
+        "created_at": "2026-06-21T01:40:42.853Z",
+        "updated_at": "2026-06-21T01:40:42.853Z"
       },
       {
         "id": 11,
@@ -1076,8 +1190,8 @@
         "caller_system": "shipper-system",
         "result_count": 1,
         "ip_address": "10.0.0.1",
-        "created_at": "2026-06-21T01:27:43.737Z",
-        "updated_at": "2026-06-21T01:27:43.737Z"
+        "created_at": "2026-06-21T01:40:42.856Z",
+        "updated_at": "2026-06-21T01:40:42.856Z"
       },
       {
         "id": 12,
@@ -1086,8 +1200,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.738Z",
-        "updated_at": "2026-06-21T01:27:43.738Z"
+        "created_at": "2026-06-21T01:40:42.858Z",
+        "updated_at": "2026-06-21T01:40:42.858Z"
       },
       {
         "id": 13,
@@ -1096,8 +1210,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.739Z",
-        "updated_at": "2026-06-21T01:27:43.739Z"
+        "created_at": "2026-06-21T01:40:42.859Z",
+        "updated_at": "2026-06-21T01:40:42.859Z"
       },
       {
         "id": 14,
@@ -1106,8 +1220,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.740Z",
-        "updated_at": "2026-06-21T01:27:43.740Z"
+        "created_at": "2026-06-21T01:40:42.860Z",
+        "updated_at": "2026-06-21T01:40:42.860Z"
       },
       {
         "id": 15,
@@ -1116,8 +1230,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.742Z",
-        "updated_at": "2026-06-21T01:27:43.742Z"
+        "created_at": "2026-06-21T01:40:42.862Z",
+        "updated_at": "2026-06-21T01:40:42.862Z"
       },
       {
         "id": 16,
@@ -1126,8 +1240,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.743Z",
-        "updated_at": "2026-06-21T01:27:43.743Z"
+        "created_at": "2026-06-21T01:40:42.863Z",
+        "updated_at": "2026-06-21T01:40:42.863Z"
       },
       {
         "id": 17,
@@ -1136,8 +1250,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.744Z",
-        "updated_at": "2026-06-21T01:27:43.744Z"
+        "created_at": "2026-06-21T01:40:42.864Z",
+        "updated_at": "2026-06-21T01:40:42.864Z"
       },
       {
         "id": 18,
@@ -1146,8 +1260,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.746Z",
-        "updated_at": "2026-06-21T01:27:43.746Z"
+        "created_at": "2026-06-21T01:40:42.865Z",
+        "updated_at": "2026-06-21T01:40:42.865Z"
       },
       {
         "id": 19,
@@ -1156,8 +1270,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.747Z",
-        "updated_at": "2026-06-21T01:27:43.747Z"
+        "created_at": "2026-06-21T01:40:42.867Z",
+        "updated_at": "2026-06-21T01:40:42.867Z"
       },
       {
         "id": 20,
@@ -1166,8 +1280,8 @@
         "caller_system": "unknown",
         "result_count": 0,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.748Z",
-        "updated_at": "2026-06-21T01:27:43.748Z"
+        "created_at": "2026-06-21T01:40:42.868Z",
+        "updated_at": "2026-06-21T01:40:42.868Z"
       },
       {
         "id": 21,
@@ -1176,8 +1290,8 @@
         "caller_system": "shipper-system",
         "result_count": 1,
         "ip_address": "10.0.0.1",
-        "created_at": "2026-06-21T01:27:43.761Z",
-        "updated_at": "2026-06-21T01:27:43.761Z"
+        "created_at": "2026-06-21T01:40:42.881Z",
+        "updated_at": "2026-06-21T01:40:42.881Z"
       },
       {
         "id": 22,
@@ -1186,8 +1300,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.763Z",
-        "updated_at": "2026-06-21T01:27:43.763Z"
+        "created_at": "2026-06-21T01:40:42.883Z",
+        "updated_at": "2026-06-21T01:40:42.883Z"
       },
       {
         "id": 23,
@@ -1196,8 +1310,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.764Z",
-        "updated_at": "2026-06-21T01:27:43.764Z"
+        "created_at": "2026-06-21T01:40:42.884Z",
+        "updated_at": "2026-06-21T01:40:42.884Z"
       },
       {
         "id": 24,
@@ -1206,8 +1320,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.766Z",
-        "updated_at": "2026-06-21T01:27:43.766Z"
+        "created_at": "2026-06-21T01:40:42.886Z",
+        "updated_at": "2026-06-21T01:40:42.886Z"
       },
       {
         "id": 25,
@@ -1216,8 +1330,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.767Z",
-        "updated_at": "2026-06-21T01:27:43.767Z"
+        "created_at": "2026-06-21T01:40:42.887Z",
+        "updated_at": "2026-06-21T01:40:42.887Z"
       },
       {
         "id": 26,
@@ -1226,8 +1340,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.767Z",
-        "updated_at": "2026-06-21T01:27:43.767Z"
+        "created_at": "2026-06-21T01:40:42.888Z",
+        "updated_at": "2026-06-21T01:40:42.888Z"
       },
       {
         "id": 27,
@@ -1236,8 +1350,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.768Z",
-        "updated_at": "2026-06-21T01:27:43.768Z"
+        "created_at": "2026-06-21T01:40:42.889Z",
+        "updated_at": "2026-06-21T01:40:42.889Z"
       },
       {
         "id": 28,
@@ -1246,8 +1360,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.769Z",
-        "updated_at": "2026-06-21T01:27:43.769Z"
+        "created_at": "2026-06-21T01:40:42.891Z",
+        "updated_at": "2026-06-21T01:40:42.891Z"
       },
       {
         "id": 29,
@@ -1256,8 +1370,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.770Z",
-        "updated_at": "2026-06-21T01:27:43.770Z"
+        "created_at": "2026-06-21T01:40:42.892Z",
+        "updated_at": "2026-06-21T01:40:42.892Z"
       },
       {
         "id": 30,
@@ -1266,8 +1380,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.773Z",
-        "updated_at": "2026-06-21T01:27:43.773Z"
+        "created_at": "2026-06-21T01:40:42.895Z",
+        "updated_at": "2026-06-21T01:40:42.895Z"
       },
       {
         "id": 31,
@@ -1276,8 +1390,8 @@
         "caller_system": "unknown",
         "result_count": 0,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.774Z",
-        "updated_at": "2026-06-21T01:27:43.774Z"
+        "created_at": "2026-06-21T01:40:42.896Z",
+        "updated_at": "2026-06-21T01:40:42.896Z"
       },
       {
         "id": 32,
@@ -1286,8 +1400,8 @@
         "caller_system": "unknown",
         "result_count": 0,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.775Z",
-        "updated_at": "2026-06-21T01:27:43.775Z"
+        "created_at": "2026-06-21T01:40:42.897Z",
+        "updated_at": "2026-06-21T01:40:42.897Z"
       },
       {
         "id": 33,
@@ -1296,8 +1410,8 @@
         "caller_system": "unknown",
         "result_count": 7,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.776Z",
-        "updated_at": "2026-06-21T01:27:43.776Z"
+        "created_at": "2026-06-21T01:40:42.898Z",
+        "updated_at": "2026-06-21T01:40:42.898Z"
       },
       {
         "id": 34,
@@ -1306,8 +1420,8 @@
         "caller_system": "unknown",
         "result_count": 8,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.777Z",
-        "updated_at": "2026-06-21T01:27:43.777Z"
+        "created_at": "2026-06-21T01:40:42.899Z",
+        "updated_at": "2026-06-21T01:40:42.899Z"
       },
       {
         "id": 35,
@@ -1316,8 +1430,8 @@
         "caller_system": "unknown",
         "result_count": 7,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.781Z",
-        "updated_at": "2026-06-21T01:27:43.781Z"
+        "created_at": "2026-06-21T01:40:42.904Z",
+        "updated_at": "2026-06-21T01:40:42.904Z"
       },
       {
         "id": 36,
@@ -1326,8 +1440,8 @@
         "caller_system": "unknown",
         "result_count": 9,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.782Z",
-        "updated_at": "2026-06-21T01:27:43.782Z"
+        "created_at": "2026-06-21T01:40:42.905Z",
+        "updated_at": "2026-06-21T01:40:42.905Z"
       },
       {
         "id": 37,
@@ -1336,8 +1450,8 @@
         "caller_system": "unknown",
         "result_count": 7,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.783Z",
-        "updated_at": "2026-06-21T01:27:43.783Z"
+        "created_at": "2026-06-21T01:40:42.906Z",
+        "updated_at": "2026-06-21T01:40:42.906Z"
       },
       {
         "id": 38,
@@ -1346,8 +1460,8 @@
         "caller_system": "test-window-caller",
         "result_count": 1,
         "ip_address": "127.0.0.1",
-        "created_at": "2026-06-21T01:27:43.784Z",
-        "updated_at": "2026-06-21T01:27:43.784Z"
+        "created_at": "2026-06-21T01:40:42.908Z",
+        "updated_at": "2026-06-21T01:40:42.908Z"
       },
       {
         "id": 39,
@@ -1356,8 +1470,8 @@
         "caller_system": "test-window-caller",
         "result_count": 0,
         "ip_address": "127.0.0.1",
-        "created_at": "2026-06-21T01:27:43.785Z",
-        "updated_at": "2026-06-21T01:27:43.785Z"
+        "created_at": "2026-06-21T01:40:42.908Z",
+        "updated_at": "2026-06-21T01:40:42.908Z"
       },
       {
         "id": 40,
@@ -1366,8 +1480,8 @@
         "caller_system": "shipper-x",
         "result_count": 5,
         "ip_address": "1.1.1.1",
-        "created_at": "2026-06-21T01:27:43.801Z",
-        "updated_at": "2026-06-21T01:27:43.801Z"
+        "created_at": "2026-06-21T01:40:42.926Z",
+        "updated_at": "2026-06-21T01:40:42.926Z"
       },
       {
         "id": 41,
@@ -1376,8 +1490,8 @@
         "caller_system": "shipper-x",
         "result_count": 3,
         "ip_address": "1.1.1.1",
-        "created_at": "2026-06-21T01:27:43.802Z",
-        "updated_at": "2026-06-21T01:27:43.802Z"
+        "created_at": "2026-06-21T01:40:42.927Z",
+        "updated_at": "2026-06-21T01:40:42.927Z"
       },
       {
         "id": 42,
@@ -1386,8 +1500,8 @@
         "caller_system": "carrier-y",
         "result_count": 1,
         "ip_address": "2.2.2.2",
-        "created_at": "2026-06-21T01:27:43.803Z",
-        "updated_at": "2026-06-21T01:27:43.803Z"
+        "created_at": "2026-06-21T01:40:42.928Z",
+        "updated_at": "2026-06-21T01:40:42.928Z"
       },
       {
         "id": 43,
@@ -1396,8 +1510,8 @@
         "caller_system": "carrier-y",
         "result_count": 9,
         "ip_address": "9.9.9.9",
-        "created_at": "2026-06-21T01:27:43.804Z",
-        "updated_at": "2026-06-21T01:27:43.804Z"
+        "created_at": "2026-06-21T01:40:42.930Z",
+        "updated_at": "2026-06-21T01:40:42.930Z"
       },
       {
         "id": 44,
@@ -1406,8 +1520,8 @@
         "caller_system": "audit-system",
         "result_count": 5,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.807Z",
-        "updated_at": "2026-06-21T01:27:43.807Z"
+        "created_at": "2026-06-21T01:40:42.932Z",
+        "updated_at": "2026-06-21T01:40:42.932Z"
       },
       {
         "id": 45,
@@ -1416,8 +1530,8 @@
         "caller_system": "unknown",
         "result_count": 6,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.808Z",
-        "updated_at": "2026-06-21T01:27:43.808Z"
+        "created_at": "2026-06-21T01:40:42.933Z",
+        "updated_at": "2026-06-21T01:40:42.933Z"
       },
       {
         "id": 46,
@@ -1426,8 +1540,8 @@
         "caller_system": "unknown",
         "result_count": 7,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.810Z",
-        "updated_at": "2026-06-21T01:27:43.810Z"
+        "created_at": "2026-06-21T01:40:42.935Z",
+        "updated_at": "2026-06-21T01:40:42.935Z"
       },
       {
         "id": 47,
@@ -1436,8 +1550,8 @@
         "caller_system": "unknown",
         "result_count": 8,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.811Z",
-        "updated_at": "2026-06-21T01:27:43.811Z"
+        "created_at": "2026-06-21T01:40:42.936Z",
+        "updated_at": "2026-06-21T01:40:42.936Z"
       },
       {
         "id": 48,
@@ -1446,8 +1560,8 @@
         "caller_system": "shipper-audit",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.813Z",
-        "updated_at": "2026-06-21T01:27:43.813Z"
+        "created_at": "2026-06-21T01:40:42.939Z",
+        "updated_at": "2026-06-21T01:40:42.939Z"
       },
       {
         "id": 49,
@@ -1456,8 +1570,8 @@
         "caller_system": "unknown",
         "result_count": 11,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.814Z",
-        "updated_at": "2026-06-21T01:27:43.814Z"
+        "created_at": "2026-06-21T01:40:42.940Z",
+        "updated_at": "2026-06-21T01:40:42.940Z"
       },
       {
         "id": 50,
@@ -1466,8 +1580,8 @@
         "caller_system": "ver-test",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.819Z",
-        "updated_at": "2026-06-21T01:27:43.819Z"
+        "created_at": "2026-06-21T01:40:42.946Z",
+        "updated_at": "2026-06-21T01:40:42.946Z"
       },
       {
         "id": 51,
@@ -1476,8 +1590,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.820Z",
-        "updated_at": "2026-06-21T01:27:43.820Z"
+        "created_at": "2026-06-21T01:40:42.947Z",
+        "updated_at": "2026-06-21T01:40:42.947Z"
       },
       {
         "id": 52,
@@ -1486,8 +1600,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.823Z",
-        "updated_at": "2026-06-21T01:27:43.823Z"
+        "created_at": "2026-06-21T01:40:42.951Z",
+        "updated_at": "2026-06-21T01:40:42.951Z"
       },
       {
         "id": 53,
@@ -1496,8 +1610,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.824Z",
-        "updated_at": "2026-06-21T01:27:43.824Z"
+        "created_at": "2026-06-21T01:40:42.953Z",
+        "updated_at": "2026-06-21T01:40:42.953Z"
       },
       {
         "id": 54,
@@ -1506,8 +1620,8 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.825Z",
-        "updated_at": "2026-06-21T01:27:43.825Z"
+        "created_at": "2026-06-21T01:40:42.954Z",
+        "updated_at": "2026-06-21T01:40:42.954Z"
       },
       {
         "id": 55,
@@ -1516,8 +1630,128 @@
         "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T01:27:43.828Z",
-        "updated_at": "2026-06-21T01:27:43.828Z"
+        "created_at": "2026-06-21T01:40:42.957Z",
+        "updated_at": "2026-06-21T01:40:42.957Z"
+      },
+      {
+        "id": 56,
+        "query_type": "report",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "test-arrival",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.959Z",
+        "updated_at": "2026-06-21T01:40:42.959Z"
+      },
+      {
+        "id": 57,
+        "query_type": "shareable_report",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "test-share-arrival",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.961Z",
+        "updated_at": "2026-06-21T01:40:42.961Z"
+      },
+      {
+        "id": 58,
+        "query_type": "report",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "test-compare",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.962Z",
+        "updated_at": "2026-06-21T01:40:42.962Z"
+      },
+      {
+        "id": 59,
+        "query_type": "shareable_report",
+        "waybill_no": "WB_REVIEW_001",
+        "caller_system": "review-test-v1",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.971Z",
+        "updated_at": "2026-06-21T01:40:42.971Z"
+      },
+      {
+        "id": 60,
+        "query_type": "shareable_report",
+        "waybill_no": "WB_REVIEW_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.979Z",
+        "updated_at": "2026-06-21T01:40:42.979Z"
+      },
+      {
+        "id": 61,
+        "query_type": "report_by_no",
+        "waybill_no": "WB_REVIEW_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.980Z",
+        "updated_at": "2026-06-21T01:40:42.980Z"
+      },
+      {
+        "id": 62,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "unknown",
+        "result_count": 14,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.995Z",
+        "updated_at": "2026-06-21T01:40:42.995Z"
+      },
+      {
+        "id": 63,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_VER_001",
+        "caller_system": "unknown",
+        "result_count": 9,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.997Z",
+        "updated_at": "2026-06-21T01:40:42.997Z"
+      },
+      {
+        "id": 64,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_VER_001",
+        "caller_system": "unknown",
+        "result_count": 10,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:42.999Z",
+        "updated_at": "2026-06-21T01:40:42.999Z"
+      },
+      {
+        "id": 65,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "unknown",
+        "result_count": 15,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:43.000Z",
+        "updated_at": "2026-06-21T01:40:43.000Z"
+      },
+      {
+        "id": 66,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_FLOW_001",
+        "caller_system": "audit-test",
+        "result_count": 16,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:43.002Z",
+        "updated_at": "2026-06-21T01:40:43.002Z"
+      },
+      {
+        "id": 67,
+        "query_type": "audit_timeline",
+        "waybill_no": "WB_VER_001",
+        "caller_system": "unknown",
+        "result_count": 11,
+        "ip_address": null,
+        "created_at": "2026-06-21T01:40:43.005Z",
+        "updated_at": "2026-06-21T01:40:43.005Z"
       }
     ],
     "alert_handlings": [
@@ -1530,8 +1764,8 @@
         "result": "已检查制冷设备，温度开始恢复",
         "remark": "设备临时停机5分钟后重启",
         "target_role": null,
-        "created_at": "2026-06-21T01:27:43.753Z",
-        "updated_at": "2026-06-21T01:27:43.753Z"
+        "created_at": "2026-06-21T01:40:42.872Z",
+        "updated_at": "2026-06-21T01:40:42.872Z"
       },
       {
         "id": 2,
@@ -1542,8 +1776,8 @@
         "result": null,
         "remark": "温度异常持续时间较长，需要质控评估",
         "target_role": "quality",
-        "created_at": "2026-06-21T01:27:43.754Z",
-        "updated_at": "2026-06-21T01:27:43.754Z"
+        "created_at": "2026-06-21T01:40:42.874Z",
+        "updated_at": "2026-06-21T01:40:42.874Z"
       },
       {
         "id": 3,
@@ -1554,8 +1788,8 @@
         "result": null,
         "remark": "涉及疫苗运输，升级处理",
         "target_role": "quality",
-        "created_at": "2026-06-21T01:27:43.756Z",
-        "updated_at": "2026-06-21T01:27:43.756Z"
+        "created_at": "2026-06-21T01:40:42.875Z",
+        "updated_at": "2026-06-21T01:40:42.875Z"
       },
       {
         "id": 4,
@@ -1566,8 +1800,8 @@
         "result": "温度短暂超标，货品质量未受影响",
         "remark": "已确认中心温度正常，可继续运输",
         "target_role": null,
-        "created_at": "2026-06-21T01:27:43.757Z",
-        "updated_at": "2026-06-21T01:27:43.757Z"
+        "created_at": "2026-06-21T01:40:42.877Z",
+        "updated_at": "2026-06-21T01:40:42.877Z"
       },
       {
         "id": 5,
@@ -1578,8 +1812,8 @@
         "result": null,
         "remark": "转质控处理",
         "target_role": "quality",
-        "created_at": "2026-06-21T01:27:43.791Z",
-        "updated_at": "2026-06-21T01:27:43.791Z"
+        "created_at": "2026-06-21T01:40:42.915Z",
+        "updated_at": "2026-06-21T01:40:42.915Z"
       },
       {
         "id": 6,
@@ -1590,8 +1824,8 @@
         "result": "质量正常可继续",
         "remark": "已确认",
         "target_role": null,
-        "created_at": "2026-06-21T01:27:43.793Z",
-        "updated_at": "2026-06-21T01:27:43.793Z"
+        "created_at": "2026-06-21T01:40:42.917Z",
+        "updated_at": "2026-06-21T01:40:42.917Z"
       },
       {
         "id": 7,
@@ -1602,87 +1836,133 @@
         "result": null,
         "remark": "转质控",
         "target_role": "quality",
-        "created_at": "2026-06-21T01:27:43.799Z",
-        "updated_at": "2026-06-21T01:27:43.799Z"
+        "created_at": "2026-06-21T01:40:42.924Z",
+        "updated_at": "2026-06-21T01:40:42.924Z"
+      },
+      {
+        "id": 8,
+        "alert_id": 12,
+        "action": "reassign",
+        "handler_role": "dispatcher",
+        "handler_name": "李调度",
+        "result": null,
+        "remark": "转质控",
+        "target_role": "quality",
+        "created_at": "2026-06-21T01:40:42.973Z",
+        "updated_at": "2026-06-21T01:40:42.973Z"
+      },
+      {
+        "id": 9,
+        "alert_id": 13,
+        "action": "process",
+        "handler_role": "driver",
+        "handler_name": "张司机",
+        "result": "已停车检查",
+        "remark": "现场处理",
+        "target_role": null,
+        "created_at": "2026-06-21T01:40:42.993Z",
+        "updated_at": "2026-06-21T01:40:42.993Z"
       }
     ],
     "reports": [
       {
         "id": 1,
-        "report_no": "RPT-20260621012743-7406",
+        "report_no": "RPT-20260621014042-2050",
         "waybill_no": "WB_BATCH_001",
         "version": 1,
         "status": "deprecated",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.760Z\",\"waybill_info\":{\"waybill_no\":\"WB_BATCH_001\",\"plate_number\":\"京B00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"批量测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":78,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":18,\"monitoring_duration_minutes\":10,\"temperature_stats\":{\"min\":3,\"max\":10,\"average\":6.58},\"out_of_range_segments\":[{\"id\":4,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:32:43.706Z\",\"end_time\":\"2026-06-21T01:34:43.706Z\",\"duration_seconds\":120,\"duration_formatted\":\"2分钟\",\"peak_temperature\":7.5,\"threshold\":7,\"max_deviation\":1.5,\"status\":\"closed\",\"record_count\":4,\"acknowledged\":false},{\"id\":6,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:32:43.720Z\",\"end_time\":\"2026-06-21T01:37:43.720Z\",\"duration_seconds\":300,\"duration_formatted\":\"5分钟\",\"peak_temperature\":8,\"threshold\":7,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":6,\"acknowledged\":false},{\"id\":5,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:34:43.706Z\",\"end_time\":\"2026-06-21T01:27:43.716Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":5,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":0,\"acknowledged\":false},{\"id\":7,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:37:43.720Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":10,\"threshold\":8,\"max_deviation\":2,\"status\":\"open\",\"record_count\":0,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":4,\"open_count\":1,\"by_level\":{\"critical\":2,\"serious\":0,\"warning\":2,\"info\":0},\"total_duration_seconds\":420,\"total_duration_formatted\":\"7分钟\",\"max_duration_seconds\":300,\"max_duration_formatted\":\"5分钟\"},\"temperature_curve_summary\":{\"total_points\":18,\"in_range_count\":11,\"out_of_range_count\":7,\"in_range_rate\":61.1}},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
-        "replaced_by": "RPT-20260621012743-6934",
-        "created_at": "2026-06-21T01:27:43.760Z",
-        "updated_at": "2026-06-21T01:27:43.771Z"
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.880Z\",\"waybill_info\":{\"waybill_no\":\"WB_BATCH_001\",\"plate_number\":\"京B00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"批量测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":78,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":18,\"monitoring_duration_minutes\":10,\"temperature_stats\":{\"min\":3,\"max\":10,\"average\":6.58},\"out_of_range_segments\":[{\"id\":4,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:45:42.823Z\",\"end_time\":\"2026-06-21T01:47:42.823Z\",\"duration_seconds\":120,\"duration_formatted\":\"2分钟\",\"peak_temperature\":7.5,\"threshold\":7,\"max_deviation\":1.5,\"status\":\"closed\",\"record_count\":4,\"acknowledged\":false},{\"id\":6,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:45:42.838Z\",\"end_time\":\"2026-06-21T01:50:42.838Z\",\"duration_seconds\":300,\"duration_formatted\":\"5分钟\",\"peak_temperature\":8,\"threshold\":7,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":6,\"acknowledged\":false},{\"id\":5,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:47:42.823Z\",\"end_time\":\"2026-06-21T01:40:42.834Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":5,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":0,\"acknowledged\":false},{\"id\":7,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:50:42.838Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":10,\"threshold\":8,\"max_deviation\":2,\"status\":\"open\",\"record_count\":0,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":4,\"open_count\":1,\"by_level\":{\"critical\":2,\"serious\":0,\"warning\":2,\"info\":0},\"total_duration_seconds\":420,\"total_duration_formatted\":\"7分钟\",\"max_duration_seconds\":300,\"max_duration_formatted\":\"5分钟\"},\"temperature_curve_summary\":{\"total_points\":18,\"in_range_count\":11,\"out_of_range_count\":7,\"in_range_rate\":61.1}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":4,\"alerts\":[{\"id\":7,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":10,\"threshold\":8,\"start_time\":\"2026-06-21T01:50:42.838Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.841Z\",\"updated_at\":\"2026-06-21T01:40:42.841Z\"},{\"id\":5,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":5,\"threshold\":8,\"start_time\":\"2026-06-21T01:47:42.823Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.830Z\",\"updated_at\":\"2026-06-21T01:40:42.834Z\",\"end_time\":\"2026-06-21T01:40:42.834Z\"},{\"id\":6,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"temperature\":10,\"threshold\":7,\"start_time\":\"2026-06-21T01:45:42.838Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":300,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.839Z\",\"updated_at\":\"2026-06-21T01:40:42.840Z\",\"end_time\":\"2026-06-21T01:50:42.838Z\"},{\"id\":4,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"temperature\":8.5,\"threshold\":7,\"start_time\":\"2026-06-21T01:45:42.823Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":120,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.827Z\",\"updated_at\":\"2026-06-21T01:40:42.830Z\",\"end_time\":\"2026-06-21T01:47:42.823Z\"}]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":4,\"pending_count\":4},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "replaced_by": "RPT-20260621014042-5216",
+        "created_at": "2026-06-21T01:40:42.880Z",
+        "updated_at": "2026-06-21T01:40:42.894Z"
       },
       {
         "id": 2,
-        "report_no": "RPT-20260621012743-6718",
+        "report_no": "RPT-20260621014042-3501",
         "waybill_no": "WB_ALERT_001",
         "version": 1,
         "status": "active",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.765Z\",\"waybill_info\":{\"waybill_no\":\"WB_ALERT_001\",\"plate_number\":\"京C00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"告警测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":75,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":4,\"monitoring_duration_minutes\":5,\"temperature_stats\":{\"min\":5,\"max\":12,\"average\":9.63},\"out_of_range_segments\":[{\"id\":8,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:27:43.725Z\",\"end_time\":\"2026-06-21T01:27:43.730Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":12,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":3,\"acknowledged\":true}],\"alert_statistics\":{\"total_count\":1,\"open_count\":0,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":4,\"in_range_count\":1,\"out_of_range_count\":3,\"in_range_rate\":25}},\"handling_summary\":{\"total_handling_steps\":4,\"is_concluded\":true,\"conclusion\":{\"result\":\"温度短暂超标，货品质量未受影响\",\"concluded_by\":\"王质控\",\"concluded_at\":\"2026-06-21T01:27:43.757Z\"},\"handling_chain\":[{\"action\":\"process\",\"handler_role\":\"driver\",\"handler_name\":\"张师傅\",\"result\":\"已检查制冷设备，温度开始恢复\",\"remark\":\"设备临时停机5分钟后重启\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:27:43.753Z\"},{\"action\":\"reassign\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"温度异常持续时间较长，需要质控评估\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:27:43.754Z\"},{\"action\":\"escalate\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"涉及疫苗运输，升级处理\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:27:43.756Z\"},{\"action\":\"conclude\",\"handler_role\":\"quality\",\"handler_name\":\"王质控\",\"result\":\"温度短暂超标，货品质量未受影响\",\"remark\":\"已确认中心温度正常，可继续运输\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:27:43.757Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.885Z\",\"waybill_info\":{\"waybill_no\":\"WB_ALERT_001\",\"plate_number\":\"京C00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"告警测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":75,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":4,\"monitoring_duration_minutes\":5,\"temperature_stats\":{\"min\":5,\"max\":12,\"average\":9.63},\"out_of_range_segments\":[{\"id\":8,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:40:42.843Z\",\"end_time\":\"2026-06-21T01:40:42.848Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":12,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":3,\"acknowledged\":true}],\"alert_statistics\":{\"total_count\":1,\"open_count\":0,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":4,\"in_range_count\":1,\"out_of_range_count\":3,\"in_range_rate\":25}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":0,\"alerts\":[]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":1,\"alerts\":[{\"id\":8,\"waybill_no\":\"WB_ALERT_001\",\"device_no\":\"DEV_ALERT_001\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":5,\"threshold\":8,\"start_time\":\"2026-06-21T01:40:42.843Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":1,\"assignee\":\"quality\",\"flow_status\":\"concluded\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.844Z\",\"updated_at\":\"2026-06-21T01:40:42.877Z\",\"end_time\":\"2026-06-21T01:40:42.848Z\"}]}},\"total_alerts\":1,\"pending_count\":0},\"handling_summary\":{\"total_handling_steps\":4,\"is_concluded\":true,\"conclusion\":{\"result\":\"温度短暂超标，货品质量未受影响\",\"concluded_by\":\"王质控\",\"concluded_at\":\"2026-06-21T01:40:42.877Z\"},\"handling_chain\":[{\"action\":\"process\",\"handler_role\":\"driver\",\"handler_name\":\"张师傅\",\"result\":\"已检查制冷设备，温度开始恢复\",\"remark\":\"设备临时停机5分钟后重启\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:40:42.872Z\"},{\"action\":\"reassign\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"温度异常持续时间较长，需要质控评估\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:40:42.874Z\"},{\"action\":\"escalate\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"涉及疫苗运输，升级处理\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:40:42.875Z\"},{\"action\":\"conclude\",\"handler_role\":\"quality\",\"handler_name\":\"王质控\",\"result\":\"温度短暂超标，货品质量未受影响\",\"remark\":\"已确认中心温度正常，可继续运输\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:40:42.877Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
         "replaced_by": null,
-        "created_at": "2026-06-21T01:27:43.765Z",
-        "updated_at": "2026-06-21T01:27:43.765Z"
+        "created_at": "2026-06-21T01:40:42.885Z",
+        "updated_at": "2026-06-21T01:40:42.885Z"
       },
       {
         "id": 3,
-        "report_no": "RPT-20260621012743-6934",
+        "report_no": "RPT-20260621014042-5216",
         "waybill_no": "WB_BATCH_001",
         "version": 2,
         "status": "active",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.771Z\",\"waybill_info\":{\"waybill_no\":\"WB_BATCH_001\",\"plate_number\":\"京B00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"批量测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":78,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":18,\"monitoring_duration_minutes\":10,\"temperature_stats\":{\"min\":3,\"max\":10,\"average\":6.58},\"out_of_range_segments\":[{\"id\":4,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:32:43.706Z\",\"end_time\":\"2026-06-21T01:34:43.706Z\",\"duration_seconds\":120,\"duration_formatted\":\"2分钟\",\"peak_temperature\":7.5,\"threshold\":7,\"max_deviation\":1.5,\"status\":\"closed\",\"record_count\":4,\"acknowledged\":false},{\"id\":6,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:32:43.720Z\",\"end_time\":\"2026-06-21T01:37:43.720Z\",\"duration_seconds\":300,\"duration_formatted\":\"5分钟\",\"peak_temperature\":8,\"threshold\":7,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":6,\"acknowledged\":false},{\"id\":5,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:34:43.706Z\",\"end_time\":\"2026-06-21T01:27:43.716Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":5,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":0,\"acknowledged\":false},{\"id\":7,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:37:43.720Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":10,\"threshold\":8,\"max_deviation\":2,\"status\":\"open\",\"record_count\":0,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":4,\"open_count\":1,\"by_level\":{\"critical\":2,\"serious\":0,\"warning\":2,\"info\":0},\"total_duration_seconds\":420,\"total_duration_formatted\":\"7分钟\",\"max_duration_seconds\":300,\"max_duration_formatted\":\"5分钟\"},\"temperature_curve_summary\":{\"total_points\":18,\"in_range_count\":11,\"out_of_range_count\":7,\"in_range_rate\":61.1}},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.893Z\",\"waybill_info\":{\"waybill_no\":\"WB_BATCH_001\",\"plate_number\":\"京B00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"批量测试疫苗\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":78,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":18,\"monitoring_duration_minutes\":10,\"temperature_stats\":{\"min\":3,\"max\":10,\"average\":6.58},\"out_of_range_segments\":[{\"id\":4,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:45:42.823Z\",\"end_time\":\"2026-06-21T01:47:42.823Z\",\"duration_seconds\":120,\"duration_formatted\":\"2分钟\",\"peak_temperature\":7.5,\"threshold\":7,\"max_deviation\":1.5,\"status\":\"closed\",\"record_count\":4,\"acknowledged\":false},{\"id\":6,\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"start_time\":\"2026-06-21T01:45:42.838Z\",\"end_time\":\"2026-06-21T01:50:42.838Z\",\"duration_seconds\":300,\"duration_formatted\":\"5分钟\",\"peak_temperature\":8,\"threshold\":7,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":6,\"acknowledged\":false},{\"id\":5,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:47:42.823Z\",\"end_time\":\"2026-06-21T01:40:42.834Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":5,\"threshold\":8,\"max_deviation\":3,\"status\":\"closed\",\"record_count\":0,\"acknowledged\":false},{\"id\":7,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:50:42.838Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":10,\"threshold\":8,\"max_deviation\":2,\"status\":\"open\",\"record_count\":0,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":4,\"open_count\":1,\"by_level\":{\"critical\":2,\"serious\":0,\"warning\":2,\"info\":0},\"total_duration_seconds\":420,\"total_duration_formatted\":\"7分钟\",\"max_duration_seconds\":300,\"max_duration_formatted\":\"5分钟\"},\"temperature_curve_summary\":{\"total_points\":18,\"in_range_count\":11,\"out_of_range_count\":7,\"in_range_rate\":61.1}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":4,\"alerts\":[{\"id\":7,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":10,\"threshold\":8,\"start_time\":\"2026-06-21T01:50:42.838Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.841Z\",\"updated_at\":\"2026-06-21T01:40:42.841Z\"},{\"id\":5,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":5,\"threshold\":8,\"start_time\":\"2026-06-21T01:47:42.823Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.830Z\",\"updated_at\":\"2026-06-21T01:40:42.834Z\",\"end_time\":\"2026-06-21T01:40:42.834Z\"},{\"id\":6,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"temperature\":10,\"threshold\":7,\"start_time\":\"2026-06-21T01:45:42.838Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":300,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.839Z\",\"updated_at\":\"2026-06-21T01:40:42.840Z\",\"end_time\":\"2026-06-21T01:50:42.838Z\"},{\"id\":4,\"waybill_no\":\"WB_BATCH_001\",\"device_no\":\"DEV003\",\"alert_type\":\"warning_high\",\"alert_level\":\"warning\",\"temperature\":8.5,\"threshold\":7,\"start_time\":\"2026-06-21T01:45:42.823Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":120,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.827Z\",\"updated_at\":\"2026-06-21T01:40:42.830Z\",\"end_time\":\"2026-06-21T01:47:42.823Z\"}]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":4,\"pending_count\":4},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
         "replaced_by": null,
-        "created_at": "2026-06-21T01:27:43.772Z",
-        "updated_at": "2026-06-21T01:27:43.772Z"
+        "created_at": "2026-06-21T01:40:42.894Z",
+        "updated_at": "2026-06-21T01:40:42.894Z"
       },
       {
         "id": 4,
-        "report_no": "RPT-20260621012743-5660",
+        "report_no": "RPT-20260621014042-3686",
         "waybill_no": "WB_FLOW_001",
         "version": 1,
         "status": "active",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.812Z\",\"waybill_info\":{\"waybill_no\":\"WB_FLOW_001\",\"plate_number\":\"京H00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":0,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":1,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":15,\"max\":15,\"average\":15},\"out_of_range_segments\":[{\"id\":10,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:27:43.789Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":15,\"threshold\":8,\"max_deviation\":7,\"status\":\"open\",\"record_count\":1,\"acknowledged\":true}],\"alert_statistics\":{\"total_count\":1,\"open_count\":1,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":1,\"in_range_count\":0,\"out_of_range_count\":1,\"in_range_rate\":0}},\"handling_summary\":{\"total_handling_steps\":2,\"is_concluded\":true,\"conclusion\":{\"result\":\"质量正常可继续\",\"concluded_by\":\"王质控\",\"concluded_at\":\"2026-06-21T01:27:43.793Z\"},\"handling_chain\":[{\"action\":\"reassign\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"转质控处理\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:27:43.791Z\"},{\"action\":\"conclude\",\"handler_role\":\"quality\",\"handler_name\":\"王质控\",\"result\":\"质量正常可继续\",\"remark\":\"已确认\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:27:43.793Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.938Z\",\"waybill_info\":{\"waybill_no\":\"WB_FLOW_001\",\"plate_number\":\"京H00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":0,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":1,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":15,\"max\":15,\"average\":15},\"out_of_range_segments\":[{\"id\":10,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:40:42.913Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":15,\"threshold\":8,\"max_deviation\":7,\"status\":\"open\",\"record_count\":1,\"acknowledged\":true}],\"alert_statistics\":{\"total_count\":1,\"open_count\":1,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":1,\"in_range_count\":0,\"out_of_range_count\":1,\"in_range_rate\":0}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":0,\"alerts\":[]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":1,\"alerts\":[{\"id\":10,\"waybill_no\":\"WB_FLOW_001\",\"device_no\":\"DEV_FLOW_01\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":15,\"threshold\":8,\"start_time\":\"2026-06-21T01:40:42.913Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":1,\"assignee\":\"quality\",\"flow_status\":\"concluded\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.914Z\",\"updated_at\":\"2026-06-21T01:40:42.918Z\"}]}},\"total_alerts\":1,\"pending_count\":0},\"handling_summary\":{\"total_handling_steps\":2,\"is_concluded\":true,\"conclusion\":{\"result\":\"质量正常可继续\",\"concluded_by\":\"王质控\",\"concluded_at\":\"2026-06-21T01:40:42.917Z\"},\"handling_chain\":[{\"action\":\"reassign\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"转质控处理\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:40:42.915Z\"},{\"action\":\"conclude\",\"handler_role\":\"quality\",\"handler_name\":\"王质控\",\"result\":\"质量正常可继续\",\"remark\":\"已确认\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:40:42.917Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
         "replaced_by": null,
-        "created_at": "2026-06-21T01:27:43.812Z",
-        "updated_at": "2026-06-21T01:27:43.812Z"
+        "created_at": "2026-06-21T01:40:42.938Z",
+        "updated_at": "2026-06-21T01:40:42.938Z"
       },
       {
         "id": 5,
-        "report_no": "RPT-20260621012743-4577",
+        "report_no": "RPT-20260621014042-1888",
         "waybill_no": "WB_VER_001",
         "version": 1,
         "status": "deprecated",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.817Z\",\"waybill_info\":{\"waybill_no\":\"WB_VER_001\",\"plate_number\":\"京J00001\",\"compartment_no\":\"01\",\"product_type\":\"dairy\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"数据不足，无法评估\",\"compliance_rate\":null,\"compliance_status\":\"unknown\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":0,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":null,\"max\":null,\"average\":null},\"out_of_range_segments\":[],\"alert_statistics\":{\"total_count\":0,\"open_count\":0,\"by_level\":{\"critical\":0,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"in_range_count\":0,\"out_of_range_count\":0,\"in_range_rate\":100}},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"dairy\",\"product_name\":\"乳制品\",\"temperature_range\":{\"min\":0,\"max\":6},\"description\":\"乳制品需冷藏保存\"}}",
-        "replaced_by": "RPT-20260621012743-4534",
-        "created_at": "2026-06-21T01:27:43.818Z",
-        "updated_at": "2026-06-21T01:27:43.821Z"
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.945Z\",\"waybill_info\":{\"waybill_no\":\"WB_VER_001\",\"plate_number\":\"京J00001\",\"compartment_no\":\"01\",\"product_type\":\"dairy\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"数据不足，无法评估\",\"compliance_rate\":null,\"compliance_status\":\"unknown\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":0,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":null,\"max\":null,\"average\":null},\"out_of_range_segments\":[],\"alert_statistics\":{\"total_count\":0,\"open_count\":0,\"by_level\":{\"critical\":0,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"in_range_count\":0,\"out_of_range_count\":0,\"in_range_rate\":100}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":0,\"alerts\":[]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":0,\"pending_count\":0},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"dairy\",\"product_name\":\"乳制品\",\"temperature_range\":{\"min\":0,\"max\":6},\"description\":\"乳制品需冷藏保存\"}}",
+        "replaced_by": "RPT-20260621014042-3147",
+        "created_at": "2026-06-21T01:40:42.945Z",
+        "updated_at": "2026-06-21T01:40:42.949Z"
       },
       {
         "id": 6,
-        "report_no": "RPT-20260621012743-4534",
+        "report_no": "RPT-20260621014042-3147",
         "waybill_no": "WB_VER_001",
         "version": 2,
         "status": "deprecated",
-        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:27:43.821Z\",\"waybill_info\":{\"waybill_no\":\"WB_VER_001\",\"plate_number\":\"京J00001\",\"compartment_no\":\"01\",\"product_type\":\"dairy\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"数据不足，无法评估\",\"compliance_rate\":null,\"compliance_status\":\"unknown\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":0,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":null,\"max\":null,\"average\":null},\"out_of_range_segments\":[],\"alert_statistics\":{\"total_count\":0,\"open_count\":0,\"by_level\":{\"critical\":0,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"in_range_count\":0,\"out_of_range_count\":0,\"in_range_rate\":100}},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"dairy\",\"product_name\":\"乳制品\",\"temperature_range\":{\"min\":0,\"max\":6},\"description\":\"乳制品需冷藏保存\"}}",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.949Z\",\"waybill_info\":{\"waybill_no\":\"WB_VER_001\",\"plate_number\":\"京J00001\",\"compartment_no\":\"01\",\"product_type\":\"dairy\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"数据不足，无法评估\",\"compliance_rate\":null,\"compliance_status\":\"unknown\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":0,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":null,\"max\":null,\"average\":null},\"out_of_range_segments\":[],\"alert_statistics\":{\"total_count\":0,\"open_count\":0,\"by_level\":{\"critical\":0,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"in_range_count\":0,\"out_of_range_count\":0,\"in_range_rate\":100}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":0,\"alerts\":[]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":0,\"pending_count\":0},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"dairy\",\"product_name\":\"乳制品\",\"temperature_range\":{\"min\":0,\"max\":6},\"description\":\"乳制品需冷藏保存\"}}",
         "replaced_by": null,
-        "created_at": "2026-06-21T01:27:43.822Z",
-        "updated_at": "2026-06-21T01:27:43.827Z"
+        "created_at": "2026-06-21T01:40:42.950Z",
+        "updated_at": "2026-06-21T01:40:42.956Z"
+      },
+      {
+        "id": 7,
+        "report_no": "RPT-20260621014042-8705",
+        "waybill_no": "WB_REVIEW_001",
+        "version": 1,
+        "status": "deprecated",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.970Z\",\"waybill_info\":{\"waybill_no\":\"WB_REVIEW_001\",\"plate_number\":\"京K00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":0,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":1,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":12,\"max\":12,\"average\":12},\"out_of_range_segments\":[{\"id\":12,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T00:40:42.967Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":12,\"threshold\":8,\"max_deviation\":4,\"status\":\"open\",\"record_count\":1,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":1,\"open_count\":1,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":1,\"in_range_count\":0,\"out_of_range_count\":1,\"in_range_rate\":0}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":1,\"alerts\":[{\"id\":12,\"waybill_no\":\"WB_REVIEW_001\",\"device_no\":\"DEV_REVIEW_01\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":12,\"threshold\":8,\"start_time\":\"2026-06-21T00:40:42.967Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"notified\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.968Z\",\"updated_at\":\"2026-06-21T01:40:42.968Z\"}]},\"reassigned\":{\"label\":\"转派中\",\"count\":0,\"alerts\":[]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":1,\"pending_count\":1},\"handling_summary\":{\"total_handling_steps\":0,\"is_concluded\":false,\"handling_chain\":[]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "replaced_by": "RPT-20260621014042-0514",
+        "created_at": "2026-06-21T01:40:42.970Z",
+        "updated_at": "2026-06-21T01:40:42.976Z"
+      },
+      {
+        "id": 8,
+        "report_no": "RPT-20260621014042-0514",
+        "waybill_no": "WB_REVIEW_001",
+        "version": 2,
+        "status": "active",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:40:42.976Z\",\"waybill_info\":{\"waybill_no\":\"WB_REVIEW_001\",\"plate_number\":\"京K00001\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":null,\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":null},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":0,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":1,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":12,\"max\":12,\"average\":12},\"out_of_range_segments\":[{\"id\":12,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T00:40:42.967Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":12,\"threshold\":8,\"max_deviation\":4,\"status\":\"open\",\"record_count\":1,\"acknowledged\":false}],\"alert_statistics\":{\"total_count\":1,\"open_count\":1,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":1,\"in_range_count\":0,\"out_of_range_count\":1,\"in_range_rate\":0}},\"arrival_review\":{\"by_flow_status\":{\"notified\":{\"label\":\"通知过\",\"count\":0,\"alerts\":[]},\"reassigned\":{\"label\":\"转派中\",\"count\":1,\"alerts\":[{\"id\":12,\"waybill_no\":\"WB_REVIEW_001\",\"device_no\":\"DEV_REVIEW_01\",\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"temperature\":12,\"threshold\":8,\"start_time\":\"2026-06-21T00:40:42.967Z\",\"notify_roles\":\"quality,dispatcher,driver,manager\",\"duration_seconds\":0,\"acknowledged\":0,\"assignee\":\"quality\",\"flow_status\":\"reassigned\",\"involved_roles\":\"quality,dispatcher,driver,manager\",\"created_at\":\"2026-06-21T01:40:42.968Z\",\"updated_at\":\"2026-06-21T01:40:42.974Z\"}]},\"concluded\":{\"label\":\"已结论\",\"count\":0,\"alerts\":[]}},\"total_alerts\":1,\"pending_count\":1},\"handling_summary\":{\"total_handling_steps\":1,\"is_concluded\":false,\"conclusion\":null,\"handling_chain\":[{\"action\":\"reassign\",\"handler_role\":\"dispatcher\",\"handler_name\":\"李调度\",\"result\":null,\"remark\":\"转质控\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:40:42.973Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "replaced_by": null,
+        "created_at": "2026-06-21T01:40:42.977Z",
+        "updated_at": "2026-06-21T01:40:42.977Z"
       }
     ]
   },
   "counters": {
-    "devices": 9,
-    "transport_tasks": 8,
-    "temperature_records": 32,
+    "devices": 11,
+    "transport_tasks": 10,
+    "temperature_records": 34,
     "temp_rules": 6,
-    "alerts": 11,
-    "query_logs": 55,
-    "alert_handlings": 7,
-    "reports": 6
+    "alerts": 13,
+    "query_logs": 67,
+    "alert_handlings": 9,
+    "reports": 8
   }
 }

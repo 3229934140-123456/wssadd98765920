@@ -1441,6 +1441,351 @@ test('运单可以查完整版本链', () => {
   }
 });
 
+console.log('\n25. 到货复盘分组展示测试');
+
+test('告警按三态分组统计数量正确', () => {
+  const grouped = AlertModel.getAlertsGroupedByFlow('WB_FLOW_001');
+  assert(grouped.summary, '应有summary');
+  assert(grouped.groups, '应有groups');
+  
+  const sum = grouped.summary.notified + grouped.summary.reassigned + grouped.summary.concluded;
+  const alerts = AlertModel.findByWaybillNo('WB_FLOW_001');
+  assertEqual(sum, alerts.length, '三态数量之和应等于总告警数');
+});
+
+test('运单温控报告包含到货复盘分组', () => {
+  const report = QueryService.getTemperatureReport('WB_FLOW_001', { caller_system: 'test-arrival' });
+  assert(report.arrival_review, '报告应有arrival_review');
+  assert(report.arrival_review.by_flow_status, '应有by_flow_status');
+  assert(report.arrival_review.by_flow_status.notified, '应有notified分组');
+  assert(report.arrival_review.by_flow_status.reassigned, '应有reassigned分组');
+  assert(report.arrival_review.by_flow_status.concluded, '应有concluded分组');
+  
+  const total = report.arrival_review.by_flow_status.notified.count
+              + report.arrival_review.by_flow_status.reassigned.count
+              + report.arrival_review.by_flow_status.concluded.count;
+  assertEqual(total, report.arrival_review.total_alerts, '分组数量之和应等于总数');
+});
+
+test('分享版报告包含到货复盘分组且口径一致', () => {
+  const shareReport = QueryService.getShareableReport('WB_FLOW_001', { caller_system: 'test-share-arrival' });
+  
+  assert(shareReport.arrival_review, '分享版报告应有arrival_review');
+  assert(shareReport.arrival_review.by_flow_status, '应有by_flow_status');
+  
+  const fullReport = QueryService.getTemperatureReport('WB_FLOW_001', { caller_system: 'test-compare' });
+  
+  assertEqual(
+    shareReport.arrival_review.total_alerts,
+    fullReport.arrival_review.total_alerts,
+    '分享版与完整版报告的告警总数应一致'
+  );
+  assertEqual(
+    shareReport.arrival_review.by_flow_status.concluded.count,
+    fullReport.arrival_review.by_flow_status.concluded.count,
+    '分享版与完整版的已结论数量应一致'
+  );
+});
+
+test('force_regenerate 后报告三态口径保持一致', () => {
+  DeviceModel.create({ device_no: 'DEV_REVIEW_01', plate_number: '京K00001', compartment_no: '01' });
+  TransportTaskModel.create({ waybill_no: 'WB_REVIEW_001', plate_number: '京K00001', compartment_no: '01', product_type: 'vaccine' });
+  
+  TemperatureService.reportTemperature({
+    device_no: 'DEV_REVIEW_01', plate_number: '京K00001', compartment_no: '01',
+    temperature: 12, record_time: new Date(Date.now() - 3600000).toISOString()
+  });
+  
+  const r1 = QueryService.getShareableReport('WB_REVIEW_001', { caller_system: 'review-test-v1' });
+  const count1 = r1.arrival_review.by_flow_status.notified.count;
+  assert(count1 >= 1, 'v1应有notified告警');
+  
+  const alerts = AlertModel.findByWaybillNo('WB_REVIEW_001');
+  if (alerts.length > 0) {
+    AlertHandlingModel.reassignAlert(alerts[0].id, {
+      handler_role: 'dispatcher', handler_name: '李调度',
+      target_role: 'quality', remark: '转质控'
+    });
+  }
+  
+  const r2 = QueryService.getShareableReport('WB_REVIEW_001', { force_regenerate: true });
+  assert(r2.arrival_review.by_flow_status.reassigned.count >= 1, 'v2应有reassigned告警');
+  assert(r2.version > r1.version, 'v2版本号大于v1');
+  
+  const r1ByNo = QueryService.getReportByNo(r1.report_no);
+  assert(r1ByNo.arrival_review, '按v1编号查也应有arrival_review');
+  assertEqual(
+    r1ByNo.arrival_review.by_flow_status.notified.count,
+    count1,
+    '旧版本报告口径保持不变'
+  );
+});
+
+console.log('\n26. 超时责任看板测试');
+
+test('超时看板返回结构化数据', () => {
+  const board = QueryService.getTimeoutBoard({ page: 1, page_size: 10 });
+  assert(board !== null && board !== undefined, '看板不应为空');
+  assert(board.summary, '应有summary');
+  assert(board.list, '应有list');
+  assert(board.filters, '应有filters');
+  assert(typeof board.total === 'number', '应有total');
+});
+
+test('超时看板按角色筛选有效', () => {
+  const boardDriver = QueryService.getTimeoutBoard({ role: 'driver' });
+  for (const item of boardDriver.list) {
+    assertEqual(item.current_assignee, 'driver', '按driver筛选应全是driver');
+  }
+  
+  const boardQuality = QueryService.getTimeoutBoard({ role: 'quality' });
+  for (const item of boardQuality.list) {
+    assertEqual(item.current_assignee, 'quality', '按quality筛选应全是quality');
+  }
+});
+
+test('超时看板按运单筛选有效', () => {
+  const board = QueryService.getTimeoutBoard({ waybill_no: 'WB_TODO_001' });
+  for (const item of board.list) {
+    assertEqual(item.waybill_no, 'WB_TODO_001', '按运单筛选应都是该运单');
+  }
+});
+
+test('超时看板每个项有超时等级和等待时长', () => {
+  const board = QueryService.getTimeoutBoard({ page_size: 100 });
+  if (board.total > 0) {
+    const item = board.list[0];
+    assert(item.timeout_level, '应有timeout_level');
+    assert(item.timeout_label, '应有timeout_label');
+    assert(item.timeout_color, '应有timeout_color');
+    assert(item.wait_seconds !== undefined, '应有wait_seconds');
+    assert(item.wait_text, '应有wait_text');
+    assert(item.assigned_at, '应有assigned_at');
+    assert(item.current_assignee, '应有current_assignee');
+    assert(item.flow_status, '应有flow_status');
+  }
+});
+
+test('超时看板按超时等级筛选', () => {
+  const allBoard = QueryService.getTimeoutBoard({ page_size: 200 });
+  const levels = [...new Set(allBoard.list.map(i => i.timeout_level))];
+  
+  if (levels.length > 0) {
+    const testLevel = levels[0];
+    const filteredBoard = QueryService.getTimeoutBoard({ timeout_level: testLevel });
+    
+    for (const item of filteredBoard.list) {
+      assertEqual(item.timeout_level, testLevel, '按等级筛选应全是该等级');
+    }
+  }
+});
+
+test('超时看板汇总统计包含by_role和by_level', () => {
+  const board = QueryService.getTimeoutBoard({ page_size: 200 });
+  assert(board.summary.by_role, '应有by_role统计');
+  assert(board.summary.by_level, '应有by_level统计');
+  assert(board.summary.total_pending === board.total, 'total_pending应等于total');
+  
+  const roleSum = Object.values(board.summary.by_role).reduce((a, b) => a + b, 0);
+  const levelSum = Object.values(board.summary.by_level).reduce((a, b) => a + b, 0);
+  assertEqual(roleSum, board.total, 'by_role数量之和应等于总数');
+  assertEqual(levelSum, board.total, 'by_level数量之和应等于总数');
+});
+
+console.log('\n27. 角色权限再收紧验证测试');
+
+test('调度不能执行 process 动作', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  const beforeCount = AlertHandlingModel.findByAlertId(alertId).length;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.processAlert(alertId, {
+      handler_role: 'dispatcher', handler_name: '李调度',
+      result: '已检查', remark: '测试'
+    });
+  } catch (e) {
+    caught = true;
+    assertEqual(e.code, 'ROLE_PERMISSION_DENIED', '错误码应为ROLE_PERMISSION_DENIED');
+    assert(e.allowed_actions && Array.isArray(e.allowed_actions), '应有allowed_actions列表');
+    assert(e.allowed_actions.includes('reassign'), '允许的动作应包含reassign');
+    assert(e.allowed_actions.includes('escalate'), '允许的动作应包含escalate');
+    assert(!e.allowed_actions.includes('process'), '允许的动作不应包含process');
+  }
+  assert(caught, '调度process应被拒绝');
+  
+  const afterCount = AlertHandlingModel.findByAlertId(alertId).length;
+  assertEqual(afterCount, beforeCount, '权限被拒时不应写入处置链');
+});
+
+test('质控不能执行 process 动作', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  const beforeCount = AlertHandlingModel.findByAlertId(alertId).length;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.processAlert(alertId, {
+      handler_role: 'quality', handler_name: '王质控',
+      result: '已检查', remark: '测试'
+    });
+  } catch (e) {
+    caught = true;
+    assertEqual(e.code, 'ROLE_PERMISSION_DENIED', '错误码应为ROLE_PERMISSION_DENIED');
+    assert(e.allowed_actions.includes('conclude'), '质控允许的动作应包含conclude');
+    assert(!e.allowed_actions.includes('process'), '质控允许的动作不应包含process');
+  }
+  assert(caught, '质控process应被拒绝');
+  
+  const afterCount = AlertHandlingModel.findByAlertId(alertId).length;
+  assertEqual(afterCount, beforeCount, '权限被拒时不应写入处置链');
+});
+
+test('质控不能执行 reassign 动作（之前已有，再验证不写入）', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  const beforeCount = AlertHandlingModel.findByAlertId(alertId).length;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.reassignAlert(alertId, {
+      handler_role: 'quality', handler_name: '王质控',
+      target_role: 'dispatcher', remark: '转回'
+    });
+  } catch (e) {
+    caught = true;
+  }
+  assert(caught, '质控reassign应被拒绝');
+  
+  const afterCount = AlertHandlingModel.findByAlertId(alertId).length;
+  assertEqual(afterCount, beforeCount, '权限被拒时不应写入处置链');
+});
+
+test('司机可以执行 process（正常路径仍有效）', () => {
+  const device = DeviceModel.create({
+    device_no: 'DEV_PERM_01', plate_number: '京L00001', compartment_no: '01'
+  });
+  TransportTaskModel.create({
+    waybill_no: 'WB_PERM_001', plate_number: '京L00001', compartment_no: '01', product_type: 'vaccine'
+  });
+  
+  TemperatureService.reportTemperature({
+    device_no: 'DEV_PERM_01', plate_number: '京L00001', compartment_no: '01',
+    temperature: 15, record_time: new Date().toISOString()
+  });
+  
+  const alerts = AlertModel.findByWaybillNo('WB_PERM_001');
+  assert(alerts.length > 0, '应有告警');
+  
+  const beforeCount = AlertHandlingModel.findByAlertId(alerts[0].id).length;
+  const result = AlertHandlingModel.processAlert(alerts[0].id, {
+    handler_role: 'driver', handler_name: '张司机',
+    result: '已停车检查', remark: '现场处理'
+  });
+  
+  assert(result.id, '司机process应成功');
+  assertEqual(result.action, 'process', '动作应为process');
+  
+  const afterCount = AlertHandlingModel.findByAlertId(alerts[0].id).length;
+  assertEqual(afterCount, beforeCount + 1, '成功时应写入处置链');
+});
+
+console.log('\n28. 审计时间线来源标记与导出测试');
+
+test('告警事件来源标记为规则引擎', () => {
+  const timeline = QueryService.getAuditTimeline({ waybill_no: 'WB_FLOW_001' });
+  const alertEvents = timeline.timeline.filter(e => e.category === 'alert');
+  
+  assert(alertEvents.length > 0, '应有告警事件');
+  for (const ev of alertEvents) {
+    assertEqual(ev.source_system, 'rule_engine', '告警来源应是rule_engine');
+    assertEqual(ev.source_name, '温控规则引擎', '来源名称应为温控规则引擎');
+  }
+});
+
+test('报告生成事件有来源系统标记', () => {
+  const timeline = QueryService.getAuditTimeline({ waybill_no: 'WB_VER_001' });
+  const reportEvents = timeline.timeline.filter(e => e.category === 'report');
+  
+  if (reportEvents.length > 0) {
+    for (const ev of reportEvents) {
+      assert(ev.source_system, '报告事件应有source_system');
+      assert(ev.source_name, '报告事件应有source_name');
+    }
+  }
+});
+
+test('报告作废事件出现在时间线中', () => {
+  const timeline = QueryService.getAuditTimeline({ waybill_no: 'WB_VER_001' });
+  const deprecateEvents = timeline.timeline.filter(e => e.type === 'report_deprecate');
+  
+  assert(deprecateEvents.length >= 0, '作废事件数量合理');
+  
+  const deprecatedReports = ReportModel.findByWaybillNo('WB_VER_001').filter(r => r.status === 'deprecated');
+  if (deprecatedReports.length > 0) {
+    assert(deprecateEvents.length > 0, '存在作废报告时应有作废事件');
+  }
+});
+
+test('处置事件来源标记为角色+姓名', () => {
+  const timeline = QueryService.getAuditTimeline({ waybill_no: 'WB_FLOW_001' });
+  const handlingEvents = timeline.timeline.filter(e => e.category === 'handling');
+  
+  if (handlingEvents.length > 0) {
+    for (const ev of handlingEvents) {
+      assert(ev.source_role, '处置事件应有source_role');
+      assert(ev.source_name, '处置事件应有source_name');
+    }
+  }
+});
+
+test('审计导出包包含完整数据', () => {
+  const pkg = QueryService.exportAuditPackage({
+    waybill_no: 'WB_FLOW_001', caller_system: 'audit-test'
+  });
+  
+  assert(pkg !== null, '导出包不应为空');
+  assert(pkg.export_meta, '应有export_meta');
+  assert(pkg.waybill_info, '应有waybill_info');
+  assert(pkg.temperature_monitoring, '应有temperature_monitoring');
+  assert(pkg.alerts, '应有alerts');
+  assert(pkg.handling_chain, '应有handling_chain');
+  assert(pkg.report_versions, '应有report_versions');
+  assert(pkg.query_logs, '应有query_logs');
+  assert(pkg.audit_timeline, '应有audit_timeline');
+});
+
+test('审计导出包包含版本链和查询记录', () => {
+  const pkg = QueryService.exportAuditPackage({
+    waybill_no: 'WB_VER_001'
+  });
+  
+  assert(pkg.report_versions.version_chain, '应有version_chain');
+  assert(pkg.report_versions.version_chain.length >= 2, '版本链至少2条');
+  assert(pkg.report_versions.total_versions >= 2, '总版本数应>=2');
+  
+  assert(pkg.query_logs.total >= 0, '查询日志总数合理');
+  assert(Array.isArray(pkg.query_logs.list), '查询日志列表应为数组');
+  assert(pkg.query_logs.by_type, '应有by_type统计');
+  assert(pkg.query_logs.by_caller, '应有by_caller统计');
+});
+
+test('审计导出包按报告编号查询也可获取', () => {
+  const active = ReportModel.findActiveByWaybillNo('WB_VER_001');
+  if (!active) { assert(true, '跳过'); return; }
+  
+  const pkg = QueryService.exportAuditPackage({ report_no: active.report_no });
+  assert(pkg !== null, '按报告号应能导出');
+  assertEqual(pkg.waybill_info.waybill_no, 'WB_VER_001', '运单号应匹配');
+});
+
 console.log('\n=== 测试结果 ===');
 console.log(`通过: ${passed}`);
 console.log(`失败: ${failed}`);

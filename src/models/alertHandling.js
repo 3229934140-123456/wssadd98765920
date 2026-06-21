@@ -10,8 +10,8 @@ const HANDLING_ACTIONS = {
 
 const ROLE_PERMISSIONS = {
   driver:     ['process'],
-  dispatcher: ['process', 'reassign', 'escalate'],
-  quality:    ['process', 'conclude'],
+  dispatcher: ['reassign', 'escalate'],
+  quality:    ['conclude'],
   admin:      ['process', 'reassign', 'escalate', 'conclude']
 };
 

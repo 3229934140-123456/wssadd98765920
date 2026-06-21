@@ -408,6 +408,32 @@ router.get('/stats', (req, res) => {
   }
 });
 
+router.get('/timeout-board', (req, res) => {
+  try {
+    const waybill_no = req.query.waybill_no || null;
+    const role = req.query.role || null;
+    const timeout_level = req.query.timeout_level || null;
+    const page = parseInt(req.query.page) || 1;
+    const page_size = parseInt(req.query.page_size) || 20;
+
+    const result = QueryService.getTimeoutBoard({
+      waybill_no,
+      role,
+      timeout_level,
+      page,
+      page_size
+    });
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    console.error('获取超时看板失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
 router.get('/audit/timeline', (req, res) => {
   try {
     const waybill_no = req.query.waybill_no;
@@ -438,6 +464,48 @@ router.get('/audit/timeline', (req, res) => {
   } catch (err) {
     console.error('审计时间线查询失败:', err);
     res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
+router.get('/audit/export', (req, res) => {
+  try {
+    const waybill_no = req.query.waybill_no;
+    const report_no = req.query.report_no;
+    const caller_system = req.headers['x-caller-system'] || 'admin-console';
+    const ip_address = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+      || req.headers['x-real-ip'] || req.ip || req.connection?.remoteAddress || 'unknown';
+
+    if (!waybill_no && !report_no) {
+      return res.status(400).json({ error: '必须提供 waybill_no 或 report_no' });
+    }
+
+    const pkg = QueryService.exportAuditPackage({
+      waybill_no,
+      report_no,
+      caller_system,
+      ip_address
+    });
+
+    if (!pkg) {
+      return res.status(404).json({ error: '未找到运单或报告' });
+    }
+
+    const format = req.query.format || 'json';
+
+    if (format === 'json_download') {
+      const filename = `audit_${waybill_no || report_no}_${Date.now()}.json`;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      return res.json(pkg);
+    }
+
+    res.json({
+      success: true,
+      data: pkg
+    });
+  } catch (err) {
+    console.error('审计导出失败:', err);
+    res.status(500).json({ error: '导出失败', message: err.message });
   }
 });
 

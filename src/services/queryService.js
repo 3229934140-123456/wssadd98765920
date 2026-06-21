@@ -179,6 +179,8 @@ class QueryService {
     const compliance = this._calculateCompliance(stats, rule, alertStats);
     const acceptanceAdvice = this._generateAcceptanceAdvice(compliance, alertStats, rule);
 
+    const flowGroups = AlertModel.getAlertsGroupedByFlow(waybill_no);
+
     QueryLogModel.create({
       query_type: 'report',
       waybill_no,
@@ -243,6 +245,16 @@ class QueryService {
       out_of_range_segments: outOfRangeSegments,
 
       alert_statistics: this._formatAlertStats(alertStats),
+
+      arrival_review: {
+        by_flow_status: {
+          notified: { label: '通知过', count: flowGroups.summary.notified, alerts: flowGroups.groups.notified.list },
+          reassigned: { label: '转派中', count: flowGroups.summary.reassigned, alerts: flowGroups.groups.reassigned.list },
+          concluded: { label: '已结论', count: flowGroups.summary.concluded, alerts: flowGroups.groups.concluded.list }
+        },
+        total_alerts: alertStats.total_count,
+        pending_count: flowGroups.summary.notified + flowGroups.summary.reassigned
+      },
 
       compliance_assessment: compliance,
 
@@ -417,6 +429,8 @@ class QueryService {
     const handlings = AlertHandlingModel.findByWaybillNo(waybill_no);
     const handlingSummary = this._buildHandlingSummary(handlings);
 
+    const flowGroups = AlertModel.getAlertsGroupedByFlow(waybill_no);
+
     return {
       report_type: 'shareable_temperature_report',
       report_version: '1.0',
@@ -466,6 +480,16 @@ class QueryService {
             ? Number(((temperatureCurve.in_range_count / temperatureCurve.total_points) * 100).toFixed(1))
             : 100
         }
+      },
+
+      arrival_review: {
+        by_flow_status: {
+          notified: { label: '通知过', count: flowGroups.summary.notified, alerts: flowGroups.groups.notified.list },
+          reassigned: { label: '转派中', count: flowGroups.summary.reassigned, alerts: flowGroups.groups.reassigned.list },
+          concluded: { label: '已结论', count: flowGroups.summary.concluded, alerts: flowGroups.groups.concluded.list }
+        },
+        total_alerts: alertStats.total_count,
+        pending_count: flowGroups.summary.notified + flowGroups.summary.reassigned
       },
 
       handling_summary: handlingSummary,
@@ -738,6 +762,135 @@ class QueryService {
     return descriptions[status] || '未知';
   }
 
+  static _getTimeoutLevel(waitSeconds) {
+    if (waitSeconds < 30 * 60) return { level: 'normal', label: '正常', color: 'green' };
+    if (waitSeconds < 2 * 3600) return { level: 'warning', label: '预警', color: 'yellow' };
+    if (waitSeconds < 24 * 3600) return { level: 'overdue', label: '超时', color: 'orange' };
+    return { level: 'critical', label: '严重超时', color: 'red' };
+  }
+
+  static getTimeoutBoard({ waybill_no, role, timeout_level, page = 1, page_size = 20 } = {}) {
+    const db = require('../db').getDb();
+    const now = new Date();
+
+    const where = ['flow_status != ?'];
+    const params = ['concluded'];
+
+    if (waybill_no) {
+      where.push('waybill_no = ?');
+      params.push(waybill_no);
+    }
+    if (role) {
+      where.push('assignee = ?');
+      params.push(role);
+    }
+
+    const whereSql = where.length > 0 ? `WHERE ${where.join(' AND ')}` : '';
+    const sql = `SELECT * FROM alerts ${whereSql} ORDER BY start_time ASC`;
+    const alerts = db.prepare(sql).all(...params);
+
+    const items = [];
+    for (const alert of alerts) {
+      const handlings = db.prepare(
+        'SELECT * FROM alert_handlings WHERE alert_id = ? ORDER BY created_at ASC'
+      ).all(alert.id);
+
+      let assignedAt = alert.start_time;
+      let assignedFromAction = 'initial';
+      const reassignOrEscalate = handlings
+        .filter(h => h.action === 'reassign' || h.action === 'escalate')
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+      if (reassignOrEscalate.length > 0) {
+        assignedAt = reassignOrEscalate[0].created_at;
+        assignedFromAction = reassignOrEscalate[0].action;
+      }
+
+      const waitSeconds = Math.floor((now - new Date(assignedAt)) / 1000);
+      const levelInfo = this._getTimeoutLevel(waitSeconds);
+
+      if (timeout_level && levelInfo.level !== timeout_level) {
+        continue;
+      }
+
+      items.push({
+        alert_id: alert.id,
+        waybill_no: alert.waybill_no,
+        alert_type: alert.alert_type,
+        alert_level: alert.alert_level,
+        current_assignee: alert.assignee,
+        flow_status: alert.flow_status,
+        start_time: alert.start_time,
+        assigned_at: assignedAt,
+        assigned_from_action: assignedFromAction,
+        wait_seconds: waitSeconds,
+        wait_hours: Number((waitSeconds / 3600).toFixed(2)),
+        wait_text: this._formatWaitTime(waitSeconds),
+        timeout_level: levelInfo.level,
+        timeout_label: levelInfo.label,
+        timeout_color: levelInfo.color,
+        handling_count: handlings.length,
+        last_handling: handlings.length > 0
+          ? { action: handlings[handlings.length - 1].action,
+              handler_role: handlings[handlings.length - 1].handler_role,
+              handler_name: handlings[handlings.length - 1].handler_name,
+              handled_at: handlings[handlings.length - 1].created_at }
+          : null
+      });
+    }
+
+    const total = items.length;
+    const start = (page - 1) * page_size;
+    const paginatedList = items.slice(start, start + page_size);
+
+    const by_role = { driver: 0, dispatcher: 0, quality: 0, unknown: 0 };
+    const by_level = { normal: 0, warning: 0, overdue: 0, critical: 0 };
+    let total_wait_seconds = 0;
+
+    for (const item of items) {
+      const roleKey = item.current_assignee || 'unknown';
+      if (by_role[roleKey] !== undefined) by_role[roleKey]++;
+      else by_role[roleKey] = 1;
+
+      by_level[item.timeout_level] = (by_level[item.timeout_level] || 0) + 1;
+      total_wait_seconds += item.wait_seconds;
+    }
+
+    const avg_wait_seconds = items.length > 0 ? Math.floor(total_wait_seconds / items.length) : 0;
+
+    return {
+      total,
+      page,
+      page_size,
+      total_pages: Math.ceil(total / page_size),
+      list: paginatedList,
+      summary: {
+        total_pending: total,
+        by_role,
+        by_level,
+        avg_wait_seconds,
+        avg_wait_hours: Number((avg_wait_seconds / 3600).toFixed(2)),
+        avg_wait_text: this._formatWaitTime(avg_wait_seconds)
+      },
+      filters: {
+        waybill_no: waybill_no || null,
+        role: role || null,
+        timeout_level: timeout_level || null
+      }
+    };
+  }
+
+  static _formatWaitTime(seconds) {
+    if (seconds < 60) return `${seconds}秒`;
+    if (seconds < 3600) return `${Math.floor(seconds / 60)}分钟`;
+    const hours = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    if (hours < 24) return `${hours}小时${mins}分`;
+    const days = Math.floor(hours / 24);
+    const remainHours = hours % 24;
+    return `${days}天${remainHours}小时`;
+  }
+
   static getAuditTimeline({ waybill_no, report_no, caller_system, ip_address } = {}) {
     if (!waybill_no && !report_no) {
       return null;
@@ -809,9 +962,9 @@ class QueryService {
         category: 'alert',
         title: `告警产生：${a.alert_type} (${a.alert_level})`,
         description: `温度 ${a.temperature}°C，阈值 ${a.threshold}°C，告警类型 ${a.alert_type}，级别 ${a.alert_level}，通知角色 ${a.notify_roles || '(未知)'}`,
-        source_system: null,
+        source_system: 'rule_engine',
         source_role: null,
-        source_name: null,
+        source_name: '温控规则引擎',
         raw_data: {
           alert_id: a.id,
           alert_type: a.alert_type,
@@ -831,10 +984,10 @@ class QueryService {
           type: 'alert_recover',
           category: 'alert',
           title: '温度恢复正常',
-          description: `告警结束，累计持续 ${TemperatureService.formatDuration(a.duration_seconds || 0)}（${a.duration_seconds || 0}秒）`,
-          source_system: null,
+          description: `告警结束，累计持续 ${(function(d) { const s = d || 0; const m = Math.floor(s / 60); const h = Math.floor(m / 60); return h > 0 ? `${h}小时${m % 60}分` : m > 0 ? `${m}分钟` : `${s}秒`; })(a.duration_seconds)}（${a.duration_seconds || 0}秒）`,
+          source_system: 'rule_engine',
           source_role: null,
-          source_name: null,
+          source_name: '温控规则引擎',
           raw_data: {
             alert_id: a.id,
             duration_seconds: a.duration_seconds,
@@ -915,31 +1068,35 @@ class QueryService {
       });
     }
 
-    if (report_no) {
-      const report = ReportModel.findByReportNo(report_no);
-      if (report) {
-        events.push({
-          seq: 6000,
-          timestamp: report.created_at,
-          type: 'report_generate',
-          category: 'report',
-          title: `分享版报告生成 ${report.report_no}`,
-          description: `报告 ${report.report_no} 生成，关联运单 ${actualWaybill}，版本 v${report.version || '1.0'}${report.replaced_by ? `，已被 ${report.replaced_by} 替代` : ''}`,
-          source_system: null,
-          source_role: null,
-          source_name: null,
-          raw_data: {
-            report_no: report.report_no,
-            version: report.version,
-            status: report.status,
-            replaced_by: report.replaced_by
-          }
-        });
+    const reports = ReportModel.findByWaybillNo(actualWaybill);
+    const reportQueryMap = {};
+    const allQueryLogs = queryLogs && queryLogs.list ? queryLogs.list : [];
+    for (const ql of allQueryLogs) {
+      if (ql.query_type === 'shareable_report' && ql.result_count > 0) {
+        if (!reportQueryMap[ql.waybill_no]) reportQueryMap[ql.waybill_no] = [];
+        reportQueryMap[ql.waybill_no].push(ql);
+      }
+      if (ql.query_type === 'report_deprecate') {
+        if (!reportQueryMap['_deprecate']) reportQueryMap['_deprecate'] = [];
+        reportQueryMap['_deprecate'].push(ql);
       }
     }
 
-    const reports = ReportModel.findByWaybillNo(actualWaybill);
     reports.forEach((r, idx) => {
+      let srcSystem = '内部系统';
+      let srcName = '自动生成';
+      
+      const waybillQueries = reportQueryMap[actualWaybill] || [];
+      const matchingQuery = waybillQueries.find(q => {
+        const qt = new Date(q.created_at).getTime();
+        const rt = new Date(r.created_at).getTime();
+        return Math.abs(qt - rt) < 5000;
+      });
+      if (matchingQuery) {
+        srcSystem = matchingQuery.caller_system || '内部系统';
+        srcName = matchingQuery.caller_system || '内部系统';
+      }
+
       if (report_no && r.report_no !== report_no) {
         events.push({
           seq: 6001 + idx,
@@ -948,13 +1105,55 @@ class QueryService {
           category: 'report',
           title: `分享版报告生成 ${r.report_no}`,
           description: `报告 ${r.report_no} 生成，关联运单 ${actualWaybill}，版本 v${r.version || '1.0'}${r.replaced_by ? `，已被 ${r.replaced_by} 替代` : ''}${r.status === 'deprecated' ? '，已作废' : ''}`,
-          source_system: null,
+          source_system: srcSystem,
           source_role: null,
-          source_name: null,
+          source_name: srcName,
           raw_data: {
             report_no: r.report_no,
             version: r.version,
             status: r.status,
+            replaced_by: r.replaced_by
+          }
+        });
+      } else if (report_no && r.report_no === report_no) {
+        events.push({
+          seq: 6000,
+          timestamp: r.created_at,
+          type: 'report_generate',
+          category: 'report',
+          title: `分享版报告生成 ${r.report_no}`,
+          description: `报告 ${r.report_no} 生成，关联运单 ${actualWaybill}，版本 v${r.version || '1.0'}，状态 ${r.status === 'active' ? '当前有效' : '已作废'}`,
+          source_system: srcSystem,
+          source_role: null,
+          source_name: srcName,
+          raw_data: {
+            report_no: r.report_no,
+            version: r.version,
+            status: r.status,
+            replaced_by: r.replaced_by
+          }
+        });
+      }
+
+      if (r.status === 'deprecated') {
+        const deprecateQueries = reportQueryMap['_deprecate'] || [];
+        const depQuery = deprecateQueries.find(q => q.waybill_no === actualWaybill && new Date(q.created_at) >= new Date(r.created_at));
+        const depSrc = depQuery ? (depQuery.caller_system || '内部系统') : '内部系统';
+        
+        events.push({
+          seq: 6100 + idx,
+          timestamp: depQuery ? depQuery.created_at : r.updated_at || r.created_at,
+          type: 'report_deprecate',
+          category: 'report',
+          title: `报告作废 ${r.report_no}`,
+          description: `报告 ${r.report_no} 已作废${r.replaced_by ? `，被新版本 ${r.replaced_by} 替代` : ''}`,
+          source_system: depSrc,
+          source_role: null,
+          source_name: depSrc,
+          raw_data: {
+            report_no: r.report_no,
+            version: r.version,
+            status: 'deprecated',
             replaced_by: r.replaced_by
           }
         });
@@ -992,6 +1191,108 @@ class QueryService {
       counts[e.category] = (counts[e.category] || 0) + 1;
     }
     return counts;
+  }
+
+  static exportAuditPackage({ waybill_no, report_no, caller_system, ip_address } = {}) {
+    if (!waybill_no && !report_no) return null;
+
+    let actualWaybill = waybill_no;
+    if (report_no && !waybill_no) {
+      const report = ReportModel.findByReportNo(report_no);
+      if (!report) return null;
+      actualWaybill = report.waybill_no;
+    }
+
+    const task = TransportTaskModel.findByWaybillNo(actualWaybill);
+    if (!task) return null;
+
+    const timeline = this.getAuditTimeline({ waybill_no: actualWaybill, caller_system, ip_address });
+
+    const versionChain = ReportModel.getVersionChain(actualWaybill);
+    const reports = ReportModel.findByWaybillNo(actualWaybill);
+
+    const queryLogs = QueryLogModel.findAll({ waybill_no: actualWaybill, page_size: 2000 });
+
+    const alerts = AlertModel.findByWaybillNo(actualWaybill);
+    const alertStats = AlertModel.getStatsByWaybill(actualWaybill);
+    const flowGroups = AlertModel.getAlertsGroupedByFlow(actualWaybill);
+
+    const handlings = AlertHandlingModel.findByWaybillNo(actualWaybill);
+
+    const tempStats = TemperatureRecordModel.getStatsByWaybill(actualWaybill);
+    const timeRange = TemperatureRecordModel.getTimeRangeByWaybill(actualWaybill);
+
+    const exportedAt = new Date().toISOString();
+
+    return {
+      export_meta: {
+        exported_at: exportedAt,
+        exported_by: caller_system || 'internal',
+        export_type: 'full_audit_package',
+        data_version: '1.0'
+      },
+      waybill_info: {
+        waybill_no: actualWaybill,
+        plate_number: task.plate_number,
+        compartment_no: task.compartment_no,
+        product_type: task.product_type,
+        product_name: task.product_name,
+        origin: task.origin,
+        destination: task.destination,
+        task_status: task.status,
+        start_time: task.start_time,
+        end_time: task.end_time
+      },
+      temperature_monitoring: {
+        stats: tempStats,
+        time_range: timeRange
+      },
+      alerts: {
+        stats: alertStats,
+        flow_groups: flowGroups,
+        list: alerts
+      },
+      handling_chain: {
+        total_steps: handlings.length,
+        list: handlings
+      },
+      report_versions: {
+        current_active: versionChain.find(v => v.is_current) || null,
+        version_chain: versionChain,
+        total_versions: reports.length,
+        reports: reports.map(r => ({
+          report_no: r.report_no,
+          version: r.version,
+          status: r.status,
+          created_at: r.created_at,
+          replaced_by: r.replaced_by
+        }))
+      },
+      query_logs: {
+        total: queryLogs ? queryLogs.total || 0 : 0,
+        by_type: this._groupQueryLogsByType(queryLogs ? queryLogs.list || [] : []),
+        by_caller: this._groupQueryLogsByCaller(queryLogs ? queryLogs.list || [] : []),
+        list: queryLogs ? queryLogs.list || [] : []
+      },
+      audit_timeline: timeline
+    };
+  }
+
+  static _groupQueryLogsByType(logs) {
+    const map = {};
+    for (const l of logs) {
+      map[l.query_type] = (map[l.query_type] || 0) + 1;
+    }
+    return map;
+  }
+
+  static _groupQueryLogsByCaller(logs) {
+    const map = {};
+    for (const l of logs) {
+      const key = l.caller_system || 'unknown';
+      map[key] = (map[key] || 0) + 1;
+    }
+    return map;
   }
 }
 

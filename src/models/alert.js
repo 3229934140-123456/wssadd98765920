@@ -285,6 +285,29 @@ class AlertModel {
       max_duration_seconds
     };
   }
+
+  static getAlertsGroupedByFlow(waybill_no) {
+    const alerts = this.findByWaybillNo(waybill_no);
+    const groups = {
+      notified: { label: '通知过', status: FLOW_STATUS.NOTIFIED, list: [] },
+      reassigned: { label: '转派中', status: FLOW_STATUS.REASSIGNED, list: [] },
+      concluded: { label: '已结论', status: FLOW_STATUS.CONCLUDED, list: [] }
+    };
+
+    for (const alert of alerts) {
+      const status = alert.flow_status || FLOW_STATUS.NOTIFIED;
+      if (groups[status]) {
+        groups[status].list.push(alert);
+      }
+    }
+
+    const summary = {};
+    for (const [key, group] of Object.entries(groups)) {
+      summary[key] = group.list.length;
+    }
+
+    return { summary, groups };
+  }
 }
 
 module.exports = AlertModel;
