@@ -1,0 +1,372 @@
+{
+  "data": {
+    "devices": [
+      {
+        "id": 1,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": "test-vendor",
+        "created_at": "2026-06-21T00:37:25.251Z",
+        "updated_at": "2026-06-21T00:37:25.251Z"
+      },
+      {
+        "id": 2,
+        "device_no": "DEV001",
+        "plate_number": "京B67890",
+        "compartment_no": "02",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T00:37:25.252Z",
+        "updated_at": "2026-06-21T00:37:25.252Z"
+      },
+      {
+        "id": 3,
+        "device_no": "DEV002",
+        "plate_number": "京A12345",
+        "compartment_no": "02",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T00:37:25.279Z",
+        "updated_at": "2026-06-21T00:37:25.279Z"
+      }
+    ],
+    "transport_tasks": [
+      {
+        "id": 1,
+        "waybill_no": "WB20240101001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "流感疫苗",
+        "origin": "北京仓库",
+        "destination": "上海医院",
+        "start_time": null,
+        "status": "completed",
+        "created_at": "2026-06-21T00:37:25.254Z",
+        "updated_at": "2026-06-21T00:37:25.276Z",
+        "end_time": "2026-06-21T00:37:25.276Z"
+      },
+      {
+        "id": 2,
+        "waybill_no": "WB20240101002",
+        "plate_number": "京A12345",
+        "compartment_no": "02",
+        "product_type": "dairy",
+        "product_name": "鲜牛奶",
+        "origin": null,
+        "destination": null,
+        "start_time": null,
+        "status": "in_transit",
+        "created_at": "2026-06-21T00:37:25.279Z",
+        "updated_at": "2026-06-21T00:37:25.279Z"
+      }
+    ],
+    "temperature_records": [
+      {
+        "id": 1,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "waybill_no": "WB20240101001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": 39.9042,
+        "location_lng": 116.4074,
+        "location_text": "北京市",
+        "record_time": "2026-06-21T00:37:25.257Z",
+        "created_at": "2026-06-21T00:37:25.257Z",
+        "updated_at": "2026-06-21T00:37:25.257Z"
+      },
+      {
+        "id": 2,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "waybill_no": "WB20240101001",
+        "temperature": 12,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:38:25.259Z",
+        "created_at": "2026-06-21T00:37:25.259Z",
+        "updated_at": "2026-06-21T00:37:25.259Z"
+      },
+      {
+        "id": 3,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "waybill_no": "WB20240101001",
+        "temperature": 11,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:42:25.260Z",
+        "created_at": "2026-06-21T00:37:25.260Z",
+        "updated_at": "2026-06-21T00:37:25.260Z"
+      },
+      {
+        "id": 4,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "waybill_no": "WB20240101001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:47:25.262Z",
+        "created_at": "2026-06-21T00:37:25.262Z",
+        "updated_at": "2026-06-21T00:37:25.262Z"
+      },
+      {
+        "id": 5,
+        "device_no": "DEV001",
+        "plate_number": "京A12345",
+        "compartment_no": "01",
+        "waybill_no": "WB20240101001",
+        "temperature": -2,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:49:05.264Z",
+        "created_at": "2026-06-21T00:37:25.264Z",
+        "updated_at": "2026-06-21T00:37:25.264Z"
+      },
+      {
+        "id": 6,
+        "device_no": "UNKNOWN",
+        "plate_number": "京X00000",
+        "compartment_no": "01",
+        "waybill_no": null,
+        "temperature": 10,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:37:25.276Z",
+        "created_at": "2026-06-21T00:37:25.277Z",
+        "updated_at": "2026-06-21T00:37:25.277Z"
+      },
+      {
+        "id": 7,
+        "device_no": "DEV002",
+        "plate_number": "京A12345",
+        "compartment_no": "02",
+        "waybill_no": "WB20240101002",
+        "temperature": 10,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:37:25.280Z",
+        "created_at": "2026-06-21T00:37:25.280Z",
+        "updated_at": "2026-06-21T00:37:25.280Z"
+      }
+    ],
+    "temp_rules": [
+      {
+        "id": 1,
+        "product_type": "frozen_meat",
+        "product_name": "冷冻肉类",
+        "min_temp": -18,
+        "max_temp": -12,
+        "warning_min_temp": -16,
+        "warning_max_temp": -14,
+        "alert_level": "serious",
+        "notify_roles": "quality,dispatcher,driver",
+        "description": "冷冻肉品需严格保持在-18℃以下",
+        "created_at": "2026-06-21T00:37:25.248Z",
+        "updated_at": "2026-06-21T00:37:25.248Z"
+      },
+      {
+        "id": 2,
+        "product_type": "vaccine",
+        "product_name": "疫苗",
+        "min_temp": 2,
+        "max_temp": 8,
+        "warning_min_temp": 3,
+        "warning_max_temp": 7,
+        "alert_level": "critical",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "description": "疫苗冷链要求最严格，偏差需立即处理",
+        "created_at": "2026-06-21T00:37:25.248Z",
+        "updated_at": "2026-06-21T00:37:25.248Z"
+      },
+      {
+        "id": 3,
+        "product_type": "dairy",
+        "product_name": "乳制品",
+        "min_temp": 0,
+        "max_temp": 6,
+        "warning_min_temp": 1,
+        "warning_max_temp": 5,
+        "alert_level": "warning",
+        "notify_roles": "dispatcher,driver",
+        "description": "乳制品需冷藏保存",
+        "created_at": "2026-06-21T00:37:25.248Z",
+        "updated_at": "2026-06-21T00:37:25.248Z"
+      },
+      {
+        "id": 4,
+        "product_type": "fresh_fruit",
+        "product_name": "新鲜水果",
+        "min_temp": 4,
+        "max_temp": 10,
+        "warning_min_temp": 5,
+        "warning_max_temp": 9,
+        "alert_level": "warning",
+        "notify_roles": "dispatcher,driver",
+        "description": "水果保鲜温度范围",
+        "created_at": "2026-06-21T00:37:25.248Z",
+        "updated_at": "2026-06-21T00:37:25.248Z"
+      },
+      {
+        "id": 5,
+        "product_type": "seafood",
+        "product_name": "海鲜水产",
+        "min_temp": -2,
+        "max_temp": 4,
+        "warning_min_temp": 0,
+        "warning_max_temp": 2,
+        "alert_level": "serious",
+        "notify_roles": "quality,dispatcher,driver",
+        "description": "海鲜需低温保鲜",
+        "created_at": "2026-06-21T00:37:25.248Z",
+        "updated_at": "2026-06-21T00:37:25.248Z"
+      }
+    ],
+    "alerts": [
+      {
+        "id": 1,
+        "waybill_no": "WB20240101001",
+        "device_no": "DEV001",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 5,
+        "threshold": 8,
+        "start_time": "2026-06-21T00:38:25.259Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "created_at": "2026-06-21T00:37:25.260Z",
+        "updated_at": "2026-06-21T00:37:25.263Z",
+        "duration_seconds": 540,
+        "end_time": "2026-06-21T00:47:25.262Z"
+      },
+      {
+        "id": 2,
+        "waybill_no": "WB20240101001",
+        "device_no": "DEV001",
+        "alert_type": "below_min",
+        "alert_level": "critical",
+        "temperature": -2,
+        "threshold": 2,
+        "start_time": "2026-06-21T00:49:05.264Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "created_at": "2026-06-21T00:37:25.264Z",
+        "updated_at": "2026-06-21T00:37:25.278Z",
+        "acknowledged": 1,
+        "acknowledged_by": "test-user",
+        "acknowledged_at": "2026-06-21T00:37:25.278Z"
+      },
+      {
+        "id": 3,
+        "waybill_no": "WB20240101002",
+        "device_no": "DEV002",
+        "alert_type": "over_max",
+        "alert_level": "warning",
+        "temperature": 10,
+        "threshold": 6,
+        "start_time": "2026-06-21T00:37:25.280Z",
+        "notify_roles": "dispatcher,driver",
+        "created_at": "2026-06-21T00:37:25.280Z",
+        "updated_at": "2026-06-21T00:37:25.280Z"
+      }
+    ],
+    "query_logs": [
+      {
+        "id": 1,
+        "query_type": "summary",
+        "waybill_no": "WB20240101001",
+        "caller_system": "test-system",
+        "result_count": 1,
+        "ip_address": "127.0.0.1",
+        "created_at": "2026-06-21T00:37:25.266Z",
+        "updated_at": "2026-06-21T00:37:25.266Z"
+      },
+      {
+        "id": 2,
+        "query_type": "summary",
+        "waybill_no": "WB20240101001",
+        "caller_system": null,
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.268Z",
+        "updated_at": "2026-06-21T00:37:25.268Z"
+      },
+      {
+        "id": 3,
+        "query_type": "summary",
+        "waybill_no": "WB20240101001",
+        "caller_system": null,
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.268Z",
+        "updated_at": "2026-06-21T00:37:25.268Z"
+      },
+      {
+        "id": 4,
+        "query_type": "summary",
+        "waybill_no": "WB20240101001",
+        "caller_system": null,
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.269Z",
+        "updated_at": "2026-06-21T00:37:25.269Z"
+      },
+      {
+        "id": 5,
+        "query_type": "records",
+        "waybill_no": "WB20240101001",
+        "caller_system": null,
+        "result_count": 5,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.270Z",
+        "updated_at": "2026-06-21T00:37:25.270Z"
+      },
+      {
+        "id": 6,
+        "query_type": "alerts",
+        "waybill_no": "WB20240101001",
+        "caller_system": null,
+        "result_count": 2,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.271Z",
+        "updated_at": "2026-06-21T00:37:25.271Z"
+      },
+      {
+        "id": 7,
+        "query_type": "summary",
+        "waybill_no": "NOT_EXIST",
+        "caller_system": null,
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:37:25.272Z",
+        "updated_at": "2026-06-21T00:37:25.272Z"
+      }
+    ]
+  },
+  "counters": {
+    "devices": 3,
+    "transport_tasks": 2,
+    "temperature_records": 7,
+    "temp_rules": 6,
+    "alerts": 3,
+    "query_logs": 7
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "data": {
+    "devices": [
+      {
+        "id": 1,
+        "device_no": "DEV-TEST-001",
+        "plate_number": "?A88888",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": "????",
+        "created_at": "2026-06-21T00:35:02.787Z",
+        "updated_at": "2026-06-21T00:35:02.787Z"
+      }
+    ],
+    "transport_tasks": [
+      {
+        "id": 1,
+        "waybill_no": "WB202606210001",
+        "plate_number": "?A88888",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "HPV vaccine",
+        "origin": "Beijing",
+        "destination": "Shanghai",
+        "start_time": "2026-06-21T00:35:25.536Z",
+        "status": "in_transit",
+        "created_at": "2026-06-21T00:35:25.536Z",
+        "updated_at": "2026-06-21T00:35:25.536Z"
+      }
+    ],
+    "temperature_records": [
+      {
+        "id": 1,
+        "device_no": "DEV-TEST-001",
+        "plate_number": "?A88888",
+        "compartment_no": "01",
+        "waybill_no": "WB202606210001",
+        "temperature": 5.2,
+        "humidity": 45,
+        "location_lat": 39.9042,
+        "location_lng": 116.4074,
+        "location_text": "Beijing",
+        "record_time": "2026-06-21T00:35:50.084Z",
+        "created_at": "2026-06-21T00:35:50.084Z",
+        "updated_at": "2026-06-21T00:35:50.084Z"
+      },
+      {
+        "id": 2,
+        "device_no": "DEV-TEST-001",
+        "plate_number": "?A88888",
+        "compartment_no": "01",
+        "waybill_no": "WB202606210001",
+        "temperature": 12.5,
+        "humidity": null,
+        "location_lat": 39.91,
+        "location_lng": 116.42,
+        "location_text": null,
+        "record_time": "2026-06-21T00:35:50.156Z",
+        "created_at": "2026-06-21T00:35:50.156Z",
+        "updated_at": "2026-06-21T00:35:50.156Z"
+      }
+    ],
+    "temp_rules": [
+      {
+        "id": 1,
+        "product_type": "frozen_meat",
+        "product_name": "冷冻肉类",
+        "min_temp": -18,
+        "max_temp": -12,
+        "warning_min_temp": -16,
+        "warning_max_temp": -14,
+        "alert_level": "serious",
+        "notify_roles": "quality,dispatcher,driver",
+        "description": "冷冻肉品需严格保持在-18℃以下",
+        "created_at": "2026-06-21T00:35:02.785Z",
+        "updated_at": "2026-06-21T00:35:02.785Z"
+      },
+      {
+        "id": 2,
+        "product_type": "vaccine",
+        "product_name": "疫苗",
+        "min_temp": 2,
+        "max_temp": 8,
+        "warning_min_temp": 3,
+        "warning_max_temp": 7,
+        "alert_level": "critical",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "description": "疫苗冷链要求最严格，偏差需立即处理",
+        "created_at": "2026-06-21T00:35:02.785Z",
+        "updated_at": "2026-06-21T00:35:02.785Z"
+      },
+      {
+        "id": 3,
+        "product_type": "dairy",
+        "product_name": "乳制品",
+        "min_temp": 0,
+        "max_temp": 6,
+        "warning_min_temp": 1,
+        "warning_max_temp": 5,
+        "alert_level": "warning",
+        "notify_roles": "dispatcher,driver",
+        "description": "乳制品需冷藏保存",
+        "created_at": "2026-06-21T00:35:02.785Z",
+        "updated_at": "2026-06-21T00:35:02.785Z"
+      },
+      {
+        "id": 4,
+        "product_type": "fresh_fruit",
+        "product_name": "新鲜水果",
+        "min_temp": 4,
+        "max_temp": 10,
+        "warning_min_temp": 5,
+        "warning_max_temp": 9,
+        "alert_level": "warning",
+        "notify_roles": "dispatcher,driver",
+        "description": "水果保鲜温度范围",
+        "created_at": "2026-06-21T00:35:02.785Z",
+        "updated_at": "2026-06-21T00:35:02.785Z"
+      },
+      {
+        "id": 5,
+        "product_type": "seafood",
+        "product_name": "海鲜水产",
+        "min_temp": -2,
+        "max_temp": 4,
+        "warning_min_temp": 0,
+        "warning_max_temp": 2,
+        "alert_level": "serious",
+        "notify_roles": "quality,dispatcher,driver",
+        "description": "海鲜需低温保鲜",
+        "created_at": "2026-06-21T00:35:02.785Z",
+        "updated_at": "2026-06-21T00:35:02.785Z"
+      }
+    ],
+    "alerts": [
+      {
+        "id": 1,
+        "waybill_no": "WB202606210001",
+        "device_no": "DEV-TEST-001",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 12.5,
+        "threshold": 8,
+        "start_time": "2026-06-21T00:35:50.156Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "created_at": "2026-06-21T00:35:50.157Z",
+        "updated_at": "2026-06-21T00:35:50.157Z"
+      }
+    ],
+    "query_logs": [
+      {
+        "id": 1,
+        "query_type": "summary",
+        "waybill_no": "WB202606210001",
+        "caller_system": "fleet-management",
+        "result_count": 1,
+        "ip_address": "::1",
+        "created_at": "2026-06-21T00:36:04.420Z",
+        "updated_at": "2026-06-21T00:36:04.420Z"
+      }
+    ]
+  },
+  "counters": {
+    "devices": 1,
+    "transport_tasks": 1,
+    "temperature_records": 2,
+    "temp_rules": 5,
+    "alerts": 1,
+    "query_logs": 1
+  }
+}

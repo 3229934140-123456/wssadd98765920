@@ -1,0 +1,18 @@
+{
+  "name": "cold-chain-temp-tracker",
+  "version": "1.0.0",
+  "description": "冷藏车厢温度追踪后端服务 - 面向车队系统、货主系统和司机 App 的温度监控能力",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node tests/run-tests.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
