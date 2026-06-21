@@ -20,6 +20,26 @@
         "vendor": "api-test",
         "created_at": "2026-06-21T00:57:16.064Z",
         "updated_at": "2026-06-21T00:57:16.064Z"
+      },
+      {
+        "id": 3,
+        "device_no": "E2E_DEV01",
+        "plate_number": "?F11111",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": "e2e-test",
+        "created_at": "2026-06-21T01:09:26.684Z",
+        "updated_at": "2026-06-21T01:09:26.684Z"
+      },
+      {
+        "id": 4,
+        "device_no": "E2E2",
+        "plate_number": "?G22222",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T01:11:03.912Z",
+        "updated_at": "2026-06-21T01:11:03.912Z"
       }
     ],
     "transport_tasks": [
@@ -50,6 +70,34 @@
         "status": "in_transit",
         "created_at": "2026-06-21T00:57:16.147Z",
         "updated_at": "2026-06-21T00:57:16.147Z"
+      },
+      {
+        "id": 3,
+        "waybill_no": "E2E_WB001",
+        "plate_number": "?F11111",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "E2E????",
+        "origin": "??",
+        "destination": "??",
+        "start_time": "2026-06-21T01:09:26.738Z",
+        "status": "in_transit",
+        "created_at": "2026-06-21T01:09:26.738Z",
+        "updated_at": "2026-06-21T01:09:26.738Z"
+      },
+      {
+        "id": 4,
+        "waybill_no": "E2E2_WB01",
+        "plate_number": "?G22222",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "?????",
+        "origin": null,
+        "destination": null,
+        "start_time": "2026-06-21T01:11:03.949Z",
+        "status": "in_transit",
+        "created_at": "2026-06-21T01:11:03.950Z",
+        "updated_at": "2026-06-21T01:11:03.950Z"
       }
     ],
     "temperature_records": [
@@ -202,6 +250,36 @@
         "record_time": "2026-06-21T01:04:27.056Z",
         "created_at": "2026-06-21T00:57:27.156Z",
         "updated_at": "2026-06-21T00:57:27.156Z"
+      },
+      {
+        "id": 11,
+        "device_no": "E2E_DEV01",
+        "plate_number": "?F11111",
+        "compartment_no": "01",
+        "waybill_no": "E2E_WB001",
+        "temperature": 12.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:09:26.775Z",
+        "created_at": "2026-06-21T01:09:26.793Z",
+        "updated_at": "2026-06-21T01:09:26.793Z"
+      },
+      {
+        "id": 12,
+        "device_no": "E2E2",
+        "plate_number": "?G22222",
+        "compartment_no": "01",
+        "waybill_no": "E2E2_WB01",
+        "temperature": 12,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:11:03.978Z",
+        "created_at": "2026-06-21T01:11:03.978Z",
+        "updated_at": "2026-06-21T01:11:03.978Z"
       }
     ],
     "temp_rules": [
@@ -320,6 +398,38 @@
         "acknowledged": 0,
         "created_at": "2026-06-21T00:57:27.153Z",
         "updated_at": "2026-06-21T00:57:27.156Z"
+      },
+      {
+        "id": 4,
+        "waybill_no": "E2E_WB001",
+        "device_no": "E2E_DEV01",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 12.5,
+        "threshold": 8,
+        "start_time": "2026-06-21T01:09:26.775Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T01:09:26.802Z",
+        "updated_at": "2026-06-21T01:09:26.802Z"
+      },
+      {
+        "id": 5,
+        "waybill_no": "E2E2_WB01",
+        "device_no": "E2E2",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 12,
+        "threshold": 8,
+        "start_time": "2026-06-21T01:11:03.978Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 1,
+        "created_at": "2026-06-21T01:11:03.980Z",
+        "updated_at": "2026-06-21T01:11:04.109Z",
+        "acknowledged_by": "???",
+        "acknowledged_at": "2026-06-21T01:11:04.109Z"
       }
     ],
     "query_logs": [
@@ -362,15 +472,115 @@
         "ip_address": "::1",
         "created_at": "2026-06-21T00:58:19.232Z",
         "updated_at": "2026-06-21T00:58:19.232Z"
+      },
+      {
+        "id": 5,
+        "query_type": "shareable_report",
+        "waybill_no": "E2E2_WB01",
+        "caller_system": "shipper-app",
+        "result_count": 1,
+        "ip_address": "10.1.2.3",
+        "created_at": "2026-06-21T01:11:21.744Z",
+        "updated_at": "2026-06-21T01:11:21.744Z"
+      },
+      {
+        "id": 6,
+        "query_type": "shareable_report",
+        "waybill_no": "E2E2_WB01",
+        "caller_system": "shipper-app",
+        "result_count": 1,
+        "ip_address": "10.1.2.3",
+        "created_at": "2026-06-21T01:11:21.853Z",
+        "updated_at": "2026-06-21T01:11:21.853Z"
+      },
+      {
+        "id": 7,
+        "query_type": "report_by_no",
+        "waybill_no": "E2E2_WB01",
+        "caller_system": "shipper-app",
+        "result_count": 1,
+        "ip_address": "10.1.2.3",
+        "created_at": "2026-06-21T01:11:21.918Z",
+        "updated_at": "2026-06-21T01:11:21.918Z"
+      },
+      {
+        "id": 8,
+        "query_type": "alerts_by_role",
+        "waybill_no": null,
+        "caller_system": "unknown",
+        "result_count": 5,
+        "ip_address": "::1",
+        "created_at": "2026-06-21T01:11:21.976Z",
+        "updated_at": "2026-06-21T01:11:21.976Z"
+      },
+      {
+        "id": 9,
+        "query_type": "alerts_by_role",
+        "waybill_no": null,
+        "caller_system": "unknown",
+        "result_count": 5,
+        "ip_address": "::1",
+        "created_at": "2026-06-21T01:11:22.006Z",
+        "updated_at": "2026-06-21T01:11:22.006Z"
+      }
+    ],
+    "alert_handlings": [
+      {
+        "id": 1,
+        "alert_id": 5,
+        "action": "process",
+        "handler_role": "driver",
+        "handler_name": "???",
+        "result": "???????",
+        "remark": "????5??",
+        "target_role": null,
+        "created_at": "2026-06-21T01:11:04.026Z",
+        "updated_at": "2026-06-21T01:11:04.026Z"
+      },
+      {
+        "id": 2,
+        "alert_id": 5,
+        "action": "escalate",
+        "handler_role": "dispatcher",
+        "handler_name": "???",
+        "result": null,
+        "remark": "?????",
+        "target_role": "quality",
+        "created_at": "2026-06-21T01:11:04.067Z",
+        "updated_at": "2026-06-21T01:11:04.067Z"
+      },
+      {
+        "id": 3,
+        "alert_id": 5,
+        "action": "conclude",
+        "handler_role": "quality",
+        "handler_name": "???",
+        "result": "?????????",
+        "remark": "??????",
+        "target_role": null,
+        "created_at": "2026-06-21T01:11:04.108Z",
+        "updated_at": "2026-06-21T01:11:04.108Z"
+      }
+    ],
+    "reports": [
+      {
+        "id": 1,
+        "report_no": "RPT-20260621011121-3328",
+        "waybill_no": "E2E2_WB01",
+        "report_data": "{\"report_type\":\"shareable_temperature_report\",\"report_version\":\"1.0\",\"generated_at\":\"2026-06-21T01:11:21.743Z\",\"waybill_info\":{\"waybill_no\":\"E2E2_WB01\",\"plate_number\":\"?G22222\",\"compartment_no\":\"01\",\"product_type\":\"vaccine\",\"product_name\":\"?????\",\"origin\":null,\"destination\":null,\"task_status\":\"in_transit\",\"start_time\":\"2026-06-21T01:11:03.949Z\"},\"acceptance_conclusion\":{\"acceptance_status\":\"reject\",\"overall_assessment\":\"温控较差，异常较多，需重点关注\",\"compliance_rate\":0,\"compliance_status\":\"poor\",\"advices\":[\"温度严重超标，建议拒收并启动质量事故调查流程\",\"存在严重级告警，请质控人员重点核查\",\"当前仍有未结束的温度异常，请关注到货时温度状态\",\"疫苗类产品对温度敏感，建议启动冷链断链评估\"],\"suggested_actions\":[\"暂停验收流程\",\"立即通知质控和采购部门\",\"启动质量事故调查\",\"保留所有温度数据作为证据\"]},\"anomaly_evidence\":{\"total_records\":1,\"monitoring_duration_minutes\":0,\"temperature_stats\":{\"min\":12,\"max\":12,\"average\":12},\"out_of_range_segments\":[{\"id\":5,\"alert_type\":\"over_max\",\"alert_level\":\"critical\",\"start_time\":\"2026-06-21T01:11:03.978Z\",\"duration_seconds\":0,\"duration_formatted\":\"0秒\",\"peak_temperature\":12,\"threshold\":8,\"max_deviation\":4,\"status\":\"open\",\"record_count\":1,\"acknowledged\":true,\"acknowledged_by\":\"???\",\"acknowledged_at\":\"2026-06-21T01:11:04.109Z\"}],\"alert_statistics\":{\"total_count\":1,\"open_count\":1,\"by_level\":{\"critical\":1,\"serious\":0,\"warning\":0,\"info\":0},\"total_duration_seconds\":0,\"total_duration_formatted\":\"0秒\",\"max_duration_seconds\":0,\"max_duration_formatted\":\"0秒\"},\"temperature_curve_summary\":{\"total_points\":1,\"in_range_count\":0,\"out_of_range_count\":1,\"in_range_rate\":0}},\"handling_summary\":{\"total_handling_steps\":3,\"is_concluded\":true,\"conclusion\":{\"result\":\"?????????\",\"concluded_by\":\"???\",\"concluded_at\":\"2026-06-21T01:11:04.108Z\"},\"handling_chain\":[{\"action\":\"process\",\"handler_role\":\"driver\",\"handler_name\":\"???\",\"result\":\"???????\",\"remark\":\"????5??\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:11:04.026Z\"},{\"action\":\"escalate\",\"handler_role\":\"dispatcher\",\"handler_name\":\"???\",\"result\":null,\"remark\":\"?????\",\"target_role\":\"quality\",\"handled_at\":\"2026-06-21T01:11:04.067Z\"},{\"action\":\"conclude\",\"handler_role\":\"quality\",\"handler_name\":\"???\",\"result\":\"?????????\",\"remark\":\"??????\",\"target_role\":null,\"handled_at\":\"2026-06-21T01:11:04.108Z\"}]},\"rule_info\":{\"product_type\":\"vaccine\",\"product_name\":\"疫苗\",\"temperature_range\":{\"min\":2,\"max\":8},\"description\":\"疫苗冷链要求最严格，偏差需立即处理\"}}",
+        "created_at": "2026-06-21T01:11:21.743Z",
+        "updated_at": "2026-06-21T01:11:21.743Z"
       }
     ]
   },
   "counters": {
-    "devices": 2,
-    "transport_tasks": 2,
-    "temperature_records": 10,
+    "devices": 4,
+    "transport_tasks": 4,
+    "temperature_records": 12,
     "temp_rules": 5,
-    "alerts": 3,
-    "query_logs": 4
+    "alerts": 5,
+    "query_logs": 9,
+    "alert_handlings": 3,
+    "reports": 1
   }
 }

@@ -11,7 +11,9 @@ class JsonDatabase {
       temperature_records: [],
       temp_rules: [],
       alerts: [],
-      query_logs: []
+      query_logs: [],
+      alert_handlings: [],
+      reports: []
     };
     this.counters = {
       devices: 0,
@@ -19,7 +21,9 @@ class JsonDatabase {
       temperature_records: 0,
       temp_rules: 0,
       alerts: 0,
-      query_logs: 0
+      query_logs: 0,
+      alert_handlings: 0,
+      reports: 0
     };
     this._loaded = false;
   }
@@ -31,11 +35,17 @@ class JsonDatabase {
       if (fs.existsSync(this.filePath)) {
         const raw = fs.readFileSync(this.filePath, 'utf8');
         const parsed = JSON.parse(raw);
-        this.data = parsed.data || this.data;
-        this.counters = parsed.counters || this.counters;
+        this.data = { ...this.data, ...parsed.data };
+        this.counters = { ...this.counters, ...parsed.counters };
       }
     } catch (err) {
       console.warn('数据库文件加载失败，使用空数据库:', err.message);
+    }
+    
+    for (const key of Object.keys(this.data)) {
+      if (!Array.isArray(this.data[key])) {
+        this.data[key] = [];
+      }
     }
     
     this._loaded = true;
@@ -194,6 +204,56 @@ class Statement {
     for (const part of parts) {
       const trimmed = part.trim();
       
+      const gteMatch = trimmed.match(/^(\w+)\s*>=\s*(.+)$/i);
+      if (gteMatch) {
+        conditions.push({
+          field: gteMatch[1],
+          operator: '>=',
+          ...this._parseValueExpr(gteMatch[2].trim())
+        });
+        continue;
+      }
+      
+      const lteMatch = trimmed.match(/^(\w+)\s*<=\s*(.+)$/i);
+      if (lteMatch) {
+        conditions.push({
+          field: lteMatch[1],
+          operator: '<=',
+          ...this._parseValueExpr(lteMatch[2].trim())
+        });
+        continue;
+      }
+      
+      const neqMatch = trimmed.match(/^(\w+)\s*!=\s*(.+)$/i);
+      if (neqMatch) {
+        conditions.push({
+          field: neqMatch[1],
+          operator: '!=',
+          ...this._parseValueExpr(neqMatch[2].trim())
+        });
+        continue;
+      }
+      
+      const gtMatch = trimmed.match(/^(\w+)\s*>\s*(.+)$/i);
+      if (gtMatch && !trimmed.match(/^(\w+)\s*>=/i)) {
+        conditions.push({
+          field: gtMatch[1],
+          operator: '>',
+          ...this._parseValueExpr(gtMatch[2].trim())
+        });
+        continue;
+      }
+      
+      const ltMatch = trimmed.match(/^(\w+)\s*<\s*(.+)$/i);
+      if (ltMatch && !trimmed.match(/^(\w+)\s*<=/i)) {
+        conditions.push({
+          field: ltMatch[1],
+          operator: '<',
+          ...this._parseValueExpr(ltMatch[2].trim())
+        });
+        continue;
+      }
+      
       const eqMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/i);
       if (eqMatch) {
         const field = eqMatch[1];
@@ -338,6 +398,18 @@ class Statement {
         if (!this._valuesEqual(rowVal, compareVal)) {
           return false;
         }
+      } else if (cond.operator === '!=') {
+        if (this._valuesEqual(rowVal, compareVal)) {
+          return false;
+        }
+      } else if (cond.operator === '>=') {
+        if (!this._compareValues(rowVal, compareVal, '>=')) return false;
+      } else if (cond.operator === '<=') {
+        if (!this._compareValues(rowVal, compareVal, '<=')) return false;
+      } else if (cond.operator === '>') {
+        if (!this._compareValues(rowVal, compareVal, '>')) return false;
+      } else if (cond.operator === '<') {
+        if (!this._compareValues(rowVal, compareVal, '<')) return false;
       } else if (cond.operator === 'is_null') {
         if (rowVal !== null && rowVal !== undefined) {
           return false;
@@ -350,6 +422,32 @@ class Statement {
     }
     
     return true;
+  }
+
+  _compareValues(a, b, op) {
+    if (a === null || a === undefined || b === null || b === undefined) return false;
+    
+    const numA = Number(a);
+    const numB = Number(b);
+    
+    if (!isNaN(numA) && !isNaN(numB)) {
+      switch (op) {
+        case '>=': return numA >= numB;
+        case '<=': return numA <= numB;
+        case '>': return numA > numB;
+        case '<': return numA < numB;
+      }
+    }
+    
+    const strA = String(a);
+    const strB = String(b);
+    switch (op) {
+      case '>=': return strA >= strB;
+      case '<=': return strA <= strB;
+      case '>': return strA > strB;
+      case '<': return strA < strB;
+    }
+    return false;
   }
 
   _valuesEqual(a, b) {
@@ -494,6 +592,9 @@ class Statement {
       if (!row.created_at) row.created_at = now;
       if (!row.updated_at) row.updated_at = now;
       
+      if (!this.db.data[this.table]) {
+        this.db.data[this.table] = [];
+      }
       this.db.data[this.table].push(row);
       this.db._save();
       

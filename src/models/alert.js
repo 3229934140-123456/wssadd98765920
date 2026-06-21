@@ -64,35 +64,30 @@ class AlertModel {
     `).all(waybill_no);
   }
 
-  static findByRole(role, { page = 1, page_size = 20, status, alert_level } = {}) {
+  static findByRole(role, { page = 1, page_size = 20, status, alert_level, startTime, endTime } = {}) {
     const db = getDb();
+    
+    const allAlerts = db.prepare('SELECT * FROM alerts ORDER BY created_at DESC').all();
+    
+    let filtered = allAlerts.filter(alert => {
+      if (!alert.notify_roles) return false;
+      const roles = alert.notify_roles.split(',').map(r => r.trim());
+      if (!roles.includes(role)) return false;
+      
+      if (alert_level && alert.alert_level !== alert_level) return false;
+      if (status === 'open' && alert.end_time !== null && alert.end_time !== undefined) return false;
+      if (status === 'closed' && (alert.end_time === null || alert.end_time === undefined)) return false;
+      if (status === 'unacknowledged' && alert.acknowledged === 1) return false;
+      if (status === 'acknowledged' && alert.acknowledged !== 1) return false;
+      if (startTime && alert.start_time < startTime) return false;
+      if (endTime && alert.start_time > endTime) return false;
+      
+      return true;
+    });
+    
+    const total = filtered.length;
     const offset = (page - 1) * page_size;
-    
-    const clauses = [`notify_roles LIKE ?`];
-    const params = [`%${role}%`];
-    
-    if (alert_level) {
-      clauses.push('alert_level = ?');
-      params.push(alert_level);
-    }
-    if (status === 'open') {
-      clauses.push('end_time IS NULL');
-    } else if (status === 'closed') {
-      clauses.push('end_time IS NOT NULL');
-    }
-    if (status === 'unacknowledged') {
-      clauses.push('acknowledged = 0');
-    } else if (status === 'acknowledged') {
-      clauses.push('acknowledged = 1');
-    }
-    
-    const whereStr = `WHERE ${clauses.join(' AND ')}`;
-    
-    const total = db.prepare(`SELECT COUNT(*) as cnt FROM alerts ${whereStr}`).get(...params).cnt;
-    const list = db.prepare(`
-      SELECT * FROM alerts ${whereStr}
-      ORDER BY created_at DESC LIMIT ? OFFSET ?
-    `).all(...params, page_size, offset);
+    const list = filtered.slice(offset, offset + page_size);
     
     return { list, total, page, page_size };
   }

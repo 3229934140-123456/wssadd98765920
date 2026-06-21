@@ -133,6 +133,58 @@ router.get('/alerts/by-role/:role', (req, res) => {
   }
 });
 
+router.get('/shareable-report/:waybill_no', (req, res) => {
+  try {
+    const { waybill_no } = req.params;
+    const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
+    const ip_address = getClientIp(req);
+    const force_regenerate = req.query.force_regenerate === 'true' || req.query.force_regenerate === '1';
+
+    const report = QueryService.getShareableReport(waybill_no, {
+      caller_system,
+      ip_address,
+      force_regenerate
+    });
+
+    if (!report) {
+      return res.status(404).json({ error: '运单不存在' });
+    }
+
+    res.json({
+      success: true,
+      data: report
+    });
+  } catch (err) {
+    console.error('获取分享版报告失败:', err);
+    res.status(500).json({ error: '获取报告失败', message: err.message });
+  }
+});
+
+router.get('/report-by-no/:report_no', (req, res) => {
+  try {
+    const { report_no } = req.params;
+    const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
+    const ip_address = getClientIp(req);
+
+    const report = QueryService.getReportByNo(report_no, {
+      caller_system,
+      ip_address
+    });
+
+    if (!report) {
+      return res.status(404).json({ error: '报告不存在' });
+    }
+
+    res.json({
+      success: true,
+      data: report
+    });
+  } catch (err) {
+    console.error('按编号查询报告失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
 function getClientIp(req) {
   const forwardedFor = req.headers['x-forwarded-for'];
   if (forwardedFor) {

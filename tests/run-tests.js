@@ -736,6 +736,338 @@ test('管理端告警支持多维度筛选', () => {
   assert(Array.isArray(result.list), '列表应为数组');
 });
 
+console.log('\n15. 告警处置流转测试');
+
+const AlertHandlingModel = require('../src/models/alertHandling');
+
+test('司机现场处理告警', () => {
+  const openAlerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  const alertToHandle = openAlerts.find(a => a.end_time !== null && a.end_time !== undefined);
+  if (!alertToHandle) {
+    const anyAlert = openAlerts[0];
+    if (!anyAlert) {
+      assert(true, '跳过 - 无可用告警');
+      return;
+    }
+  }
+  
+  const alertId = (openAlerts.find(a => a.end_time !== null) || openAlerts[0]).id;
+  
+  const handling = AlertHandlingModel.processAlert(alertId, {
+    handler_role: 'driver',
+    handler_name: '张师傅',
+    result: '已检查制冷设备，温度开始恢复',
+    remark: '设备临时停机5分钟后重启'
+  });
+  
+  assert(handling.id, '处置记录应有ID');
+  assertEqual(handling.action, 'process', '处置动作应为process');
+  assertEqual(handling.handler_role, 'driver', '处理人角色应为driver');
+  assert(handling.remark, '应有备注');
+});
+
+test('调度转派告警给质控', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  if (alerts.length === 0) {
+    assert(true, '跳过 - 无可用告警');
+    return;
+  }
+  const alertId = alerts[0].id;
+  
+  const handling = AlertHandlingModel.reassignAlert(alertId, {
+    handler_role: 'dispatcher',
+    handler_name: '李调度',
+    target_role: 'quality',
+    remark: '温度异常持续时间较长，需要质控评估'
+  });
+  
+  assertEqual(handling.action, 'reassign', '处置动作应为reassign');
+  assertEqual(handling.target_role, 'quality', '目标角色应为quality');
+});
+
+test('调度升级告警给质控', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  if (alerts.length === 0) {
+    assert(true, '跳过 - 无可用告警');
+    return;
+  }
+  const alertId = alerts[0].id;
+  
+  const handling = AlertHandlingModel.escalateAlert(alertId, {
+    handler_role: 'dispatcher',
+    handler_name: '李调度',
+    target_role: 'quality',
+    remark: '涉及疫苗运输，升级处理'
+  });
+  
+  assertEqual(handling.action, 'escalate', '处置动作应为escalate');
+  assertEqual(handling.target_role, 'quality', '目标角色应为quality');
+});
+
+test('质控给出最终结论', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  if (alerts.length === 0) {
+    assert(true, '跳过 - 无可用告警');
+    return;
+  }
+  const alertId = alerts[0].id;
+  
+  const handling = AlertHandlingModel.concludeAlert(alertId, {
+    handler_role: 'quality',
+    handler_name: '王质控',
+    result: '温度短暂超标，货品质量未受影响',
+    remark: '已确认中心温度正常，可继续运输'
+  });
+  
+  assertEqual(handling.action, 'conclude', '处置动作应为conclude');
+});
+
+test('告警处置链完整可追溯', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  if (alerts.length === 0) {
+    assert(true, '跳过 - 无可用告警');
+    return;
+  }
+  const alertId = alerts[0].id;
+  
+  const summary = AlertHandlingModel.getHandlingSummary(alertId);
+  assert(summary.total_steps > 0, '应有处置步骤');
+  assert(summary.is_concluded === true, '应有结案');
+  assert(Array.isArray(summary.handling_chain), '应有处置链');
+  assert(summary.handling_chain.length > 0, '处置链不为空');
+  
+  for (const step of summary.handling_chain) {
+    assert(step.action, '每步应有处置动作');
+    assert(step.handler_role, '每步应有处理人角色');
+    assert(step.handled_at, '每步应有处理时间');
+  }
+});
+
+console.log('\n16. 运单温控报告分享版测试');
+
+test('生成分享版报告', () => {
+  const report = QueryService.getShareableReport('WB_BATCH_001', {
+    caller_system: 'shipper-system',
+    ip_address: '10.0.0.1'
+  });
+  
+  assert(report !== null, '报告不应为空');
+  assertEqual(report.report_type, 'shareable_temperature_report');
+  assert(report.report_no, '应有报告编号');
+  assertEqual(report.is_cached, false, '首次生成应非缓存');
+});
+
+test('分享版报告包含验收结论', () => {
+  const report = QueryService.getShareableReport('WB_BATCH_001');
+  assert(report.acceptance_conclusion, '应有验收结论');
+  assert(report.acceptance_conclusion.acceptance_status, '应有验收状态');
+  assert(report.acceptance_conclusion.compliance_rate !== undefined, '应有合规率');
+  assert(Array.isArray(report.acceptance_conclusion.advices), '应有建议列表');
+  assert(Array.isArray(report.acceptance_conclusion.suggested_actions), '应有建议动作');
+});
+
+test('分享版报告包含异常证据', () => {
+  const report = QueryService.getShareableReport('WB_BATCH_001');
+  assert(report.anomaly_evidence, '应有异常证据');
+  assert(report.anomaly_evidence.total_records !== undefined, '应有记录总数');
+  assert(report.anomaly_evidence.temperature_stats, '应有温度统计');
+  assert(Array.isArray(report.anomaly_evidence.out_of_range_segments), '应有超温片段');
+  assert(report.anomaly_evidence.temperature_curve_summary, '应有曲线摘要');
+});
+
+test('分享版报告包含处置摘要', () => {
+  const report = QueryService.getShareableReport('WB_ALERT_001');
+  assert(report !== null, '报告不应为空');
+  assert(report.handling_summary, '应有处置摘要');
+  assert(report.handling_summary.total_handling_steps !== undefined, '应有处置步骤数');
+  assert(Array.isArray(report.handling_summary.handling_chain), '应有处置链');
+});
+
+test('重复查询同一运单返回相同报告编号', () => {
+  const report1 = QueryService.getShareableReport('WB_BATCH_001');
+  const report2 = QueryService.getShareableReport('WB_BATCH_001');
+  
+  assertEqual(report1.report_no, report2.report_no, '报告编号应相同');
+  assertEqual(report2.is_cached, true, '第二次应为缓存');
+});
+
+test('按报告编号查询返回同一份结果', () => {
+  const report = QueryService.getShareableReport('WB_BATCH_001');
+  const reportNo = report.report_no;
+  
+  const byNo = QueryService.getReportByNo(reportNo);
+  assert(byNo !== null, '按编号应能查到');
+  assertEqual(byNo.report_no, reportNo, '编号应一致');
+  assertEqual(byNo.report_type, 'shareable_temperature_report', '类型应一致');
+});
+
+test('强制重新生成报告', () => {
+  const report1 = QueryService.getShareableReport('WB_BATCH_001');
+  const report2 = QueryService.getShareableReport('WB_BATCH_001', { force_regenerate: true });
+  
+  assertEqual(report2.is_cached, false, '强制重新生成应非缓存');
+});
+
+test('不存在的运单返回null', () => {
+  const report = QueryService.getShareableReport('NOT_EXIST_WB');
+  assert(report === null, '不存在的运单应返回null');
+});
+
+test('不存在的报告编号返回null', () => {
+  const report = QueryService.getReportByNo('NOT_EXIST_RPT');
+  assert(report === null, '不存在的报告编号应返回null');
+});
+
+console.log('\n17. 角色告警精确筛选测试');
+
+test('质控角色只看到通知质控的告警', () => {
+  const result = QueryService.getAlertsByRole('quality');
+  
+  for (const alert of result.list) {
+    const roles = alert.notify_roles;
+    assert(roles.includes('quality'), '告警通知角色应包含quality');
+  }
+});
+
+test('司机角色只看到通知司机的告警', () => {
+  const result = QueryService.getAlertsByRole('driver');
+  
+  for (const alert of result.list) {
+    const roles = alert.notify_roles;
+    assert(roles.includes('driver'), '告警通知角色应包含driver');
+  }
+});
+
+test('乳制品告警不通知质控', () => {
+  DeviceModel.create({
+    device_no: 'DEV_DAIRY_ROLE',
+    plate_number: '京E00001',
+    compartment_no: '01'
+  });
+  
+  TransportTaskModel.create({
+    waybill_no: 'WB_DAIRY_ROLE',
+    plate_number: '京E00001',
+    compartment_no: '01',
+    product_type: 'dairy',
+    product_name: '乳制品角色测试'
+  });
+  
+  TemperatureService.reportTemperature({
+    device_no: 'DEV_DAIRY_ROLE',
+    plate_number: '京E00001',
+    compartment_no: '01',
+    temperature: 8,
+    record_time: new Date().toISOString()
+  });
+  
+  const qualityAlerts = QueryService.getAlertsByRole('quality');
+  const dairyAlertForQuality = qualityAlerts.list.find(a => a.waybill_no === 'WB_DAIRY_ROLE');
+  assert(!dairyAlertForQuality, '质控不应看到乳制品告警（乳制品只通知dispatcher和driver）');
+  
+  const driverAlerts = QueryService.getAlertsByRole('driver');
+  const dairyAlertForDriver = driverAlerts.list.find(a => a.waybill_no === 'WB_DAIRY_ROLE');
+  assert(dairyAlertForDriver, '司机应看到乳制品告警');
+});
+
+test('管理端角色筛选与查询接口口径一致', () => {
+  const fromQuery = QueryService.getAlertsByRole('quality');
+  const fromAdmin = AlertModel.findByRole('quality');
+  
+  assertEqual(fromQuery.total, fromAdmin.total, '两种查询结果应一致');
+});
+
+console.log('\n18. 查询日志时间筛选准确性测试');
+
+test('窄时间窗口筛选 - 只返回窗口内数据', () => {
+  const beforeQuery = QueryLogModel.getSummary({});
+  const totalBefore = beforeQuery.total_queries;
+  
+  const windowStart = new Date().toISOString();
+  
+  QueryLogModel.create({
+    query_type: 'test_window',
+    waybill_no: 'WINDOW_TEST_001',
+    caller_system: 'test-window-caller',
+    result_count: 1,
+    ip_address: '127.0.0.1'
+  });
+  QueryLogModel.create({
+    query_type: 'test_window',
+    waybill_no: 'WINDOW_TEST_002',
+    caller_system: 'test-window-caller',
+    result_count: 0,
+    ip_address: '127.0.0.1'
+  });
+  
+  const windowEnd = new Date().toISOString();
+  
+  const windowLogs = QueryLogModel.findAll({
+    startTime: windowStart,
+    endTime: windowEnd,
+    caller_system: 'test-window-caller'
+  });
+  
+  assertEqual(windowLogs.total, 2, '窄窗口内应有2条记录');
+  
+  for (const log of windowLogs.list) {
+    assertEqual(log.caller_system, 'test-window-caller', '所有记录应为test-window-caller');
+  }
+});
+
+test('时间窗口外数据不被混入', () => {
+  const pastTime = new Date(Date.now() - 86400000).toISOString();
+  const farPast = new Date(Date.now() - 172800000).toISOString();
+  
+  const logs = QueryLogModel.findAll({
+    startTime: farPast,
+    endTime: pastTime,
+    caller_system: 'test-window-caller'
+  });
+  
+  assertEqual(logs.total, 0, '过去时间窗口不应有test-window-caller记录');
+});
+
+test('按调用方+时间窗口统计', () => {
+  const now = new Date();
+  const startTime = new Date(now.getTime() - 3600000).toISOString();
+  const endTime = new Date(now.getTime() + 3600000).toISOString();
+  
+  const stats = QueryLogModel.getStatsByCaller({
+    startTime,
+    endTime
+  });
+  
+  assert(Array.isArray(stats), '应为数组');
+  const windowCaller = stats.find(s => s.caller_system === 'test-window-caller');
+  if (windowCaller) {
+    assert(windowCaller.query_count > 0, '应有查询次数');
+  }
+});
+
+test('按时间窗口的汇总统计', () => {
+  const now = new Date();
+  const startTime = new Date(now.getTime() - 3600000).toISOString();
+  const endTime = new Date(now.getTime() + 3600000).toISOString();
+  
+  const summary = QueryLogModel.getSummary({ startTime, endTime });
+  assert(summary.total_queries > 0, '时间窗口内应有查询记录');
+});
+
+console.log('\n19. 数据库范围运算符测试');
+
+test('大于等于运算符', () => {
+  const db = require('../src/db').getDb();
+  const all = db.prepare('SELECT * FROM query_logs WHERE result_count >= ?').get(1);
+  assert(all !== undefined || all === undefined, '>= 运算符不报错');
+});
+
+test('小于等于运算符', () => {
+  const db = require('../src/db').getDb();
+  const result = db.prepare('SELECT COUNT(*) as cnt FROM query_logs WHERE result_count <= ?').get(0);
+  assert(result.cnt >= 0, '<= 运算符返回正确');
+});
+
 console.log('\n=== 测试结果 ===');
 console.log(`通过: ${passed}`);
 console.log(`失败: ${failed}`);

@@ -3,6 +3,8 @@ const TemperatureRecordModel = require('../models/temperatureRecord');
 const TempRuleModel = require('../models/tempRule');
 const AlertModel = require('../models/alert');
 const QueryLogModel = require('../models/queryLog');
+const AlertHandlingModel = require('../models/alertHandling');
+const ReportModel = require('../models/report');
 const TemperatureService = require('./temperatureService');
 
 class QueryService {
@@ -213,6 +215,210 @@ class QueryService {
       compliance_assessment: compliance,
 
       acceptance_advice: acceptanceAdvice
+    };
+  }
+
+  static getShareableReport(waybill_no, { caller_system, ip_address, force_regenerate } = {}) {
+    const task = TransportTaskModel.findByWaybillNo(waybill_no);
+    if (!task) {
+      QueryLogModel.create({
+        query_type: 'shareable_report',
+        waybill_no,
+        caller_system,
+        result_count: 0,
+        ip_address
+      });
+      return null;
+    }
+
+    if (!force_regenerate) {
+      const existing = ReportModel.findByWaybillNo(waybill_no);
+      if (existing.length > 0) {
+        const latest = existing[0];
+        const reportData = typeof latest.report_data === 'string'
+          ? JSON.parse(latest.report_data)
+          : latest.report_data;
+
+        QueryLogModel.create({
+          query_type: 'shareable_report',
+          waybill_no,
+          caller_system,
+          result_count: 1,
+          ip_address
+        });
+
+        return {
+          ...reportData,
+          report_no: latest.report_no,
+          is_cached: true
+        };
+      }
+    }
+
+    const report = this._buildShareableReport(waybill_no, task);
+    if (!report) return null;
+
+    const reportNo = ReportModel.generateReportNo();
+    ReportModel.create({
+      report_no: reportNo,
+      waybill_no,
+      report_data: report
+    });
+
+    QueryLogModel.create({
+      query_type: 'shareable_report',
+      waybill_no,
+      caller_system,
+      result_count: 1,
+      ip_address
+    });
+
+    return {
+      ...report,
+      report_no: reportNo,
+      is_cached: false
+    };
+  }
+
+  static getReportByNo(report_no, { caller_system, ip_address } = {}) {
+    const report = ReportModel.findByReportNo(report_no);
+    if (!report) {
+      QueryLogModel.create({
+        query_type: 'report_by_no',
+        caller_system,
+        result_count: 0,
+        ip_address
+      });
+      return null;
+    }
+
+    const reportData = typeof report.report_data === 'string'
+      ? JSON.parse(report.report_data)
+      : report.report_data;
+
+    QueryLogModel.create({
+      query_type: 'report_by_no',
+      waybill_no: report.waybill_no,
+      caller_system,
+      result_count: 1,
+      ip_address
+    });
+
+    return {
+      ...reportData,
+      report_no: report.report_no,
+      is_cached: true
+    };
+  }
+
+  static _buildShareableReport(waybill_no, task) {
+    const rule = TempRuleModel.findByProductType(task.product_type);
+    const records = TemperatureRecordModel.findAllByWaybill(waybill_no);
+    const alerts = AlertModel.getAlertSegmentsByWaybill(waybill_no);
+    const alertStats = AlertModel.getStatsByWaybill(waybill_no);
+    const stats = TemperatureRecordModel.getStatsByWaybill(waybill_no);
+    const timeRange = TemperatureRecordModel.getTimeRangeByWaybill(waybill_no);
+
+    const temperatureCurve = this._buildTemperatureCurve(records, rule);
+    const outOfRangeSegments = this._extractOutOfRangeSegments(alerts, records);
+    const compliance = this._calculateCompliance(stats, rule, alertStats);
+    const acceptanceAdvice = this._generateAcceptanceAdvice(compliance, alertStats, rule);
+
+    const handlings = AlertHandlingModel.findByWaybillNo(waybill_no);
+    const handlingSummary = this._buildHandlingSummary(handlings);
+
+    return {
+      report_type: 'shareable_temperature_report',
+      report_version: '1.0',
+      generated_at: new Date().toISOString(),
+
+      waybill_info: {
+        waybill_no: task.waybill_no,
+        plate_number: task.plate_number,
+        compartment_no: task.compartment_no,
+        product_type: task.product_type,
+        product_name: task.product_name,
+        origin: task.origin,
+        destination: task.destination,
+        task_status: task.status,
+        start_time: task.start_time,
+        end_time: task.end_time
+      },
+
+      acceptance_conclusion: {
+        acceptance_status: acceptanceAdvice.acceptance_status,
+        overall_assessment: compliance.description,
+        compliance_rate: compliance.rate,
+        compliance_status: compliance.status,
+        advices: acceptanceAdvice.advices,
+        suggested_actions: acceptanceAdvice.suggested_actions
+      },
+
+      anomaly_evidence: {
+        total_records: stats.record_count || 0,
+        monitoring_duration_minutes: timeRange.min_time && timeRange.max_time
+          ? Math.round((new Date(timeRange.max_time) - new Date(timeRange.min_time)) / 60000)
+          : 0,
+        temperature_stats: {
+          min: stats.min_temp,
+          max: stats.max_temp,
+          average: stats.avg_temp !== null && stats.avg_temp !== undefined
+            ? Number(Number(stats.avg_temp).toFixed(2))
+            : null
+        },
+        out_of_range_segments: outOfRangeSegments,
+        alert_statistics: this._formatAlertStats(alertStats),
+        temperature_curve_summary: {
+          total_points: temperatureCurve.total_points,
+          in_range_count: temperatureCurve.in_range_count,
+          out_of_range_count: temperatureCurve.out_of_range_count,
+          in_range_rate: temperatureCurve.total_points > 0
+            ? Number(((temperatureCurve.in_range_count / temperatureCurve.total_points) * 100).toFixed(1))
+            : 100
+        }
+      },
+
+      handling_summary: handlingSummary,
+
+      rule_info: rule ? {
+        product_type: rule.product_type,
+        product_name: rule.product_name,
+        temperature_range: { min: rule.min_temp, max: rule.max_temp },
+        description: rule.description
+      } : null
+    };
+  }
+
+  static _buildHandlingSummary(handlings) {
+    if (!handlings || handlings.length === 0) {
+      return {
+        total_handling_steps: 0,
+        is_concluded: false,
+        handling_chain: []
+      };
+    }
+
+    const handlingChain = handlings.map(h => ({
+      action: h.action,
+      handler_role: h.handler_role,
+      handler_name: h.handler_name,
+      result: h.result,
+      remark: h.remark,
+      target_role: h.target_role,
+      handled_at: h.created_at
+    }));
+
+    const concludedSteps = handlings.filter(h => h.action === 'conclude');
+
+    return {
+      total_handling_steps: handlings.length,
+      is_concluded: concludedSteps.length > 0,
+      conclusion: concludedSteps.length > 0 ? {
+        result: concludedSteps[0].result,
+        concluded_by: concludedSteps[0].handler_name,
+        concluded_at: concludedSteps[0].created_at
+      } : null,
+      handling_chain: handlingChain
     };
   }
 

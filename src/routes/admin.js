@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const QueryLogModel = require('../models/queryLog');
 const AlertModel = require('../models/alert');
+const AlertHandlingModel = require('../models/alertHandling');
 
 router.get('/query-logs', (req, res) => {
   try {
@@ -112,18 +113,31 @@ router.get('/alerts', (req, res) => {
     const alert_level = req.query.alert_level;
     const acknowledged = req.query.acknowledged;
     const status = req.query.status;
+    const role = req.query.role;
     const startTime = req.query.start_time;
     const endTime = req.query.end_time;
 
-    const result = AlertModel.findAll({
-      page,
-      page_size,
-      alert_level,
-      status,
-      startTime,
-      endTime,
-      acknowledged: acknowledged !== undefined ? (acknowledged === 'true' || acknowledged === '1') : undefined
-    });
+    let result;
+    if (role) {
+      result = AlertModel.findByRole(role, {
+        page,
+        page_size,
+        status,
+        alert_level,
+        startTime,
+        endTime
+      });
+    } else {
+      result = AlertModel.findAll({
+        page,
+        page_size,
+        alert_level,
+        status,
+        startTime,
+        endTime,
+        acknowledged: acknowledged !== undefined ? (acknowledged === 'true' || acknowledged === '1') : undefined
+      });
+    }
 
     res.json({
       success: true,
@@ -131,6 +145,29 @@ router.get('/alerts', (req, res) => {
     });
   } catch (err) {
     console.error('查询告警失败:', err);
+    res.status(500).json({ error: '查询失败' });
+  }
+});
+
+router.get('/alerts/:id', (req, res) => {
+  try {
+    const alert = AlertModel.findById(parseInt(req.params.id));
+    if (!alert) {
+      return res.status(404).json({ error: '告警不存在' });
+    }
+
+    const handlingSummary = AlertHandlingModel.getHandlingSummary(alert.id);
+
+    res.json({
+      success: true,
+      data: {
+        ...alert,
+        notify_roles: alert.notify_roles ? alert.notify_roles.split(',') : [],
+        handling: handlingSummary
+      }
+    });
+  } catch (err) {
+    console.error('查询告警详情失败:', err);
     res.status(500).json({ error: '查询失败' });
   }
 });
@@ -149,6 +186,134 @@ router.post('/alerts/:id/acknowledge', (req, res) => {
   }
 });
 
+router.post('/alerts/:id/process', (req, res) => {
+  try {
+    const { handler_role, handler_name, result, remark } = req.body;
+    const alertId = parseInt(req.params.id);
+    
+    const alert = AlertModel.findById(alertId);
+    if (!alert) {
+      return res.status(404).json({ error: '告警不存在' });
+    }
+
+    const handling = AlertHandlingModel.processAlert(alertId, {
+      handler_role,
+      handler_name,
+      result,
+      remark
+    });
+
+    res.json({
+      success: true,
+      data: {
+        handling,
+        handling_summary: AlertHandlingModel.getHandlingSummary(alertId)
+      }
+    });
+  } catch (err) {
+    console.error('处理告警失败:', err);
+    res.status(500).json({ error: '操作失败', message: err.message });
+  }
+});
+
+router.post('/alerts/:id/escalate', (req, res) => {
+  try {
+    const { handler_role, handler_name, target_role, remark } = req.body;
+    const alertId = parseInt(req.params.id);
+    
+    const alert = AlertModel.findById(alertId);
+    if (!alert) {
+      return res.status(404).json({ error: '告警不存在' });
+    }
+
+    if (!target_role) {
+      return res.status(400).json({ error: '升级必须指定 target_role' });
+    }
+
+    const handling = AlertHandlingModel.escalateAlert(alertId, {
+      handler_role,
+      handler_name,
+      target_role,
+      remark
+    });
+
+    res.json({
+      success: true,
+      data: {
+        handling,
+        handling_summary: AlertHandlingModel.getHandlingSummary(alertId)
+      }
+    });
+  } catch (err) {
+    console.error('升级告警失败:', err);
+    res.status(500).json({ error: '操作失败', message: err.message });
+  }
+});
+
+router.post('/alerts/:id/reassign', (req, res) => {
+  try {
+    const { handler_role, handler_name, target_role, remark } = req.body;
+    const alertId = parseInt(req.params.id);
+    
+    const alert = AlertModel.findById(alertId);
+    if (!alert) {
+      return res.status(404).json({ error: '告警不存在' });
+    }
+
+    if (!target_role) {
+      return res.status(400).json({ error: '转派必须指定 target_role' });
+    }
+
+    const handling = AlertHandlingModel.reassignAlert(alertId, {
+      handler_role,
+      handler_name,
+      target_role,
+      remark
+    });
+
+    res.json({
+      success: true,
+      data: {
+        handling,
+        handling_summary: AlertHandlingModel.getHandlingSummary(alertId)
+      }
+    });
+  } catch (err) {
+    console.error('转派告警失败:', err);
+    res.status(500).json({ error: '操作失败', message: err.message });
+  }
+});
+
+router.post('/alerts/:id/conclude', (req, res) => {
+  try {
+    const { handler_role, handler_name, result, remark } = req.body;
+    const alertId = parseInt(req.params.id);
+    
+    const alert = AlertModel.findById(alertId);
+    if (!alert) {
+      return res.status(404).json({ error: '告警不存在' });
+    }
+
+    const handling = AlertHandlingModel.concludeAlert(alertId, {
+      handler_role,
+      handler_name,
+      result,
+      remark
+    });
+
+    res.json({
+      success: true,
+      data: {
+        handling,
+        handling_summary: AlertHandlingModel.getHandlingSummary(alertId)
+      }
+    });
+  } catch (err) {
+    console.error('结案告警失败:', err);
+    res.status(500).json({ error: '操作失败', message: err.message });
+  }
+});
+
 router.get('/stats', (req, res) => {
   try {
     const db = require('../db').getDb();
@@ -157,13 +322,6 @@ router.get('/stats', (req, res) => {
     const taskCount = db.prepare('SELECT COUNT(*) as cnt FROM transport_tasks WHERE status = ?').get('in_transit').cnt;
     const alertCount = db.prepare('SELECT COUNT(*) as cnt FROM alerts WHERE end_time IS NULL').cnt;
     const ruleCount = db.prepare('SELECT COUNT(*) as cnt FROM temp_rules').get().cnt;
-
-    const recentAlerts = db.prepare(`
-      SELECT a.*, t.waybill_no 
-      FROM alerts a
-      LEFT JOIN transport_tasks t ON a.waybill_no = t.waybill_no
-      ORDER BY a.created_at DESC LIMIT 10
-    `).all();
 
     res.json({
       success: true,
@@ -182,8 +340,7 @@ router.get('/stats', (req, res) => {
         },
         rules: {
           count: ruleCount
-        },
-        recent_alerts: recentAlerts
+        }
       }
     });
   } catch (err) {
