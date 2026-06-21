@@ -18,11 +18,21 @@ const ALERT_LEVELS = {
 };
 
 class TemperatureService {
-  static async reportTemperature(data) {
+  static reportTemperature(data) {
     const { device_no, plate_number, compartment_no, temperature, 
             humidity, location_lat, location_lng, location_text, record_time } = data;
 
     const recordTime = record_time || new Date().toISOString();
+
+    const existing = TemperatureRecordModel.findByDeviceAndTime(device_no, recordTime);
+    if (existing) {
+      return {
+        record: existing,
+        waybill_no: existing.waybill_no,
+        alert: null,
+        duplicated: true
+      };
+    }
 
     let task = TransportTaskModel.findActiveByDevice(plate_number, compartment_no);
     let waybill_no = task ? task.waybill_no : null;
@@ -48,7 +58,101 @@ class TemperatureService {
     return {
       record,
       waybill_no,
-      alert: alertResult
+      alert: alertResult,
+      duplicated: false
+    };
+  }
+
+  static batchReportTemperature(records) {
+    if (!Array.isArray(records) || records.length === 0) {
+      return { success: false, error: '上报数据不能为空' };
+    }
+
+    const sortedRecords = [...records].sort((a, b) => 
+      new Date(a.record_time).getTime() - new Date(b.record_time).getTime()
+    );
+
+    const results = [];
+    let successCount = 0;
+    let duplicateCount = 0;
+    let alertCount = 0;
+    const activeAlerts = new Map();
+
+    for (const recordData of sortedRecords) {
+      try {
+        const { device_no, plate_number, compartment_no } = recordData;
+        
+        const existing = TemperatureRecordModel.findByDeviceAndTime(
+          device_no, recordData.record_time
+        );
+        
+        if (existing) {
+          duplicateCount++;
+          results.push({
+            record_time: recordData.record_time,
+            success: true,
+            duplicated: true,
+            record_id: existing.id
+          });
+          continue;
+        }
+
+        let task = TransportTaskModel.findActiveByDevice(plate_number, compartment_no);
+        let waybill_no = task ? task.waybill_no : null;
+
+        const record = TemperatureRecordModel.create({
+          device_no,
+          plate_number,
+          compartment_no,
+          waybill_no,
+          temperature: recordData.temperature,
+          humidity: recordData.humidity,
+          location_lat: recordData.location_lat,
+          location_lng: recordData.location_lng,
+          location_text: recordData.location_text,
+          record_time: recordData.record_time
+        });
+
+        let alertResult = null;
+        if (task) {
+          alertResult = this._checkAndUpdateAlerts(
+            task, 
+            recordData.temperature, 
+            recordData.record_time, 
+            device_no
+          );
+          if (alertResult) alertCount++;
+        }
+
+        successCount++;
+        results.push({
+          record_time: recordData.record_time,
+          success: true,
+          duplicated: false,
+          record_id: record.id,
+          waybill_no,
+          has_alert: !!alertResult,
+          alert_level: alertResult ? alertResult.alert_level : null
+        });
+      } catch (err) {
+        results.push({
+          record_time: recordData.record_time,
+          success: false,
+          error: err.message
+        });
+      }
+    }
+
+    return {
+      success: true,
+      summary: {
+        total: records.length,
+        success: successCount,
+        duplicated: duplicateCount,
+        failed: records.length - successCount - duplicateCount,
+        new_alerts: alertCount
+      },
+      details: results
     };
   }
 
@@ -70,7 +174,7 @@ class TemperatureService {
       const duration = this._calculateDuration(existingAlert.start_time, recordTime);
       alert = AlertModel.updateDuration(existingAlert.id, duration, temperature);
     } else {
-      this._closeAllOpenAlerts(device_no, temperature, recordTime);
+      this._closeOtherTypeAlerts(device_no, alertInfo.type, temperature, recordTime);
       alert = AlertModel.create({
         waybill_no: task.waybill_no,
         device_no,
@@ -83,16 +187,23 @@ class TemperatureService {
       });
     }
 
+    const durationSeconds = alert.duration_seconds || 0;
+    const isNew = !existingAlert;
+    
     return {
       id: alert.id,
       alert_type: alert.alert_type,
       alert_level: alert.alert_level,
       temperature: alert.temperature,
       threshold: alert.threshold,
-      duration_seconds: alert.duration_seconds,
+      duration_seconds: durationSeconds,
+      duration_formatted: this.formatDuration(durationSeconds),
       start_time: alert.start_time,
+      end_time: alert.end_time || null,
+      status: isNew ? 'new' : 'ongoing',
       notify_roles: alert.notify_roles ? alert.notify_roles.split(',') : [],
-      description: alertInfo.description
+      description: alertInfo.description,
+      action_required: this._getActionRequired(alertInfo.level, alertInfo.type)
     };
   }
 
@@ -115,7 +226,7 @@ class TemperatureService {
       };
     }
 
-    if (rule.warning_max_temp !== null && temp > rule.warning_max_temp) {
+    if (rule.warning_max_temp !== null && rule.warning_max_temp !== undefined && temp > rule.warning_max_temp) {
       return {
         type: ALERT_TYPES.WARNING_HIGH,
         level: ALERT_LEVELS.WARNING,
@@ -124,7 +235,7 @@ class TemperatureService {
       };
     }
 
-    if (rule.warning_min_temp !== null && temp < rule.warning_min_temp) {
+    if (rule.warning_min_temp !== null && rule.warning_min_temp !== undefined && temp < rule.warning_min_temp) {
       return {
         type: ALERT_TYPES.WARNING_LOW,
         level: ALERT_LEVELS.WARNING,
@@ -137,14 +248,30 @@ class TemperatureService {
   }
 
   static _closeAllOpenAlerts(device_no, currentTemp, endTime) {
-    const db = require('../db').getDb();
-    const openAlerts = db.prepare(`
-      SELECT * FROM alerts WHERE device_no = ? AND end_time IS NULL
-    `).all(device_no);
+    const openAlerts = AlertModel.findAllOpenAlertsByDevice(device_no);
+    const closed = [];
 
     for (const alert of openAlerts) {
       const duration = this._calculateDuration(alert.start_time, endTime);
-      AlertModel.updateDuration(alert.id, duration, currentTemp, endTime);
+      const updated = AlertModel.updateDuration(alert.id, duration, currentTemp, endTime);
+      closed.push({
+        id: updated.id,
+        alert_type: updated.alert_type,
+        duration_seconds: updated.duration_seconds
+      });
+    }
+
+    return closed;
+  }
+
+  static _closeOtherTypeAlerts(device_no, currentType, currentTemp, endTime) {
+    const openAlerts = AlertModel.findAllOpenAlertsByDevice(device_no);
+    
+    for (const alert of openAlerts) {
+      if (alert.alert_type !== currentType) {
+        const duration = this._calculateDuration(alert.start_time, endTime);
+        AlertModel.updateDuration(alert.id, duration, currentTemp, endTime);
+      }
     }
   }
 
@@ -165,6 +292,33 @@ class TemperatureService {
     if (secs > 0 && hours === 0) parts.push(`${secs}秒`);
     
     return parts.length > 0 ? parts.join('') : '0秒';
+  }
+
+  static _getActionRequired(level, type) {
+    const actions = {
+      critical: {
+        over_max: '立即停车检查制冷设备，联系质控和调度',
+        below_min: '立即检查是否过度制冷，调整温度设定',
+        default: '立即处理，严重影响货品质量'
+      },
+      serious: {
+        over_max: '尽快检查制冷系统，观察温度趋势',
+        below_min: '检查温控设置，适当调高温度',
+        default: '尽快处理，避免影响货品'
+      },
+      warning: {
+        over_max: '注意观察温度趋势，必要时调整',
+        below_min: '注意观察温度趋势，必要时调整',
+        default: '关注温度变化，提前预防'
+      }
+    };
+
+    const levelActions = actions[level] || actions.warning;
+    return levelActions[type] || levelActions.default || '关注温度变化';
+  }
+
+  static getLatestTemperature(device_no) {
+    return TemperatureRecordModel.getLatestByDevice(device_no);
   }
 }
 

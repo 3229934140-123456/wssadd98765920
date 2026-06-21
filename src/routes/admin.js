@@ -9,6 +9,7 @@ router.get('/query-logs', (req, res) => {
     const page_size = parseInt(req.query.page_size) || 20;
     const query_type = req.query.query_type;
     const caller_system = req.query.caller_system;
+    const waybill_no = req.query.waybill_no;
     const startTime = req.query.start_time;
     const endTime = req.query.end_time;
 
@@ -17,6 +18,7 @@ router.get('/query-logs', (req, res) => {
       page_size,
       query_type,
       caller_system,
+      waybill_no,
       startTime,
       endTime
     });
@@ -46,17 +48,80 @@ router.get('/query-logs/stats', (req, res) => {
   }
 });
 
+router.get('/query-logs/stats/by-caller', (req, res) => {
+  try {
+    const startTime = req.query.start_time;
+    const endTime = req.query.end_time;
+    
+    const stats = QueryLogModel.getStatsByCaller({ startTime, endTime });
+    
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (err) {
+    console.error('调用方统计失败:', err);
+    res.status(500).json({ error: '查询失败' });
+  }
+});
+
+router.get('/query-logs/stats/by-type', (req, res) => {
+  try {
+    const startTime = req.query.start_time;
+    const endTime = req.query.end_time;
+    
+    const stats = QueryLogModel.getStatsByType({ startTime, endTime });
+    
+    res.json({
+      success: true,
+      data: stats
+    });
+  } catch (err) {
+    console.error('查询类型统计失败:', err);
+    res.status(500).json({ error: '查询失败' });
+  }
+});
+
+router.get('/query-logs/stats/summary', (req, res) => {
+  try {
+    const startTime = req.query.start_time;
+    const endTime = req.query.end_time;
+    
+    const summary = QueryLogModel.getSummary({ startTime, endTime });
+    const topCallers = QueryLogModel.getTopCallers({ limit: 10, startTime, endTime });
+    const byType = QueryLogModel.getStatsByType({ startTime, endTime });
+    
+    res.json({
+      success: true,
+      data: {
+        summary,
+        top_callers: topCallers,
+        by_type: byType
+      }
+    });
+  } catch (err) {
+    console.error('查询日志汇总失败:', err);
+    res.status(500).json({ error: '查询失败' });
+  }
+});
+
 router.get('/alerts', (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
     const page_size = parseInt(req.query.page_size) || 20;
     const alert_level = req.query.alert_level;
     const acknowledged = req.query.acknowledged;
+    const status = req.query.status;
+    const startTime = req.query.start_time;
+    const endTime = req.query.end_time;
 
     const result = AlertModel.findAll({
       page,
       page_size,
       alert_level,
+      status,
+      startTime,
+      endTime,
       acknowledged: acknowledged !== undefined ? (acknowledged === 'true' || acknowledged === '1') : undefined
     });
 

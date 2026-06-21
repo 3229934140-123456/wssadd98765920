@@ -8,8 +8,8 @@
         "compartment_no": "01",
         "status": "active",
         "vendor": "test-vendor",
-        "created_at": "2026-06-21T00:37:25.251Z",
-        "updated_at": "2026-06-21T00:37:25.251Z"
+        "created_at": "2026-06-21T00:55:45.404Z",
+        "updated_at": "2026-06-21T00:55:45.404Z"
       },
       {
         "id": 2,
@@ -18,8 +18,8 @@
         "compartment_no": "02",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T00:37:25.252Z",
-        "updated_at": "2026-06-21T00:37:25.252Z"
+        "created_at": "2026-06-21T00:55:45.405Z",
+        "updated_at": "2026-06-21T00:55:45.405Z"
       },
       {
         "id": 3,
@@ -28,8 +28,28 @@
         "compartment_no": "02",
         "status": "active",
         "vendor": null,
-        "created_at": "2026-06-21T00:37:25.279Z",
-        "updated_at": "2026-06-21T00:37:25.279Z"
+        "created_at": "2026-06-21T00:55:45.433Z",
+        "updated_at": "2026-06-21T00:55:45.433Z"
+      },
+      {
+        "id": 4,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T00:55:45.434Z",
+        "updated_at": "2026-06-21T00:55:45.434Z"
+      },
+      {
+        "id": 5,
+        "device_no": "DEV_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "status": "active",
+        "vendor": null,
+        "created_at": "2026-06-21T00:55:45.450Z",
+        "updated_at": "2026-06-21T00:55:45.450Z"
       }
     ],
     "transport_tasks": [
@@ -44,9 +64,9 @@
         "destination": "上海医院",
         "start_time": null,
         "status": "completed",
-        "created_at": "2026-06-21T00:37:25.254Z",
-        "updated_at": "2026-06-21T00:37:25.276Z",
-        "end_time": "2026-06-21T00:37:25.276Z"
+        "created_at": "2026-06-21T00:55:45.407Z",
+        "updated_at": "2026-06-21T00:55:45.430Z",
+        "end_time": "2026-06-21T00:55:45.430Z"
       },
       {
         "id": 2,
@@ -59,8 +79,36 @@
         "destination": null,
         "start_time": null,
         "status": "in_transit",
-        "created_at": "2026-06-21T00:37:25.279Z",
-        "updated_at": "2026-06-21T00:37:25.279Z"
+        "created_at": "2026-06-21T00:55:45.432Z",
+        "updated_at": "2026-06-21T00:55:45.432Z"
+      },
+      {
+        "id": 3,
+        "waybill_no": "WB_BATCH_001",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "批量测试疫苗",
+        "origin": null,
+        "destination": null,
+        "start_time": null,
+        "status": "in_transit",
+        "created_at": "2026-06-21T00:55:45.435Z",
+        "updated_at": "2026-06-21T00:55:45.435Z"
+      },
+      {
+        "id": 4,
+        "waybill_no": "WB_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "product_type": "vaccine",
+        "product_name": "告警测试疫苗",
+        "origin": null,
+        "destination": null,
+        "start_time": null,
+        "status": "in_transit",
+        "created_at": "2026-06-21T00:55:45.451Z",
+        "updated_at": "2026-06-21T00:55:45.451Z"
       }
     ],
     "temperature_records": [
@@ -75,9 +123,9 @@
         "location_lat": 39.9042,
         "location_lng": 116.4074,
         "location_text": "北京市",
-        "record_time": "2026-06-21T00:37:25.257Z",
-        "created_at": "2026-06-21T00:37:25.257Z",
-        "updated_at": "2026-06-21T00:37:25.257Z"
+        "record_time": "2026-06-21T00:55:45.410Z",
+        "created_at": "2026-06-21T00:55:45.411Z",
+        "updated_at": "2026-06-21T00:55:45.411Z"
       },
       {
         "id": 2,
@@ -90,9 +138,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:38:25.259Z",
-        "created_at": "2026-06-21T00:37:25.259Z",
-        "updated_at": "2026-06-21T00:37:25.259Z"
+        "record_time": "2026-06-21T00:56:45.412Z",
+        "created_at": "2026-06-21T00:55:45.412Z",
+        "updated_at": "2026-06-21T00:55:45.412Z"
       },
       {
         "id": 3,
@@ -105,9 +153,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:42:25.260Z",
-        "created_at": "2026-06-21T00:37:25.260Z",
-        "updated_at": "2026-06-21T00:37:25.260Z"
+        "record_time": "2026-06-21T01:00:45.414Z",
+        "created_at": "2026-06-21T00:55:45.414Z",
+        "updated_at": "2026-06-21T00:55:45.414Z"
       },
       {
         "id": 4,
@@ -120,9 +168,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:47:25.262Z",
-        "created_at": "2026-06-21T00:37:25.262Z",
-        "updated_at": "2026-06-21T00:37:25.262Z"
+        "record_time": "2026-06-21T01:05:45.416Z",
+        "created_at": "2026-06-21T00:55:45.416Z",
+        "updated_at": "2026-06-21T00:55:45.416Z"
       },
       {
         "id": 5,
@@ -135,9 +183,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:49:05.264Z",
-        "created_at": "2026-06-21T00:37:25.264Z",
-        "updated_at": "2026-06-21T00:37:25.264Z"
+        "record_time": "2026-06-21T01:07:25.417Z",
+        "created_at": "2026-06-21T00:55:45.418Z",
+        "updated_at": "2026-06-21T00:55:45.418Z"
       },
       {
         "id": 6,
@@ -150,9 +198,9 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:37:25.276Z",
-        "created_at": "2026-06-21T00:37:25.277Z",
-        "updated_at": "2026-06-21T00:37:25.277Z"
+        "record_time": "2026-06-21T00:55:45.431Z",
+        "created_at": "2026-06-21T00:55:45.431Z",
+        "updated_at": "2026-06-21T00:55:45.431Z"
       },
       {
         "id": 7,
@@ -165,9 +213,339 @@
         "location_lat": null,
         "location_lng": null,
         "location_text": null,
-        "record_time": "2026-06-21T00:37:25.280Z",
-        "created_at": "2026-06-21T00:37:25.280Z",
-        "updated_at": "2026-06-21T00:37:25.280Z"
+        "record_time": "2026-06-21T00:55:45.433Z",
+        "created_at": "2026-06-21T00:55:45.433Z",
+        "updated_at": "2026-06-21T00:55:45.433Z"
+      },
+      {
+        "id": 8,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:55:45.435Z",
+        "created_at": "2026-06-21T00:55:45.436Z",
+        "updated_at": "2026-06-21T00:55:45.436Z"
+      },
+      {
+        "id": 9,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:56:45.435Z",
+        "created_at": "2026-06-21T00:55:45.436Z",
+        "updated_at": "2026-06-21T00:55:45.436Z"
+      },
+      {
+        "id": 10,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 6,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:57:45.435Z",
+        "created_at": "2026-06-21T00:55:45.437Z",
+        "updated_at": "2026-06-21T00:55:45.437Z"
+      },
+      {
+        "id": 11,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 6.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:58:45.435Z",
+        "created_at": "2026-06-21T00:55:45.437Z",
+        "updated_at": "2026-06-21T00:55:45.437Z"
+      },
+      {
+        "id": 12,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 7,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:59:45.435Z",
+        "created_at": "2026-06-21T00:55:45.438Z",
+        "updated_at": "2026-06-21T00:55:45.438Z"
+      },
+      {
+        "id": 13,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 7.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:00:45.435Z",
+        "created_at": "2026-06-21T00:55:45.438Z",
+        "updated_at": "2026-06-21T00:55:45.438Z"
+      },
+      {
+        "id": 14,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 8,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:01:45.435Z",
+        "created_at": "2026-06-21T00:55:45.439Z",
+        "updated_at": "2026-06-21T00:55:45.439Z"
+      },
+      {
+        "id": 15,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 8.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:02:45.435Z",
+        "created_at": "2026-06-21T00:55:45.440Z",
+        "updated_at": "2026-06-21T00:55:45.440Z"
+      },
+      {
+        "id": 16,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 9,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:03:45.435Z",
+        "created_at": "2026-06-21T00:55:45.442Z",
+        "updated_at": "2026-06-21T00:55:45.442Z"
+      },
+      {
+        "id": 17,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 9.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:04:45.435Z",
+        "created_at": "2026-06-21T00:55:45.443Z",
+        "updated_at": "2026-06-21T00:55:45.443Z"
+      },
+      {
+        "id": 18,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:55:45.444Z",
+        "created_at": "2026-06-21T00:55:45.444Z",
+        "updated_at": "2026-06-21T00:55:45.444Z"
+      },
+      {
+        "id": 19,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:56:45.444Z",
+        "created_at": "2026-06-21T00:55:45.445Z",
+        "updated_at": "2026-06-21T00:55:45.445Z"
+      },
+      {
+        "id": 20,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:57:45.444Z",
+        "created_at": "2026-06-21T00:55:45.445Z",
+        "updated_at": "2026-06-21T00:55:45.445Z"
+      },
+      {
+        "id": 21,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:58:45.444Z",
+        "created_at": "2026-06-21T00:55:45.446Z",
+        "updated_at": "2026-06-21T00:55:45.446Z"
+      },
+      {
+        "id": 22,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:59:45.444Z",
+        "created_at": "2026-06-21T00:55:45.446Z",
+        "updated_at": "2026-06-21T00:55:45.446Z"
+      },
+      {
+        "id": 23,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 3,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:57:25.447Z",
+        "created_at": "2026-06-21T00:55:45.447Z",
+        "updated_at": "2026-06-21T00:55:45.447Z"
+      },
+      {
+        "id": 24,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 8,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:00:45.447Z",
+        "created_at": "2026-06-21T00:55:45.448Z",
+        "updated_at": "2026-06-21T00:55:45.448Z"
+      },
+      {
+        "id": 25,
+        "device_no": "DEV003",
+        "plate_number": "京B00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_BATCH_001",
+        "temperature": 10,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:05:45.447Z",
+        "created_at": "2026-06-21T00:55:45.449Z",
+        "updated_at": "2026-06-21T00:55:45.449Z"
+      },
+      {
+        "id": 26,
+        "device_no": "DEV_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_ALERT_001",
+        "temperature": 12,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:55:45.451Z",
+        "created_at": "2026-06-21T00:55:45.451Z",
+        "updated_at": "2026-06-21T00:55:45.451Z"
+      },
+      {
+        "id": 27,
+        "device_no": "DEV_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_ALERT_001",
+        "temperature": 11,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:55:45.453Z",
+        "created_at": "2026-06-21T00:55:45.453Z",
+        "updated_at": "2026-06-21T00:55:45.453Z"
+      },
+      {
+        "id": 28,
+        "device_no": "DEV_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_ALERT_001",
+        "temperature": 10.5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T01:00:45.453Z",
+        "created_at": "2026-06-21T00:55:45.454Z",
+        "updated_at": "2026-06-21T00:55:45.454Z"
+      },
+      {
+        "id": 29,
+        "device_no": "DEV_ALERT_001",
+        "plate_number": "京C00001",
+        "compartment_no": "01",
+        "waybill_no": "WB_ALERT_001",
+        "temperature": 5,
+        "humidity": null,
+        "location_lat": null,
+        "location_lng": null,
+        "location_text": null,
+        "record_time": "2026-06-21T00:55:45.455Z",
+        "created_at": "2026-06-21T00:55:45.455Z",
+        "updated_at": "2026-06-21T00:55:45.455Z"
       }
     ],
     "temp_rules": [
@@ -182,8 +560,8 @@
         "alert_level": "serious",
         "notify_roles": "quality,dispatcher,driver",
         "description": "冷冻肉品需严格保持在-18℃以下",
-        "created_at": "2026-06-21T00:37:25.248Z",
-        "updated_at": "2026-06-21T00:37:25.248Z"
+        "created_at": "2026-06-21T00:55:45.400Z",
+        "updated_at": "2026-06-21T00:55:45.400Z"
       },
       {
         "id": 2,
@@ -196,8 +574,8 @@
         "alert_level": "critical",
         "notify_roles": "quality,dispatcher,driver,manager",
         "description": "疫苗冷链要求最严格，偏差需立即处理",
-        "created_at": "2026-06-21T00:37:25.248Z",
-        "updated_at": "2026-06-21T00:37:25.248Z"
+        "created_at": "2026-06-21T00:55:45.401Z",
+        "updated_at": "2026-06-21T00:55:45.401Z"
       },
       {
         "id": 3,
@@ -210,8 +588,8 @@
         "alert_level": "warning",
         "notify_roles": "dispatcher,driver",
         "description": "乳制品需冷藏保存",
-        "created_at": "2026-06-21T00:37:25.248Z",
-        "updated_at": "2026-06-21T00:37:25.248Z"
+        "created_at": "2026-06-21T00:55:45.401Z",
+        "updated_at": "2026-06-21T00:55:45.401Z"
       },
       {
         "id": 4,
@@ -224,8 +602,8 @@
         "alert_level": "warning",
         "notify_roles": "dispatcher,driver",
         "description": "水果保鲜温度范围",
-        "created_at": "2026-06-21T00:37:25.248Z",
-        "updated_at": "2026-06-21T00:37:25.248Z"
+        "created_at": "2026-06-21T00:55:45.401Z",
+        "updated_at": "2026-06-21T00:55:45.401Z"
       },
       {
         "id": 5,
@@ -238,8 +616,8 @@
         "alert_level": "serious",
         "notify_roles": "quality,dispatcher,driver",
         "description": "海鲜需低温保鲜",
-        "created_at": "2026-06-21T00:37:25.248Z",
-        "updated_at": "2026-06-21T00:37:25.248Z"
+        "created_at": "2026-06-21T00:55:45.401Z",
+        "updated_at": "2026-06-21T00:55:45.401Z"
       }
     ],
     "alerts": [
@@ -251,12 +629,13 @@
         "alert_level": "critical",
         "temperature": 5,
         "threshold": 8,
-        "start_time": "2026-06-21T00:38:25.259Z",
+        "start_time": "2026-06-21T00:56:45.412Z",
         "notify_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T00:37:25.260Z",
-        "updated_at": "2026-06-21T00:37:25.263Z",
         "duration_seconds": 540,
-        "end_time": "2026-06-21T00:47:25.262Z"
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.413Z",
+        "updated_at": "2026-06-21T00:55:45.417Z",
+        "end_time": "2026-06-21T01:05:45.416Z"
       },
       {
         "id": 2,
@@ -266,13 +645,14 @@
         "alert_level": "critical",
         "temperature": -2,
         "threshold": 2,
-        "start_time": "2026-06-21T00:49:05.264Z",
+        "start_time": "2026-06-21T01:07:25.417Z",
         "notify_roles": "quality,dispatcher,driver,manager",
-        "created_at": "2026-06-21T00:37:25.264Z",
-        "updated_at": "2026-06-21T00:37:25.278Z",
+        "duration_seconds": 0,
         "acknowledged": 1,
+        "created_at": "2026-06-21T00:55:45.418Z",
+        "updated_at": "2026-06-21T00:55:45.431Z",
         "acknowledged_by": "test-user",
-        "acknowledged_at": "2026-06-21T00:37:25.278Z"
+        "acknowledged_at": "2026-06-21T00:55:45.431Z"
       },
       {
         "id": 3,
@@ -282,10 +662,91 @@
         "alert_level": "warning",
         "temperature": 10,
         "threshold": 6,
-        "start_time": "2026-06-21T00:37:25.280Z",
+        "start_time": "2026-06-21T00:55:45.433Z",
         "notify_roles": "dispatcher,driver",
-        "created_at": "2026-06-21T00:37:25.280Z",
-        "updated_at": "2026-06-21T00:37:25.280Z"
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.434Z",
+        "updated_at": "2026-06-21T00:55:45.434Z"
+      },
+      {
+        "id": 4,
+        "waybill_no": "WB_BATCH_001",
+        "device_no": "DEV003",
+        "alert_type": "warning_high",
+        "alert_level": "warning",
+        "temperature": 8.5,
+        "threshold": 7,
+        "start_time": "2026-06-21T01:00:45.435Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 120,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.439Z",
+        "updated_at": "2026-06-21T00:55:45.441Z",
+        "end_time": "2026-06-21T01:02:45.435Z"
+      },
+      {
+        "id": 5,
+        "waybill_no": "WB_BATCH_001",
+        "device_no": "DEV003",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 5,
+        "threshold": 8,
+        "start_time": "2026-06-21T01:02:45.435Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.441Z",
+        "updated_at": "2026-06-21T00:55:45.444Z",
+        "end_time": "2026-06-21T00:55:45.444Z"
+      },
+      {
+        "id": 6,
+        "waybill_no": "WB_BATCH_001",
+        "device_no": "DEV003",
+        "alert_type": "warning_high",
+        "alert_level": "warning",
+        "temperature": 10,
+        "threshold": 7,
+        "start_time": "2026-06-21T01:00:45.447Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 300,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.448Z",
+        "updated_at": "2026-06-21T00:55:45.449Z",
+        "end_time": "2026-06-21T01:05:45.447Z"
+      },
+      {
+        "id": 7,
+        "waybill_no": "WB_BATCH_001",
+        "device_no": "DEV003",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 10,
+        "threshold": 8,
+        "start_time": "2026-06-21T01:05:45.447Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.450Z",
+        "updated_at": "2026-06-21T00:55:45.450Z"
+      },
+      {
+        "id": 8,
+        "waybill_no": "WB_ALERT_001",
+        "device_no": "DEV_ALERT_001",
+        "alert_type": "over_max",
+        "alert_level": "critical",
+        "temperature": 5,
+        "threshold": 8,
+        "start_time": "2026-06-21T00:55:45.451Z",
+        "notify_roles": "quality,dispatcher,driver,manager",
+        "duration_seconds": 0,
+        "acknowledged": 0,
+        "created_at": "2026-06-21T00:55:45.452Z",
+        "updated_at": "2026-06-21T00:55:45.456Z",
+        "end_time": "2026-06-21T00:55:45.455Z"
       }
     ],
     "query_logs": [
@@ -296,77 +757,207 @@
         "caller_system": "test-system",
         "result_count": 1,
         "ip_address": "127.0.0.1",
-        "created_at": "2026-06-21T00:37:25.266Z",
-        "updated_at": "2026-06-21T00:37:25.266Z"
+        "created_at": "2026-06-21T00:55:45.421Z",
+        "updated_at": "2026-06-21T00:55:45.421Z"
       },
       {
         "id": 2,
         "query_type": "summary",
         "waybill_no": "WB20240101001",
-        "caller_system": null,
+        "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.268Z",
-        "updated_at": "2026-06-21T00:37:25.268Z"
+        "created_at": "2026-06-21T00:55:45.422Z",
+        "updated_at": "2026-06-21T00:55:45.422Z"
       },
       {
         "id": 3,
         "query_type": "summary",
         "waybill_no": "WB20240101001",
-        "caller_system": null,
+        "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.268Z",
-        "updated_at": "2026-06-21T00:37:25.268Z"
+        "created_at": "2026-06-21T00:55:45.423Z",
+        "updated_at": "2026-06-21T00:55:45.423Z"
       },
       {
         "id": 4,
         "query_type": "summary",
         "waybill_no": "WB20240101001",
-        "caller_system": null,
+        "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.269Z",
-        "updated_at": "2026-06-21T00:37:25.269Z"
+        "created_at": "2026-06-21T00:55:45.423Z",
+        "updated_at": "2026-06-21T00:55:45.423Z"
       },
       {
         "id": 5,
         "query_type": "records",
         "waybill_no": "WB20240101001",
-        "caller_system": null,
+        "caller_system": "unknown",
         "result_count": 5,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.270Z",
-        "updated_at": "2026-06-21T00:37:25.270Z"
+        "created_at": "2026-06-21T00:55:45.424Z",
+        "updated_at": "2026-06-21T00:55:45.424Z"
       },
       {
         "id": 6,
         "query_type": "alerts",
         "waybill_no": "WB20240101001",
-        "caller_system": null,
+        "caller_system": "unknown",
         "result_count": 2,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.271Z",
-        "updated_at": "2026-06-21T00:37:25.271Z"
+        "created_at": "2026-06-21T00:55:45.425Z",
+        "updated_at": "2026-06-21T00:55:45.425Z"
       },
       {
         "id": 7,
         "query_type": "summary",
         "waybill_no": "NOT_EXIST",
-        "caller_system": null,
+        "caller_system": "unknown",
+        "result_count": 0,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.425Z",
+        "updated_at": "2026-06-21T00:55:45.425Z"
+      },
+      {
+        "id": 8,
+        "query_type": "alerts_by_role",
+        "waybill_no": null,
+        "caller_system": "test-role",
+        "result_count": 8,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.457Z",
+        "updated_at": "2026-06-21T00:55:45.457Z"
+      },
+      {
+        "id": 9,
+        "query_type": "alerts_by_role",
+        "waybill_no": null,
+        "caller_system": "unknown",
+        "result_count": 5,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.458Z",
+        "updated_at": "2026-06-21T00:55:45.458Z"
+      },
+      {
+        "id": 10,
+        "query_type": "alerts_by_role",
+        "waybill_no": null,
+        "caller_system": "unknown",
+        "result_count": 8,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.459Z",
+        "updated_at": "2026-06-21T00:55:45.459Z"
+      },
+      {
+        "id": 11,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "shipper-system",
+        "result_count": 1,
+        "ip_address": "10.0.0.1",
+        "created_at": "2026-06-21T00:55:45.462Z",
+        "updated_at": "2026-06-21T00:55:45.462Z"
+      },
+      {
+        "id": 12,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
         "result_count": 1,
         "ip_address": null,
-        "created_at": "2026-06-21T00:37:25.272Z",
-        "updated_at": "2026-06-21T00:37:25.272Z"
+        "created_at": "2026-06-21T00:55:45.463Z",
+        "updated_at": "2026-06-21T00:55:45.463Z"
+      },
+      {
+        "id": 13,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.465Z",
+        "updated_at": "2026-06-21T00:55:45.465Z"
+      },
+      {
+        "id": 14,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.466Z",
+        "updated_at": "2026-06-21T00:55:45.466Z"
+      },
+      {
+        "id": 15,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.467Z",
+        "updated_at": "2026-06-21T00:55:45.467Z"
+      },
+      {
+        "id": 16,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.469Z",
+        "updated_at": "2026-06-21T00:55:45.469Z"
+      },
+      {
+        "id": 17,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.470Z",
+        "updated_at": "2026-06-21T00:55:45.470Z"
+      },
+      {
+        "id": 18,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.471Z",
+        "updated_at": "2026-06-21T00:55:45.471Z"
+      },
+      {
+        "id": 19,
+        "query_type": "report",
+        "waybill_no": "WB_BATCH_001",
+        "caller_system": "unknown",
+        "result_count": 1,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.472Z",
+        "updated_at": "2026-06-21T00:55:45.472Z"
+      },
+      {
+        "id": 20,
+        "query_type": "report",
+        "waybill_no": "NOT_EXIST_123",
+        "caller_system": "unknown",
+        "result_count": 0,
+        "ip_address": null,
+        "created_at": "2026-06-21T00:55:45.473Z",
+        "updated_at": "2026-06-21T00:55:45.473Z"
       }
     ]
   },
   "counters": {
-    "devices": 3,
-    "transport_tasks": 2,
-    "temperature_records": 7,
+    "devices": 5,
+    "transport_tasks": 4,
+    "temperature_records": 29,
     "temp_rules": 6,
-    "alerts": 3,
-    "query_logs": 7
+    "alerts": 8,
+    "query_logs": 20
   }
 }

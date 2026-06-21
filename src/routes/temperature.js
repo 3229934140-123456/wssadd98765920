@@ -23,7 +23,7 @@ router.post('/report', async (req, res) => {
       return res.status(400).json({ error: '设备未注册，请先在管理平台接入设备' });
     }
 
-    const result = await TemperatureService.reportTemperature({
+    const result = TemperatureService.reportTemperature({
       device_no,
       plate_number,
       compartment_no,
@@ -41,12 +41,56 @@ router.post('/report', async (req, res) => {
         record_id: result.record.id,
         waybill_no: result.waybill_no,
         record_time: result.record.record_time,
+        duplicated: result.duplicated,
         alert: result.alert
       }
     });
   } catch (err) {
     console.error('温度上报失败:', err);
     res.status(500).json({ error: '温度上报失败', message: err.message });
+  }
+});
+
+router.post('/batch-report', async (req, res) => {
+  try {
+    const { records, device_no } = req.body;
+
+    if (!Array.isArray(records) || records.length === 0) {
+      return res.status(400).json({ error: '上报记录不能为空，且必须是数组格式' });
+    }
+
+    if (records.length > 1000) {
+      return res.status(400).json({ error: '单次批量上报不能超过 1000 条记录' });
+    }
+
+    const firstDeviceNo = records[0].device_no || device_no;
+    if (!firstDeviceNo) {
+      return res.status(400).json({ error: '必须提供 device_no' });
+    }
+
+    const device = DeviceModel.findByDeviceNo(firstDeviceNo);
+    if (!device) {
+      return res.status(400).json({ error: '设备未注册，请先在管理平台接入设备' });
+    }
+
+    const normalizedRecords = records.map(r => ({
+      ...r,
+      device_no: r.device_no || firstDeviceNo,
+      temperature: Number(r.temperature),
+      humidity: r.humidity !== undefined ? Number(r.humidity) : undefined,
+      location_lat: r.location_lat !== undefined ? Number(r.location_lat) : undefined,
+      location_lng: r.location_lng !== undefined ? Number(r.location_lng) : undefined
+    }));
+
+    const result = TemperatureService.batchReportTemperature(normalizedRecords);
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    console.error('批量温度上报失败:', err);
+    res.status(500).json({ error: '批量上报失败', message: err.message });
   }
 });
 

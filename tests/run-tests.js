@@ -396,6 +396,346 @@ test('创建乳制品运输任务并测试告警', async () => {
   assertEqual(result.alert.alert_level, 'warning', '乳制品告警级别应为warning');
 });
 
+console.log('\n9. 批量温度上报测试');
+
+test('批量上报温度数据', () => {
+  DeviceModel.create({
+    device_no: 'DEV003',
+    plate_number: '京B00001',
+    compartment_no: '01'
+  });
+  
+  TransportTaskModel.create({
+    waybill_no: 'WB_BATCH_001',
+    plate_number: '京B00001',
+    compartment_no: '01',
+    product_type: 'vaccine',
+    product_name: '批量测试疫苗'
+  });
+  
+  const now = Date.now();
+  const records = [];
+  for (let i = 0; i < 10; i++) {
+    records.push({
+      device_no: 'DEV003',
+      plate_number: '京B00001',
+      compartment_no: '01',
+      temperature: 5 + i * 0.5,
+      record_time: new Date(now + i * 60000).toISOString()
+    });
+  }
+  
+  const result = TemperatureService.batchReportTemperature(records);
+  assert(result.success === true, '批量上报应成功');
+  assertEqual(result.summary.total, 10, '总记录数应为10');
+  assertEqual(result.summary.success, 10, '成功数应为10');
+  assertEqual(result.summary.duplicated, 0, '重复数应为0');
+});
+
+test('批量上报重复数据应去重', () => {
+  const now = Date.now();
+  const records = [];
+  for (let i = 0; i < 5; i++) {
+    records.push({
+      device_no: 'DEV003',
+      plate_number: '京B00001',
+      compartment_no: '01',
+      temperature: 5,
+      record_time: new Date(now + i * 60000).toISOString()
+    });
+  }
+  
+  const result1 = TemperatureService.batchReportTemperature(records);
+  assertEqual(result1.summary.success, 5, '首次上报5条应成功');
+  assertEqual(result1.summary.duplicated, 0, '首次无重复');
+  
+  const result2 = TemperatureService.batchReportTemperature(records);
+  assertEqual(result2.summary.duplicated, 5, '二次上报应全部重复');
+  assertEqual(result2.summary.success, 0, '重复的不应算作新增成功');
+});
+
+test('批量上报自动排序按时间处理', () => {
+  const now = Date.now();
+  const records = [
+    { device_no: 'DEV003', plate_number: '京B00001', compartment_no: '01', temperature: 8, record_time: new Date(now + 300000).toISOString() },
+    { device_no: 'DEV003', plate_number: '京B00001', compartment_no: '01', temperature: 10, record_time: new Date(now + 600000).toISOString() },
+    { device_no: 'DEV003', plate_number: '京B00001', compartment_no: '01', temperature: 3, record_time: new Date(now + 100000).toISOString() },
+  ];
+  
+  const result = TemperatureService.batchReportTemperature(records);
+  assert(result.summary.success >= 2, '至少应有2条新记录');
+  assert(result.summary.new_alerts > 0, '超温应产生告警');
+});
+
+console.log('\n10. 告警闭环测试');
+
+test('首次越界告警返回持续时间(0秒)', () => {
+  DeviceModel.create({
+    device_no: 'DEV_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01'
+  });
+  
+  TransportTaskModel.create({
+    waybill_no: 'WB_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01',
+    product_type: 'vaccine',
+    product_name: '告警测试疫苗'
+  });
+  
+  const result = TemperatureService.reportTemperature({
+    device_no: 'DEV_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01',
+    temperature: 12,
+    record_time: new Date().toISOString()
+  });
+  
+  assert(result.alert !== null, '应有告警');
+  assert(result.alert.duration_seconds !== undefined, '应有持续时间');
+  assertEqual(result.alert.status, 'new', '首次告警状态应为new');
+  assert(result.alert.action_required, '应有建议处理措施');
+  assert(Array.isArray(result.alert.notify_roles), '通知角色应为数组');
+});
+
+test('连续越界告警持续时间累计', () => {
+  const startTime = Date.now();
+  
+  TemperatureService.reportTemperature({
+    device_no: 'DEV_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01',
+    temperature: 11,
+    record_time: new Date(startTime).toISOString()
+  });
+  
+  const result = TemperatureService.reportTemperature({
+    device_no: 'DEV_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01',
+    temperature: 10.5,
+    record_time: new Date(startTime + 300000).toISOString()
+  });
+  
+  assert(result.alert !== null, '应有告警');
+  assertEqual(result.alert.status, 'ongoing', '持续告警状态应为ongoing');
+  assert(result.alert.duration_seconds > 0, '持续时间应大于0');
+  assert(result.alert.duration_formatted, '应有格式化的持续时间');
+});
+
+test('温度恢复后告警有结束时间', () => {
+  const result = TemperatureService.reportTemperature({
+    device_no: 'DEV_ALERT_001',
+    plate_number: '京C00001',
+    compartment_no: '01',
+    temperature: 5,
+    record_time: new Date().toISOString()
+  });
+  
+  assert(result.alert === null, '温度恢复后不应有告警');
+  
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  const closedAlerts = alerts.filter(a => a.end_time !== null && a.end_time !== undefined);
+  assert(closedAlerts.length > 0, '应有已结束的告警');
+});
+
+test('告警有完整的状态信息', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_ALERT_001');
+  assert(alerts.length > 0, '应有告警记录');
+  
+  for (const alert of alerts) {
+    assert(alert.alert_type, '应有告警类型');
+    assert(alert.alert_level, '应有告警级别');
+    assert(alert.start_time, '应有开始时间');
+  }
+});
+
+console.log('\n11. 按角色查询告警测试');
+
+test('按角色查询告警', () => {
+  const result = QueryService.getAlertsByRole('quality', { caller_system: 'test-role' });
+  assert(result.total >= 0, '应返回结果');
+  assert(Array.isArray(result.list), '列表应为数组');
+});
+
+test('按状态筛选告警', () => {
+  const result = QueryService.getAlertsByRole('quality', { status: 'closed' });
+  assert(result.total >= 0, '应返回结果');
+});
+
+test('司机角色能查到自己的告警', () => {
+  const result = QueryService.getAlertsByRole('driver');
+  assert(result.total >= 0, '应返回结果');
+});
+
+console.log('\n12. 运单温控报告测试');
+
+test('生成运单温控报告', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001', {
+    caller_system: 'shipper-system',
+    ip_address: '10.0.0.1'
+  });
+  
+  assert(report !== null, '报告不应为空');
+  assertEqual(report.report_type, 'temperature_control_report');
+  assertEqual(report.report_version, '1.0');
+  assert(report.generated_at, '应有生成时间');
+});
+
+test('报告包含运单基本信息', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.waybill_info, '应有运单信息');
+  assertEqual(report.waybill_info.waybill_no, 'WB_BATCH_001');
+  assert(report.waybill_info.plate_number, '应有车牌号');
+  assert(report.waybill_info.product_type, '应有货品类型');
+});
+
+test('报告包含温区规则信息', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.rule_info, '应有规则信息');
+  assert(report.rule_info.temperature_range, '应有温度范围');
+  assert(report.rule_info.temperature_range.min !== undefined, '应有最低温度');
+  assert(report.rule_info.temperature_range.max !== undefined, '应有最高温度');
+});
+
+test('报告包含监控汇总', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.monitoring_summary, '应有监控汇总');
+  assert(report.monitoring_summary.total_records > 0, '应有记录总数');
+  assert(report.monitoring_summary.temperature_stats, '应有温度统计');
+});
+
+test('报告包含温度曲线数据', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.temperature_curve, '应有温度曲线');
+  assert(report.temperature_curve.points, '应有曲线点');
+  assert(Array.isArray(report.temperature_curve.points), '曲线点应为数组');
+  assert(report.temperature_curve.total_points > 0, '曲线点数应大于0');
+  assert(report.temperature_curve.in_range_count !== undefined, '应有正常点数');
+  assert(report.temperature_curve.out_of_range_count !== undefined, '应有异常点数');
+});
+
+test('报告包含超温片段', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(Array.isArray(report.out_of_range_segments), '超温片段应为数组');
+  
+  if (report.out_of_range_segments.length > 0) {
+    const segment = report.out_of_range_segments[0];
+    assert(segment.start_time, '片段应有开始时间');
+    assert(segment.duration_seconds !== undefined, '片段应有持续时间');
+    assert(segment.duration_formatted, '片段应有格式化持续时间');
+    assert(segment.peak_temperature !== undefined, '片段应有峰值温度');
+    assert(segment.status, '片段应有状态');
+  }
+});
+
+test('报告包含告警统计', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.alert_statistics, '应有告警统计');
+  assert(report.alert_statistics.total_count !== undefined, '应有告警总数');
+  assert(report.alert_statistics.by_level, '应有各级别告警数');
+  assert(report.alert_statistics.total_duration_formatted, '应有总持续时间');
+});
+
+test('报告包含合规性评估', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.compliance_assessment, '应有合规性评估');
+  assert(report.compliance_assessment.status, '应有合规状态');
+  assert(report.compliance_assessment.rate !== null && report.compliance_assessment.rate !== undefined, '应有合规率');
+  assert(report.compliance_assessment.description, '应有合规描述');
+});
+
+test('报告包含验收建议', () => {
+  const report = QueryService.getTemperatureReport('WB_BATCH_001');
+  assert(report.acceptance_advice, '应有验收建议');
+  assert(report.acceptance_advice.acceptance_status, '应有验收状态');
+  assert(Array.isArray(report.acceptance_advice.advices), '建议列表应为数组');
+  assert(Array.isArray(report.acceptance_advice.suggested_actions), '建议动作应为数组');
+  assert(report.acceptance_advice.advices.length > 0, '至少应有一条建议');
+});
+
+test('不存在的运单报告返回null', () => {
+  const report = QueryService.getTemperatureReport('NOT_EXIST_123');
+  assert(report === null, '不存在的运单应返回null');
+});
+
+console.log('\n13. 查询日志准确性测试');
+
+test('查询日志包含调用系统、结果数、IP', () => {
+  const logs = QueryLogModel.findAll({ caller_system: 'shipper-system' });
+  assert(logs.total > 0, '应有货主系统的查询日志');
+  
+  const log = logs.list[0];
+  assert(log.caller_system, '应有调用系统');
+  assert(log.result_count !== undefined && log.result_count !== null, '应有结果数量');
+  assert(log.ip_address, '应有来源IP');
+  assert(log.created_at, '应有查询时间');
+  assert(log.query_type, '应有查询类型');
+});
+
+test('按时间段筛选查询日志', () => {
+  const startTime = new Date(Date.now() - 3600000).toISOString();
+  const endTime = new Date(Date.now() + 3600000).toISOString();
+  
+  const logs = QueryLogModel.findAll({ startTime, endTime });
+  assert(logs.total > 0, '时间段内应有日志');
+});
+
+test('按调用方统计查询日志', () => {
+  const stats = QueryLogModel.getStatsByCaller({});
+  assert(Array.isArray(stats), '统计结果应为数组');
+  if (stats.length > 0) {
+    assert(stats[0].caller_system, '应有调用系统');
+    assert(stats[0].query_count > 0, '应有查询次数');
+    assert(stats[0].total_results !== undefined, '应有总结果数');
+  }
+});
+
+test('查询日志汇总统计', () => {
+  const summary = QueryLogModel.getSummary({});
+  assert(summary.total_queries > 0, '应有总查询数');
+  assert(summary.unique_callers > 0, '应有唯一调用方');
+  assert(summary.unique_waybills >= 0, '应有唯一运单数');
+  assert(summary.total_results !== undefined, '应有总结果数');
+});
+
+test('热门调用方统计', () => {
+  const topCallers = QueryLogModel.getTopCallers({ limit: 5 });
+  assert(Array.isArray(topCallers), '应为数组');
+  assert(topCallers.length <= 5, '不应超过limit');
+});
+
+test('按查询类型统计', () => {
+  const byType = QueryLogModel.getStatsByType({});
+  assert(Array.isArray(byType), '应为数组');
+  if (byType.length > 0) {
+    assert(byType[0].query_type, '应有查询类型');
+    assert(byType[0].avg_results !== undefined, '应有平均结果数');
+  }
+});
+
+console.log('\n14. 告警统计测试');
+
+test('按运单获取告警统计', () => {
+  const stats = AlertModel.getStatsByWaybill('WB_BATCH_001');
+  assert(stats.total_count !== undefined, '应有告警总数');
+  assert(stats.open_count !== undefined, '应有未处理告警数');
+  assert(stats.by_level, '应有各级别告警数');
+  assert(stats.total_duration_seconds !== undefined, '应有总持续时间');
+  assert(stats.max_duration_seconds !== undefined, '应有最长持续时间');
+});
+
+test('管理端告警支持多维度筛选', () => {
+  const result = AlertModel.findAll({
+    status: 'closed',
+    page: 1,
+    page_size: 10
+  });
+  assert(result.total >= 0, '筛选结果不应为null');
+  assert(Array.isArray(result.list), '列表应为数组');
+});
+
 console.log('\n=== 测试结果 ===');
 console.log(`通过: ${passed}`);
 console.log(`失败: ${failed}`);

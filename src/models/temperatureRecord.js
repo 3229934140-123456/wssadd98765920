@@ -86,6 +86,37 @@ class TemperatureRecordModel {
       ORDER BY record_time DESC LIMIT 1
     `).get(device_no);
   }
+
+  static findByDeviceAndTime(device_no, record_time) {
+    const db = getDb();
+    return db.prepare(`
+      SELECT * FROM temperature_records 
+      WHERE device_no = ? AND record_time = ?
+      LIMIT 1
+    `).get(device_no, record_time);
+  }
+
+  static findAllByWaybill(waybill_no) {
+    const db = getDb();
+    return db.prepare(`
+      SELECT * FROM temperature_records 
+      WHERE waybill_no = ? 
+      ORDER BY record_time ASC
+    `).all(waybill_no);
+  }
+
+  static getTimeRangeByWaybill(waybill_no) {
+    const db = getDb();
+    const result = db.prepare(`
+      SELECT 
+        MIN(record_time) as min_time,
+        MAX(record_time) as max_time,
+        COUNT(*) as count
+      FROM temperature_records
+      WHERE waybill_no = ?
+    `).get(waybill_no);
+    return result || { min_time: null, max_time: null, count: 0 };
+  }
 }
 
 module.exports = TemperatureRecordModel;
