@@ -122,6 +122,38 @@ class QueryService {
     };
   }
 
+  static getTodoAlerts(role, options = {}) {
+    const result = AlertModel.getTodoAlerts(role, options);
+
+    QueryLogModel.create({
+      query_type: 'alerts_todo',
+      caller_system: options.caller_system,
+      result_count: result.total,
+      ip_address: options.ip_address
+    });
+
+    return {
+      ...result,
+      list: result.list.map(alert => this._formatAlert(alert))
+    };
+  }
+
+  static getInvolvedAlerts(role, options = {}) {
+    const result = AlertModel.getInvolvedAlerts(role, options);
+
+    QueryLogModel.create({
+      query_type: 'alerts_involved',
+      caller_system: options.caller_system,
+      result_count: result.total,
+      ip_address: options.ip_address
+    });
+
+    return {
+      ...result,
+      list: result.list.map(alert => this._formatAlert(alert))
+    };
+  }
+
   static getTemperatureReport(waybill_no, { caller_system, ip_address } = {}) {
     const task = TransportTaskModel.findByWaybillNo(waybill_no);
     if (!task) {
@@ -232,12 +264,11 @@ class QueryService {
     }
 
     if (!force_regenerate) {
-      const existing = ReportModel.findByWaybillNo(waybill_no);
-      if (existing.length > 0) {
-        const latest = existing[0];
-        const reportData = typeof latest.report_data === 'string'
-          ? JSON.parse(latest.report_data)
-          : latest.report_data;
+      const active = ReportModel.findActiveByWaybillNo(waybill_no);
+      if (active) {
+        const reportData = typeof active.report_data === 'string'
+          ? JSON.parse(active.report_data)
+          : active.report_data;
 
         QueryLogModel.create({
           query_type: 'shareable_report',
@@ -249,8 +280,13 @@ class QueryService {
 
         return {
           ...reportData,
-          report_no: latest.report_no,
-          is_cached: true
+          report_no: active.report_no,
+          version: Number(active.version) || 1,
+          report_status: active.status,
+          replaced_by: active.replaced_by,
+          is_cached: true,
+          is_latest_version: true,
+          version_chain: ReportModel.getVersionChain(waybill_no)
         };
       }
     }
@@ -258,12 +294,25 @@ class QueryService {
     const report = this._buildShareableReport(waybill_no, task);
     if (!report) return null;
 
-    const reportNo = ReportModel.generateReportNo();
-    ReportModel.create({
-      report_no: reportNo,
-      waybill_no,
-      report_data: report
-    });
+    let savedReport;
+    if (force_regenerate) {
+      savedReport = ReportModel.createNewVersion(waybill_no, report);
+    } else {
+      const newVersion = ReportModel.getLatestVersion(waybill_no) + 1;
+      const reportNo = ReportModel.generateReportNo();
+      savedReport = ReportModel.create({
+        report_no: reportNo,
+        waybill_no,
+        version: newVersion,
+        status: 'active',
+        report_data: report
+      });
+    }
+
+    const loaded = ReportModel.findByReportNo(savedReport.report_no);
+    const reportData = typeof loaded.report_data === 'string'
+      ? JSON.parse(loaded.report_data)
+      : loaded.report_data;
 
     QueryLogModel.create({
       query_type: 'shareable_report',
@@ -274,9 +323,14 @@ class QueryService {
     });
 
     return {
-      ...report,
-      report_no: reportNo,
-      is_cached: false
+      ...reportData,
+      report_no: loaded.report_no,
+      version: Number(loaded.version) || 1,
+      report_status: loaded.status,
+      replaced_by: loaded.replaced_by,
+      is_cached: false,
+      is_latest_version: true,
+      version_chain: ReportModel.getVersionChain(waybill_no)
     };
   }
 
@@ -296,6 +350,10 @@ class QueryService {
       ? JSON.parse(report.report_data)
       : report.report_data;
 
+    const isLatest = report.status === 'active';
+    const versionChain = ReportModel.getVersionChain(report.waybill_no);
+    const currentActive = versionChain.find(v => v.is_current);
+
     QueryLogModel.create({
       query_type: 'report_by_no',
       waybill_no: report.waybill_no,
@@ -307,7 +365,39 @@ class QueryService {
     return {
       ...reportData,
       report_no: report.report_no,
-      is_cached: true
+      version: Number(report.version) || 1,
+      report_status: report.status,
+      replaced_by: report.replaced_by,
+      is_cached: true,
+      is_latest_version: isLatest,
+      superseded_by: report.status === 'deprecated' && report.replaced_by
+        ? { report_no: report.replaced_by, current_version: currentActive ? Number(currentActive.version) : null }
+        : null,
+      version_chain: versionChain
+    };
+  }
+
+  static deprecateReport(report_no, { caller_system, ip_address } = {}) {
+    const report = ReportModel.findByReportNo(report_no);
+    if (!report) return null;
+
+    ReportModel.deprecate(report.id);
+    const updated = ReportModel.findByReportNo(report_no);
+
+    QueryLogModel.create({
+      query_type: 'report_deprecate',
+      waybill_no: report.waybill_no,
+      caller_system,
+      result_count: 1,
+      ip_address
+    });
+
+    return {
+      report_no: updated.report_no,
+      waybill_no: updated.waybill_no,
+      version: Number(updated.version) || 1,
+      status: updated.status,
+      replaced_by: updated.replaced_by
     };
   }
 
@@ -587,10 +677,12 @@ class QueryService {
   }
 
   static _formatAlert(alert) {
+    const involved = alert.involved_roles ? alert.involved_roles.split(',').map(r => r.trim()).filter(Boolean) : [];
     return {
       ...alert,
       duration_formatted: TemperatureService.formatDuration(alert.duration_seconds || 0),
-      notify_roles: alert.notify_roles ? alert.notify_roles.split(',') : [],
+      notify_roles: alert.notify_roles ? alert.notify_roles.split(',').filter(Boolean) : [],
+      involved_roles: involved,
       is_open: alert.end_time ? false : true,
       status: alert.end_time ? 'closed' : 'open'
     };
@@ -644,6 +736,262 @@ class QueryService {
       unknown: '数据不足，无法评估'
     };
     return descriptions[status] || '未知';
+  }
+
+  static getAuditTimeline({ waybill_no, report_no, caller_system, ip_address } = {}) {
+    if (!waybill_no && !report_no) {
+      return null;
+    }
+
+    let actualWaybill = waybill_no;
+    if (report_no && !waybill_no) {
+      const report = ReportModel.findByReportNo(report_no);
+      if (!report) {
+        return null;
+      }
+      actualWaybill = report.waybill_no;
+    }
+
+    const task = TransportTaskModel.findByWaybillNo(actualWaybill);
+    if (!task) {
+      return null;
+    }
+
+    const events = [];
+
+    events.push({
+      seq: 0,
+      timestamp: task.start_time || task.created_at,
+      type: 'task_create',
+      category: 'task',
+      title: '运输任务创建',
+      description: `运单 ${actualWaybill} 创建，车牌 ${task.plate_number} 车厢 ${task.compartment_no}，货品 ${task.product_name || task.product_type}`,
+      source_system: null,
+      source_role: null,
+      source_name: null,
+      raw_data: {
+        waybill_no: actualWaybill,
+        origin: task.origin,
+        destination: task.destination,
+        status: task.status
+      }
+    });
+
+    const records = TemperatureRecordModel.findAllByWaybill(actualWaybill);
+    records.forEach((r, idx) => {
+      events.push({
+        seq: 1000 + idx,
+        timestamp: r.record_time || r.created_at,
+        type: 'temperature_report',
+        category: 'temperature',
+        title: `温度上报 ${r.temperature}°C`,
+        description: `设备 ${r.device_no} 上报温度 ${r.temperature}°C${r.humidity ? `，湿度 ${r.humidity}%` : ''}${r.location_text ? `，位置 ${r.location_text}` : ''}`,
+        source_system: 'temperature_device',
+        source_role: null,
+        source_name: r.device_no,
+        raw_data: {
+          device_no: r.device_no,
+          temperature: r.temperature,
+          humidity: r.humidity,
+          location_lat: r.location_lat,
+          location_lng: r.location_lng,
+          location_text: r.location_text
+        }
+      });
+    });
+
+    const alerts = AlertModel.findByWaybillNo(actualWaybill);
+    alerts.forEach((a, idx) => {
+      events.push({
+        seq: 2000 + idx * 2,
+        timestamp: a.start_time || a.created_at,
+        type: 'alert_create',
+        category: 'alert',
+        title: `告警产生：${a.alert_type} (${a.alert_level})`,
+        description: `温度 ${a.temperature}°C，阈值 ${a.threshold}°C，告警类型 ${a.alert_type}，级别 ${a.alert_level}，通知角色 ${a.notify_roles || '(未知)'}`,
+        source_system: null,
+        source_role: null,
+        source_name: null,
+        raw_data: {
+          alert_id: a.id,
+          alert_type: a.alert_type,
+          alert_level: a.alert_level,
+          temperature: a.temperature,
+          threshold: a.threshold,
+          assignee: a.assignee,
+          flow_status: a.flow_status,
+          notify_roles: a.notify_roles ? a.notify_roles.split(',') : []
+        }
+      });
+
+      if (a.end_time) {
+        events.push({
+          seq: 2000 + idx * 2 + 1,
+          timestamp: a.end_time,
+          type: 'alert_recover',
+          category: 'alert',
+          title: '温度恢复正常',
+          description: `告警结束，累计持续 ${TemperatureService.formatDuration(a.duration_seconds || 0)}（${a.duration_seconds || 0}秒）`,
+          source_system: null,
+          source_role: null,
+          source_name: null,
+          raw_data: {
+            alert_id: a.id,
+            duration_seconds: a.duration_seconds,
+            end_temperature: a.temperature
+          }
+        });
+      }
+    });
+
+    const handlings = AlertHandlingModel.findByWaybillNo(actualWaybill);
+    handlings.forEach((h, idx) => {
+      const actionText = {
+        process: '现场处理',
+        reassign: '转派',
+        escalate: '升级',
+        conclude: '结案'
+      }[h.action] || h.action;
+
+      let description = `${h.handler_name || h.handler_role} 执行${actionText}`;
+      if (h.result) description += `，结果：${h.result}`;
+      if (h.target_role) description += ` → ${h.target_role}`;
+      if (h.remark) description += `，备注：${h.remark}`;
+
+      events.push({
+        seq: 3000 + idx,
+        timestamp: h.created_at,
+        type: `alert_handle_${h.action}`,
+        category: 'handling',
+        title: `告警${actionText}`,
+        description,
+        source_system: null,
+        source_role: h.handler_role,
+        source_name: h.handler_name || h.handler_role,
+        raw_data: {
+          handling_id: h.id,
+          action: h.action,
+          handler_role: h.handler_role,
+          handler_name: h.handler_name,
+          result: h.result,
+          remark: h.remark,
+          target_role: h.target_role
+        }
+      });
+    });
+
+    const queryLogs = QueryLogModel.findAll({ waybill_no: actualWaybill, page_size: 1000 });
+    if (queryLogs && queryLogs.list) {
+      queryLogs.list.forEach((l, idx) => {
+        const typeText = {
+          summary: '温度摘要查询',
+          records: '温度记录查询',
+          alerts: '告警记录查询',
+          report: '温控报告查询',
+          shareable_report: '分享版报告查询',
+          report_by_no: '按编号报告查询',
+          alerts_by_role: '角色告警查询',
+          alerts_todo: '待办告警查询',
+          alerts_involved: '参与告警查询'
+        }[l.query_type] || l.query_type;
+
+        events.push({
+          seq: 5000 + idx,
+          timestamp: l.created_at,
+          type: `external_query_${l.query_type}`,
+          category: 'query',
+          title: `外部系统调用：${typeText}`,
+          description: `${l.caller_system || 'unknown'} 调用 ${l.query_type}，返回 ${l.result_count} 条结果${l.ip_address ? `，来源 ${l.ip_address}` : ''}`,
+          source_system: l.caller_system || 'unknown',
+          source_role: null,
+          source_name: null,
+          raw_data: {
+            query_id: l.id,
+            query_type: l.query_type,
+            result_count: l.result_count,
+            ip_address: l.ip_address
+          }
+        });
+      });
+    }
+
+    if (report_no) {
+      const report = ReportModel.findByReportNo(report_no);
+      if (report) {
+        events.push({
+          seq: 6000,
+          timestamp: report.created_at,
+          type: 'report_generate',
+          category: 'report',
+          title: `分享版报告生成 ${report.report_no}`,
+          description: `报告 ${report.report_no} 生成，关联运单 ${actualWaybill}，版本 v${report.version || '1.0'}${report.replaced_by ? `，已被 ${report.replaced_by} 替代` : ''}`,
+          source_system: null,
+          source_role: null,
+          source_name: null,
+          raw_data: {
+            report_no: report.report_no,
+            version: report.version,
+            status: report.status,
+            replaced_by: report.replaced_by
+          }
+        });
+      }
+    }
+
+    const reports = ReportModel.findByWaybillNo(actualWaybill);
+    reports.forEach((r, idx) => {
+      if (report_no && r.report_no !== report_no) {
+        events.push({
+          seq: 6001 + idx,
+          timestamp: r.created_at,
+          type: 'report_generate',
+          category: 'report',
+          title: `分享版报告生成 ${r.report_no}`,
+          description: `报告 ${r.report_no} 生成，关联运单 ${actualWaybill}，版本 v${r.version || '1.0'}${r.replaced_by ? `，已被 ${r.replaced_by} 替代` : ''}${r.status === 'deprecated' ? '，已作废' : ''}`,
+          source_system: null,
+          source_role: null,
+          source_name: null,
+          raw_data: {
+            report_no: r.report_no,
+            version: r.version,
+            status: r.status,
+            replaced_by: r.replaced_by
+          }
+        });
+      }
+    });
+
+    events.sort((a, b) => {
+      const ta = new Date(a.timestamp).getTime();
+      const tb = new Date(b.timestamp).getTime();
+      if (ta !== tb) return ta - tb;
+      return a.seq - b.seq;
+    });
+
+    QueryLogModel.create({
+      query_type: 'audit_timeline',
+      waybill_no: actualWaybill,
+      caller_system,
+      result_count: events.length,
+      ip_address
+    });
+
+    return {
+      waybill_no: actualWaybill,
+      report_no: report_no || null,
+      generated_at: new Date().toISOString(),
+      event_count: events.length,
+      category_counts: this._countCategories(events),
+      timeline: events
+    };
+  }
+
+  static _countCategories(events) {
+    const counts = {};
+    for (const e of events) {
+      counts[e.category] = (counts[e.category] || 0) + 1;
+    }
+    return counts;
   }
 }
 

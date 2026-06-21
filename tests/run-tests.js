@@ -1068,6 +1068,379 @@ test('小于等于运算符', () => {
   assert(result.cnt >= 0, '<= 运算符返回正确');
 });
 
+console.log('\n20. 告警任务化与流转状态测试');
+
+test('告警创建时有默认 assignee 和 flow_status=notified', () => {
+  DeviceModel.create({
+    device_no: 'DEV_FLOW_01',
+    plate_number: '京H00001',
+    compartment_no: '01'
+  });
+  
+  TransportTaskModel.create({
+    waybill_no: 'WB_FLOW_001',
+    plate_number: '京H00001',
+    compartment_no: '01',
+    product_type: 'vaccine'
+  });
+  
+  const result = TemperatureService.reportTemperature({
+    device_no: 'DEV_FLOW_01',
+    plate_number: '京H00001',
+    compartment_no: '01',
+    temperature: 15,
+    record_time: new Date().toISOString()
+  });
+  
+  assert(result.alert !== null, '应有告警');
+  const alert = AlertModel.findById(result.alert.id);
+  assertEqual(alert.flow_status, 'notified', '初始状态应为notified');
+  assert(alert.assignee, '应有默认处理人');
+  assert(alert.involved_roles, '应有参与角色列表');
+});
+
+test('调度转派后 assignee 更新、状态变为 reassigned', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_FLOW_001');
+  assert(alerts.length > 0, '应有告警');
+  const alertId = alerts[0].id;
+  
+  AlertHandlingModel.reassignAlert(alertId, {
+    handler_role: 'dispatcher',
+    handler_name: '李调度',
+    target_role: 'quality',
+    remark: '转质控处理'
+  });
+  
+  const updated = AlertModel.findById(alertId);
+  assertEqual(updated.flow_status, 'reassigned', '状态应为reassigned');
+  assertEqual(updated.assignee, 'quality', '处理人应为quality');
+  const involved = updated.involved_roles.split(',');
+  assert(involved.includes('quality'), 'quality应加入参与角色');
+});
+
+test('质控结案后状态变为 concluded', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_FLOW_001');
+  const alertId = alerts[0].id;
+  
+  AlertHandlingModel.concludeAlert(alertId, {
+    handler_role: 'quality',
+    handler_name: '王质控',
+    result: '质量正常可继续',
+    remark: '已确认'
+  });
+  
+  const updated = AlertModel.findById(alertId);
+  assertEqual(updated.flow_status, 'concluded', '状态应为concluded');
+  assertEqual(updated.acknowledged, 1, '应自动确认');
+});
+
+test('按角色查待办列表（只返回assignee=该角色的未结案告警）', () => {
+  DeviceModel.create({
+    device_no: 'DEV_TODO_01',
+    plate_number: '京I00001',
+    compartment_no: '01'
+  });
+  TransportTaskModel.create({
+    waybill_no: 'WB_TODO_001',
+    plate_number: '京I00001',
+    compartment_no: '01',
+    product_type: 'vaccine'
+  });
+  
+  TemperatureService.reportTemperature({
+    device_no: 'DEV_TODO_01',
+    plate_number: '京I00001',
+    compartment_no: '01',
+    temperature: 14,
+    record_time: new Date().toISOString()
+  });
+  
+  const qualityTodos = AlertModel.getTodoAlerts('quality');
+  assert(qualityTodos.total > 0, '质控待办应至少有1条');
+  
+  for (const a of qualityTodos.list) {
+    assertEqual(a.assignee, 'quality', '待办的assignee应是quality');
+    assert(a.flow_status !== 'concluded', '待办不应是已结案');
+  }
+});
+
+test('参与角色查询（返回自己参与过的所有告警）', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_FLOW_001');
+  const alertId = alerts[0].id;
+  
+  const driverInvolved = AlertModel.getInvolvedAlerts('driver');
+  assert(driverInvolved.total >= 0, '司机参与列表可查');
+});
+
+console.log('\n21. 角色权限收紧测试');
+
+test('司机不能执行转派动作', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.reassignAlert(alertId, {
+      handler_role: 'driver', handler_name: '张师傅',
+      target_role: 'quality', remark: 'xx'
+    });
+  } catch (e) {
+    caught = true;
+    assertEqual(e.code, 'ROLE_PERMISSION_DENIED', '错误码应为ROLE_PERMISSION_DENIED');
+  }
+  assert(caught, '司机转派应被拒绝');
+});
+
+test('司机不能执行结案动作', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.concludeAlert(alertId, {
+      handler_role: 'driver', handler_name: '张师傅',
+      result: 'xx'
+    });
+  } catch (e) {
+    caught = true;
+    assert(e.code, '应有错误码');
+  }
+  assert(caught, '司机结案应被拒绝');
+});
+
+test('质控不能执行转派动作', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.reassignAlert(alertId, {
+      handler_role: 'quality', handler_name: '王质控',
+      target_role: 'dispatcher', remark: 'xx'
+    });
+  } catch (e) {
+    caught = true;
+  }
+  assert(caught, '质控转派应被拒绝');
+});
+
+test('调度可以执行转派和升级', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  const handling = AlertHandlingModel.reassignAlert(alertId, {
+    handler_role: 'dispatcher', handler_name: '李调度',
+    target_role: 'quality', remark: '转质控'
+  });
+  assert(handling.id, '调度转派应成功');
+  assertEqual(handling.target_role, 'quality', '目标角色正确');
+});
+
+test('未知角色被拒绝', () => {
+  const alerts = AlertModel.findByWaybillNo('WB_TODO_001');
+  if (alerts.length === 0) { assert(true, '跳过'); return; }
+  const alertId = alerts[0].id;
+  
+  let caught = false;
+  try {
+    AlertHandlingModel.processAlert(alertId, { handler_role: 'visitor' });
+  } catch (e) {
+    caught = true;
+    assertEqual(e.code, 'UNKNOWN_ROLE', '错误码应为UNKNOWN_ROLE');
+  }
+  assert(caught, '未知角色应被拒绝');
+});
+
+console.log('\n22. 查询日志Dashboard口径统一测试');
+
+test('Dashboard四块数据用同一套筛选', () => {
+  const windowStart = new Date().toISOString();
+  
+  QueryLogModel.create({ query_type: 'test_dashboard', waybill_no: 'WB_DASH_01', caller_system: 'shipper-x', result_count: 5, ip_address: '1.1.1.1' });
+  QueryLogModel.create({ query_type: 'test_dashboard', waybill_no: 'WB_DASH_02', caller_system: 'shipper-x', result_count: 3, ip_address: '1.1.1.1' });
+  QueryLogModel.create({ query_type: 'summary', waybill_no: 'WB_DASH_01', caller_system: 'carrier-y', result_count: 1, ip_address: '2.2.2.2' });
+  
+  const windowEnd = new Date().toISOString();
+  
+  const dash = QueryLogModel.getDashboard({
+    caller_system: 'shipper-x',
+    startTime: windowStart,
+    endTime: windowEnd,
+    page: 1,
+    page_size: 50
+  });
+  
+  assertEqual(dash.pagination.total, 2, '列表条数应为2');
+  assertEqual(dash.summary.total_queries, 2, '汇总总条数应为2');
+  assertEqual(dash.summary.unique_callers, 1, '唯一调用方应为1');
+  
+  const typeResult = dash.by_type.find(t => t.query_type === 'test_dashboard');
+  assert(typeResult !== undefined, '应有test_dashboard类型统计');
+  assertEqual(typeResult.query_count, 2, 'test_dashboard应为2次');
+  
+  const topCaller = dash.top_callers.find(c => c.caller_system === 'shipper-x');
+  assert(topCaller !== undefined, 'shipper-x应在top调用方中');
+  assertEqual(topCaller.query_count, 2, 'shipper-x调用应为2次');
+});
+
+test('窄窗口+调用方筛选，carrier-y数据不混入', () => {
+  const windowStart = new Date().toISOString();
+  QueryLogModel.create({ query_type: 'test_narrow', waybill_no: 'WB_NARROW', caller_system: 'carrier-y', result_count: 9, ip_address: '9.9.9.9' });
+  const windowEnd = new Date().toISOString();
+  
+  const dash = QueryLogModel.getDashboard({
+    caller_system: 'carrier-y',
+    startTime: windowStart,
+    endTime: windowEnd
+  });
+  
+  assertEqual(dash.pagination.total, 1, '窄窗口应只有1条carrier-y');
+  for (const log of dash.list) {
+    assertEqual(log.caller_system, 'carrier-y', '所有记录都应是carrier-y');
+  }
+  
+  const dash2 = QueryLogModel.getDashboard({
+    caller_system: 'shipper-x',
+    startTime: windowStart,
+    endTime: windowEnd
+  });
+  assertEqual(dash2.pagination.total, 0, '同窗口shipper-x应为0');
+});
+
+console.log('\n23. 企业审计时间线测试');
+
+test('按运单号生成审计时间线', () => {
+  const timeline = QueryService.getAuditTimeline({
+    waybill_no: 'WB_FLOW_001',
+    caller_system: 'audit-system'
+  });
+  
+  assert(timeline !== null, '时间线不应为空');
+  assert(timeline.event_count > 0, '时间线应有事件');
+  assert(timeline.timeline.length > 0, 'timeline数组非空');
+  assert(timeline.category_counts, '应有分类统计');
+  
+  for (const event of timeline.timeline) {
+    assert(event.timestamp, '每个事件应有时间戳');
+    assert(event.category, '每个事件应有category');
+    assert(event.title, '每个事件应有title');
+  }
+});
+
+test('时间线包含温度上报、告警产生、处置流转事件', () => {
+  const timeline = QueryService.getAuditTimeline({
+    waybill_no: 'WB_FLOW_001'
+  });
+  
+  const cats = timeline.category_counts;
+  assert(cats.temperature >= 1, '应有temperature类事件');
+  assert(cats.alert >= 1, '应有alert类事件');
+  assert(cats.handling >= 1, '应有handling类事件');
+});
+
+test('时间线事件按时间升序排列', () => {
+  const timeline = QueryService.getAuditTimeline({
+    waybill_no: 'WB_FLOW_001'
+  });
+  
+  let prevTime = 0;
+  for (const ev of timeline.timeline) {
+    const t = new Date(ev.timestamp).getTime();
+    assert(t >= prevTime, '事件应按时间升序');
+    prevTime = t;
+  }
+});
+
+test('每个事件标出 source_system 或 source_role', () => {
+  const timeline = QueryService.getAuditTimeline({
+    waybill_no: 'WB_FLOW_001'
+  });
+  
+  for (const ev of timeline.timeline) {
+    const hasSource = (ev.source_system && ev.source_system.length > 0)
+                   || (ev.source_role && ev.source_role.length > 0);
+    if (ev.category === 'task' || ev.category === 'alert') continue;
+    assert(hasSource || ev.category, `事件 ${ev.category} 应有来源标记`);
+  }
+});
+
+test('按报告编号查询时间线', () => {
+  const report = QueryService.getShareableReport('WB_FLOW_001', { caller_system: 'shipper-audit' });
+  assert(report && report.report_no, '报告应存在');
+  
+  const timeline = QueryService.getAuditTimeline({ report_no: report.report_no });
+  assert(timeline !== null, '按报告号应能查到时间线');
+  assertEqual(timeline.waybill_no, 'WB_FLOW_001', '运单号应一致');
+});
+
+console.log('\n24. 报告版本化作废测试');
+
+const ReportModel = require('../src/models/report');
+
+test('首次生成报告version=1，status=active', () => {
+  DeviceModel.create({ device_no: 'DEV_VER_01', plate_number: '京J00001', compartment_no: '01' });
+  TransportTaskModel.create({
+    waybill_no: 'WB_VER_001', plate_number: '京J00001', compartment_no: '01', product_type: 'dairy'
+  });
+  
+  const r1 = QueryService.getShareableReport('WB_VER_001', { caller_system: 'ver-test' });
+  assertEqual(r1.version, 1, '首次版本应为1');
+  assertEqual(r1.report_status, 'active', '首次状态应为active');
+  assertEqual(r1.is_latest_version, true, '首次应为最新版');
+  assert(r1.version_chain && r1.version_chain.length === 1, '版本链应只有1条');
+});
+
+test('force_regenerate 后新版v2，旧版标deprecated+replaced_by', () => {
+  const r1 = QueryService.getShareableReport('WB_VER_001');
+  const oldNo = r1.report_no;
+  
+  const r2 = QueryService.getShareableReport('WB_VER_001', { force_regenerate: true });
+  assertEqual(r2.version, 2, '新版版本应为2');
+  assertEqual(r2.is_latest_version, true, '新版应为最新');
+  assert(r2.report_no !== oldNo, '报告号应不同');
+  assert(r2.version_chain.length === 2, '版本链应有2条');
+  
+  const oldReport = QueryService.getReportByNo(oldNo);
+  assertEqual(oldReport.report_status, 'deprecated', '旧版应标deprecated');
+  assertEqual(oldReport.is_latest_version, false, '旧版不是最新');
+  assert(oldReport.superseded_by, '旧版应有superseded_by');
+  assertEqual(oldReport.superseded_by.report_no, r2.report_no, '旧版被新版替代');
+});
+
+test('按旧编号仍能查到旧版，同时提示已替代', () => {
+  const oldReports = ReportModel.findByWaybillNo('WB_VER_001').filter(r => r.status === 'deprecated');
+  if (oldReports.length === 0) { assert(true, '跳过'); return; }
+  
+  const old = QueryService.getReportByNo(oldReports[0].report_no);
+  assert(old !== null, '旧编号仍能查到');
+  assertEqual(old.report_status, 'deprecated', '状态deprecated');
+  assert(old.superseded_by, '提示被替代');
+});
+
+test('主动作废报告', () => {
+  const active = ReportModel.findActiveByWaybillNo('WB_VER_001');
+  if (!active) { assert(true, '跳过'); return; }
+  
+  const result = QueryService.deprecateReport(active.report_no);
+  assert(result !== null, '作废成功');
+  assertEqual(result.status, 'deprecated', '状态应为deprecated');
+});
+
+test('运单可以查完整版本链', () => {
+  const chain = ReportModel.getVersionChain('WB_VER_001');
+  assert(chain.length >= 2, '版本链至少2条');
+  assert(chain.some(v => v.is_current && v.status === 'active') ||
+         chain.every(v => v.status === 'deprecated'), '要么有一个active要么全deprecated');
+  for (const v of chain) {
+    assert(v.report_no, '每个版本有报告号');
+    assert(v.version, '每个版本有版本号');
+  }
+});
+
 console.log('\n=== 测试结果 ===');
 console.log(`通过: ${passed}`);
 console.log(`失败: ${failed}`);

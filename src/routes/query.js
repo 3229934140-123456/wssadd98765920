@@ -107,6 +107,9 @@ router.get('/alerts/by-role/:role', (req, res) => {
     const page_size = parseInt(req.query.page_size) || 20;
     const status = req.query.status;
     const alert_level = req.query.alert_level;
+    const view = req.query.view || 'all';
+    const startTime = req.query.start_time;
+    const endTime = req.query.end_time;
     const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
     const ip_address = getClientIp(req);
 
@@ -119,6 +122,9 @@ router.get('/alerts/by-role/:role', (req, res) => {
       page_size,
       status,
       alert_level,
+      view,
+      startTime,
+      endTime,
       caller_system,
       ip_address
     });
@@ -129,6 +135,55 @@ router.get('/alerts/by-role/:role', (req, res) => {
     });
   } catch (err) {
     console.error('按角色查询告警失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
+router.get('/alerts/todo/:role', (req, res) => {
+  try {
+    const { role } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const page_size = parseInt(req.query.page_size) || 20;
+    const alert_level = req.query.alert_level;
+    const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
+    const ip_address = getClientIp(req);
+
+    if (!['driver', 'dispatcher', 'quality', 'admin'].includes(role)) {
+      return res.status(400).json({ error: '角色不合法，可选值: driver, dispatcher, quality, admin' });
+    }
+
+    const result = QueryService.getTodoAlerts(role, { page, page_size, alert_level, caller_system, ip_address });
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    console.error('查询待办告警失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
+router.get('/alerts/involved/:role', (req, res) => {
+  try {
+    const { role } = req.params;
+    const page = parseInt(req.query.page) || 1;
+    const page_size = parseInt(req.query.page_size) || 20;
+    const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
+    const ip_address = getClientIp(req);
+
+    if (!['driver', 'dispatcher', 'quality', 'admin'].includes(role)) {
+      return res.status(400).json({ error: '角色不合法，可选值: driver, dispatcher, quality, admin' });
+    }
+
+    const result = QueryService.getInvolvedAlerts(role, { page, page_size, caller_system, ip_address });
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    console.error('查询参与告警失败:', err);
     res.status(500).json({ error: '查询失败', message: err.message });
   }
 });
@@ -182,6 +237,31 @@ router.get('/report-by-no/:report_no', (req, res) => {
   } catch (err) {
     console.error('按编号查询报告失败:', err);
     res.status(500).json({ error: '查询失败', message: err.message });
+  }
+});
+
+router.post('/report-by-no/:report_no/deprecate', (req, res) => {
+  try {
+    const { report_no } = req.params;
+    const caller_system = req.headers['x-caller-system'] || req.query.caller_system;
+    const ip_address = getClientIp(req);
+
+    const result = QueryService.deprecateReport(report_no, {
+      caller_system,
+      ip_address
+    });
+
+    if (!result) {
+      return res.status(404).json({ error: '报告不存在' });
+    }
+
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (err) {
+    console.error('作废报告失败:', err);
+    res.status(500).json({ error: '操作失败', message: err.message });
   }
 });
 

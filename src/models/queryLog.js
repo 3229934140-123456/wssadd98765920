@@ -203,6 +203,109 @@ class QueryLogModel {
       .slice(0, limit);
   }
 
+  static _applyFilters(allLogs, { query_type, caller_system, waybill_no, startTime, endTime } = {}) {
+    return allLogs.filter(log => {
+      if (query_type && log.query_type !== query_type) return false;
+      if (caller_system && log.caller_system !== caller_system) return false;
+      if (waybill_no && log.waybill_no !== waybill_no) return false;
+      const logTime = new Date(log.created_at).getTime();
+      if (startTime && logTime < new Date(startTime).getTime()) return false;
+      if (endTime && logTime > new Date(endTime).getTime()) return false;
+      return true;
+    });
+  }
+
+  static getDashboard(filters = {}) {
+    const db = getDb();
+    const allLogs = db.prepare('SELECT * FROM query_logs').all();
+    const filtered = this._applyFilters(allLogs, filters);
+
+    const page = parseInt(filters.page) || 1;
+    const page_size = parseInt(filters.page_size) || 20;
+    const offset = (page - 1) * page_size;
+    const total = filtered.length;
+    const list = filtered.slice().sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(offset, offset + page_size);
+
+    return {
+      list,
+      pagination: {
+        total,
+        page,
+        page_size,
+        total_pages: Math.ceil(total / page_size)
+      },
+      summary: this._computeSummary(filtered),
+      by_type: this._computeByType(filtered),
+      top_callers: this._computeTopCallers(filtered, 10)
+    };
+  }
+
+  static _computeSummary(filteredLogs) {
+    const callers = new Set();
+    const waybills = new Set();
+    let totalResults = 0;
+
+    for (const log of filteredLogs) {
+      callers.add(log.caller_system || 'unknown');
+      if (log.waybill_no) waybills.add(log.waybill_no);
+      totalResults += Number(log.result_count) || 0;
+    }
+
+    return {
+      total_queries: filteredLogs.length,
+      unique_callers: callers.size,
+      unique_waybills: waybills.size,
+      total_results: totalResults
+    };
+  }
+
+  static _computeByType(filteredLogs) {
+    const map = new Map();
+    for (const log of filteredLogs) {
+      const key = log.query_type;
+      if (!map.has(key)) {
+        map.set(key, { query_type: key, query_count: 0, total_results: 0, results_list: [] });
+      }
+      const entry = map.get(key);
+      entry.query_count++;
+      entry.total_results += Number(log.result_count) || 0;
+      entry.results_list.push(Number(log.result_count) || 0);
+    }
+    return Array.from(map.values())
+      .map(e => ({
+        query_type: e.query_type,
+        query_count: e.query_count,
+        total_results: e.total_results,
+        avg_results: e.query_count > 0 ? Number((e.total_results / e.query_count).toFixed(2)) : 0
+      }))
+      .sort((a, b) => b.query_count - a.query_count);
+  }
+
+  static _computeTopCallers(filteredLogs, limit = 10) {
+    const map = new Map();
+    for (const log of filteredLogs) {
+      const key = log.caller_system || 'unknown';
+      if (!map.has(key)) {
+        map.set(key, {
+          caller_system: key,
+          query_count: 0,
+          total_results: 0,
+          last_query_time: null
+        });
+      }
+      const entry = map.get(key);
+      entry.query_count++;
+      entry.total_results += Number(log.result_count) || 0;
+      if (!entry.last_query_time || log.created_at > entry.last_query_time) {
+        entry.last_query_time = log.created_at;
+      }
+    }
+    return Array.from(map.values())
+      .sort((a, b) => b.query_count - a.query_count)
+      .slice(0, limit);
+  }
+
   static getSummary({ startTime, endTime } = {}) {
     const db = getDb();
     const allLogs = db.prepare('SELECT * FROM query_logs').all();

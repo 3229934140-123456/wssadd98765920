@@ -3,6 +3,38 @@ const router = express.Router();
 const QueryLogModel = require('../models/queryLog');
 const AlertModel = require('../models/alert');
 const AlertHandlingModel = require('../models/alertHandling');
+const QueryService = require('../services/queryService');
+
+function _handleHandlingError(res, err) {
+  const code = err.code;
+  if (code === 'UNKNOWN_ROLE') {
+    return res.status(400).json({ success: false, error: err.message, code });
+  }
+  if (code === 'ROLE_PERMISSION_DENIED') {
+    return res.status(403).json({
+      success: false,
+      error: err.message,
+      code,
+      allowed_actions: err.allowed_actions
+    });
+  }
+  if (code === 'ALERT_NOT_FOUND') {
+    return res.status(404).json({ success: false, error: err.message, code });
+  }
+  if (code === 'MISSING_TARGET_ROLE') {
+    return res.status(400).json({ success: false, error: err.message, code });
+  }
+  if (code === 'NOT_ASSIGNED') {
+    return res.status(409).json({
+      success: false,
+      error: err.message,
+      code,
+      current_assignee: err.current_assignee
+    });
+  }
+  console.error('告警处置失败:', err);
+  return res.status(500).json({ success: false, error: '操作失败', message: err.message });
+}
 
 router.get('/query-logs', (req, res) => {
   try {
@@ -103,6 +135,37 @@ router.get('/query-logs/stats/summary', (req, res) => {
   } catch (err) {
     console.error('查询日志汇总失败:', err);
     res.status(500).json({ error: '查询失败' });
+  }
+});
+
+router.get('/query-logs/dashboard', (req, res) => {
+  try {
+    const filters = {
+      page: parseInt(req.query.page) || 1,
+      page_size: parseInt(req.query.page_size) || 20,
+      query_type: req.query.query_type,
+      caller_system: req.query.caller_system,
+      waybill_no: req.query.waybill_no,
+      startTime: req.query.start_time,
+      endTime: req.query.end_time
+    };
+    
+    const dashboard = QueryLogModel.getDashboard(filters);
+    
+    res.json({
+      success: true,
+      filters: {
+        query_type: filters.query_type || null,
+        caller_system: filters.caller_system || null,
+        waybill_no: filters.waybill_no || null,
+        start_time: filters.startTime || null,
+        end_time: filters.endTime || null
+      },
+      data: dashboard
+    });
+  } catch (err) {
+    console.error('查询日志Dashboard失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
   }
 });
 
@@ -211,8 +274,7 @@ router.post('/alerts/:id/process', (req, res) => {
       }
     });
   } catch (err) {
-    console.error('处理告警失败:', err);
-    res.status(500).json({ error: '操作失败', message: err.message });
+    _handleHandlingError(res, err);
   }
 });
 
@@ -245,8 +307,7 @@ router.post('/alerts/:id/escalate', (req, res) => {
       }
     });
   } catch (err) {
-    console.error('升级告警失败:', err);
-    res.status(500).json({ error: '操作失败', message: err.message });
+    _handleHandlingError(res, err);
   }
 });
 
@@ -279,8 +340,7 @@ router.post('/alerts/:id/reassign', (req, res) => {
       }
     });
   } catch (err) {
-    console.error('转派告警失败:', err);
-    res.status(500).json({ error: '操作失败', message: err.message });
+    _handleHandlingError(res, err);
   }
 });
 
@@ -309,8 +369,7 @@ router.post('/alerts/:id/conclude', (req, res) => {
       }
     });
   } catch (err) {
-    console.error('结案告警失败:', err);
-    res.status(500).json({ error: '操作失败', message: err.message });
+    _handleHandlingError(res, err);
   }
 });
 
@@ -346,6 +405,39 @@ router.get('/stats', (req, res) => {
   } catch (err) {
     console.error('获取统计数据失败:', err);
     res.status(500).json({ error: '查询失败' });
+  }
+});
+
+router.get('/audit/timeline', (req, res) => {
+  try {
+    const waybill_no = req.query.waybill_no;
+    const report_no = req.query.report_no;
+    const caller_system = req.headers['x-caller-system'] || 'admin-console';
+    const ip_address = (req.headers['x-forwarded-for'] || '').split(',')[0].trim()
+      || req.headers['x-real-ip'] || req.ip || req.connection?.remoteAddress || 'unknown';
+
+    if (!waybill_no && !report_no) {
+      return res.status(400).json({ error: '必须提供 waybill_no 或 report_no' });
+    }
+
+    const timeline = QueryService.getAuditTimeline({
+      waybill_no,
+      report_no,
+      caller_system,
+      ip_address
+    });
+
+    if (!timeline) {
+      return res.status(404).json({ error: '未找到运单或报告' });
+    }
+
+    res.json({
+      success: true,
+      data: timeline
+    });
+  } catch (err) {
+    console.error('审计时间线查询失败:', err);
+    res.status(500).json({ error: '查询失败', message: err.message });
   }
 });
 
